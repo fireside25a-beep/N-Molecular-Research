@@ -1,0 +1,876 @@
+diff --git a/research/v6/source/EDGE_STORAGE_ORDER_PATCH.md b/research/v6/source/EDGE_STORAGE_ORDER_PATCH.md
+new file mode 100644
+index 0000000..00f5245
+--- /dev/null
++++ b/research/v6/source/EDGE_STORAGE_ORDER_PATCH.md
+@@ -0,0 +1,96 @@
++# Native v6 edge storage permutation correction
++
++This additive patch concerns only v6 source-level native closed-loop probe semantics.
++It does not change the original NeuroMantle C transition core, declared molecular
++contacts, neuron labels, stimulation, 48-tick run length, or historic evidence.
++The release archive remains an immutable historical artifact.
++
++## Defect and scope
++
++The original feedback loop multiplied `net->edges[e].weight` by `e+1`, where
++`e` was a mutable physical array position. Permuting complete edge records
++before a trial changed the feedback target even if the graph, edge parameters,
++seed and external stimulation were identical. Fixed-feedback and frozen/STDP
++controls are important: this is a source-level feedback policy dependency,
++not evidence that the native SNN core is defective or that graph classification
++or biology can be inferred from one comparison.
++
++## Minimal correction
++
++A probe now records the authored edge identity in the order that `link(...)`
++created each complete native edge. After graph construction, the immutable edge
++attributes (`src`, `dst`, `delay`, `initial_weight`, `min_weight`, `max_weight`,
++`plus`, `minus`, `window`) establish a mapping from each authored ordinal to its
++current storage slot. At each tick the **original weighted feedback formula**
++uses that ordinal and the matching current weight, preserving STDP behavior.
++The core is untouched. Duplicate complete edge records are matched by their
++indistinguishable initial attributes; their native STDP updates are identical.
++
++This fixes *storage permutations after construction and before execution*.
++The code still treats the **authoring/creation order** as part of its defined
++feedback input. It is not a proof of generic graph-isomorphism invariance or
++of invariance under arbitrary reauthoring or mid-run edge mutation.
++Future graph-only experiments would need a newly declared representation or
++feedback policy and new trained/validated statistical results.
++
++## Tests and limits
++
++Compile normal and `-DNM_V6_TEST_REVERSE_EDGE_STORAGE` variants of
++`portable_kf1_ring.cpp` and `portable_newseeds.cpp` against the identical
++preserved v4 bridge and NeuroMantle C source. The macro reverses *complete*
++edge records immediately after graph construction. For direct inspection of
++feedback targets, also compile both variants with
++`-DNM_V6_TEST_TRACE_FEEDBACK`: this appends the 47 feedback targets as a test-only
++field and does not alter regular historical JSONL receipts.
++
++Run each with its original six-case catalog and `seed_count=256`. Check all
++records using `python3 research/v6/source/tests/check_edge_storage_invariance.py
++normal.jsonl reverse.jsonl [--historical historical.jsonl]` from the root
++of the extracted source tree. The normal, uninstrumented receipt must also
++match the appropriate archived 6,144 or 2,048 records exactly.
++
++Do not compare `final_sha256` between two physical edge permutations because
++`canonical_state` serializes edges in their current array order. The patched
++`base_weights` field is restored to its original 324 scaffold-edge meaning,
++but is still **not** a substitute for comparing neural behavior.
++
++The historical model scores, permutations and p-values are not recalculated by
++this source-only patch. It must not be represented as biological validation,
++new model accuracy, or an independent replication of the full study.
++
++## Distribution
++
++Apply this `.patch` to a *new extraction* of the archived
++`N-Molecular-v11-RESEARCH-20261023` tree, **not** to the immutable ZIP or the
++original published measurements. In a GitHub repository where this source
++is carried inside an LFS ZIP, the standalone patch may be uploaded as a small
++new tracked file without replacing the ZIP; users explicitly apply it to a
++working source extraction. Root `RELEASE_SHA256SUMS` describes unmodified
++release files, and will intentionally not validate edited source bytes.
++
++## Independent execution evidence for this source patch (2 November 2026)
++
++The historical archived source ZIP was validated as 110,759,586 bytes with
++SHA-256 `50a94cf97d29adfab846a83d264c4cf40596fa4cd46c7cc7846cb5d54405fbbc`
++and 1,267 CRC-valid members. Native baseline and patched normal-order replay
++matched all 6,144 fresh-seed and 2,048 ring-control JSONL bytes. Full reverse
++of all complete edge records yielded zero differences in the declared neural
++behavioral fields across those same 8,192 comparisons; additionally all 47
++feedback targets per trial matched in 2,048 ring trials using test-only trace
++instrumentation. The unpatched reverse actually reproduced the reported
++feedback-dependent failures (512/512 temporal differences in each closed-loop
++plasticity arm). A deliberate in-memory altered receipt was rejected.
++
++81 project-level Python tests passed after restoring executable permissions
++lost by ZIP extraction in an isolated working copy. The patched ring-control
++2,048 rows were identical when compiled by GCC and Clang. A native ASan+UBSan
++sample of 64 reversed-edge ring-control trials completed and exactly matched
++the unsanitized patched results. **The full upstream NeuroMantle `make test`
++was not a pass:** it reached `test_combined` (pass) then failed in
++`combined_integration.py` on a five-qubit QECC certificate refusal. The test
++was outside this source patch; this failure is retained, not waived.
++
++These checks were run against preserved Library archives, **not a verified
++checkout of the reported GitHub commit**. The original source ZIP remains
++unchanged. No full re-training, historical classifier re-permutation, or
++comprehensive upstream/sanitizer campaign is claimed by this patch.
+diff --git a/research/v6/source/native/portable_kf1_ring.cpp b/research/v6/source/native/portable_kf1_ring.cpp
+index aa4a586..22d2cc3 100644
+--- a/research/v6/source/native/portable_kf1_ring.cpp
++++ b/research/v6/source/native/portable_kf1_ring.cpp
+@@ -6,11 +6,15 @@
+ #undef main
+ #include <cstring>
+ #include <cstdlib>
++#include "stable_feedback_edge_slots.hpp"
+ 
+ namespace {
+ struct Readout {
+  std::vector<unsigned> temporal;
+  std::vector<int32_t> weights;
++#ifdef NM_V6_TEST_TRACE_FEEDBACK
++ std::vector<unsigned> feedback_trace;
++#endif
+  std::array<unsigned,4> scaffold_spikes{};
+  std::array<unsigned,4> molecule_spikes{};
+  std::string final_sha256, contact_degree_sha256, stimulus_sha256;
+@@ -24,8 +28,10 @@ Readout trial(const Case& c,unsigned rep,bool rewire,bool closed,bool plastic){
+  auto net=std::make_unique<nm_network>();nm_init(net.get());
+  for(unsigned id=0;id<scaffold+residues;++id)
+   require_native(nm_add_neuron(net.get(),id,0,id<scaffold?12:10,60000,0)==0,"configure neuron");
++ std::vector<nm_edge> authored_edges;
+  auto link=[&](unsigned u,unsigned v,int weight){
+   require_native(nm_add_edge(net.get(),static_cast<uint16_t>(u),static_cast<uint16_t>(v),weight,1,plastic?3:0,plastic?2:0,7,0,32)==0,"add native synapse");
++  authored_edges.push_back(net->edges[net->edge_count-1]);
+  };
+  for(unsigned j=0;j<base_edges;++j){const unsigned src=j%scaffold, offset=1+7*(j/scaffold);link(src,(src+offset)%scaffold,3);}
+  require_native(net->edge_count==base_edges,"118/324 scaffold changed");
+@@ -58,6 +64,10 @@ Readout trial(const Case& c,unsigned rep,bool rewire,bool closed,bool plastic){
+   }
+  }else demand(false,"unknown single-stranded case");
+  require_native(net->edge_count>=base_edges && residues+scaffold<=NM_MAX_NEURONS,"capacity/architecture invariant");
++#ifdef NM_V6_TEST_REVERSE_EDGE_STORAGE
++ std::reverse(net->edges,net->edges+net->edge_count);
++#endif
++ const auto stable_edge_slots=nm_v6::feedback_slots(*net,authored_edges);
+  const unsigned total_edges=static_cast<unsigned>(net->edge_count);
+  std::string degree_text="CONTACT_DEGREES|";
+  for(unsigned id=0;id<scaffold+residues;++id)
+@@ -82,9 +92,13 @@ Readout trial(const Case& c,unsigned rep,bool rewire,bool closed,bool plastic){
+    if(closed){
+     std::uint64_t sum=0, weighted=0;
+     for(std::size_t k=0;k<previous_fired.size();++k)sum+=static_cast<std::uint64_t>(previous_fired[k]+1)*(k+1);
+-    for(std::size_t e=0;e<net->edge_count;++e)weighted+=(e+1)*static_cast<std::uint64_t>(net->edges[e].weight);
++    for(std::size_t e=0;e<stable_edge_slots.size();++e)
++     weighted+=(e+1)*static_cast<std::uint64_t>(net->edges[stable_edge_slots[e]].weight);
+     feedback_target=static_cast<unsigned>((sum+weighted%scaffold)%scaffold);
+    }else feedback_target=(17+31*t)%scaffold;
++#ifdef NM_V6_TEST_TRACE_FEEDBACK
++   out.feedback_trace.push_back(feedback_target);
++#endif
+    require_native(nm_inject(net.get(),static_cast<uint16_t>(feedback_target),net->tick,12)==0,"matched feedback intervention");
+   }
+   std::vector<int32_t> before(net->edge_count);
+@@ -102,7 +116,7 @@ Readout trial(const Case& c,unsigned rep,bool rewire,bool closed,bool plastic){
+   out.total_spikes+=static_cast<unsigned>(sp.count);
+  }
+  out.weights.reserve(base_edges);
+- for(unsigned i=0;i<base_edges;++i)out.weights.push_back(net->edges[i].weight);
++ for(unsigned i=0;i<base_edges;++i)out.weights.push_back(net->edges[stable_edge_slots[i]].weight);
+  out.final_sha256=surreal::hex(surreal::sha256(canonical_state(*net)));
+  out.contact_degree_sha256=surreal::hex(surreal::sha256(degree_text));
+  out.stimulus_sha256=surreal::hex(surreal::sha256(stimulus_history));
+@@ -133,6 +147,9 @@ int main(int argc,char**argv){
+      output<<",\"molecular_bins\":";four_json(output,v.molecule_spikes);
+      output<<",\"temporal\":";array_json(output,v.temporal);
+      output<<",\"base_weights\":";array_json(output,v.weights);
++#ifdef NM_V6_TEST_TRACE_FEEDBACK
++     output<<",\"feedback_trace\":";array_json(output,v.feedback_trace);
++#endif
+      output<<"}\n";
+     }
+   demand(bool(output),"trial receipt write failure");
+diff --git a/research/v6/source/native/portable_kf1_ring_asan_sample.cpp b/research/v6/source/native/portable_kf1_ring_asan_sample.cpp
+index 23028ef..ef340c1 100644
+--- a/research/v6/source/native/portable_kf1_ring_asan_sample.cpp
++++ b/research/v6/source/native/portable_kf1_ring_asan_sample.cpp
+@@ -6,11 +6,15 @@
+ #undef main
+ #include <cstring>
+ #include <cstdlib>
++#include "stable_feedback_edge_slots.hpp"
+ 
+ namespace {
+ struct Readout {
+  std::vector<unsigned> temporal;
+  std::vector<int32_t> weights;
++#ifdef NM_V6_TEST_TRACE_FEEDBACK
++ std::vector<unsigned> feedback_trace;
++#endif
+  std::array<unsigned,4> scaffold_spikes{};
+  std::array<unsigned,4> molecule_spikes{};
+  std::string final_sha256, contact_degree_sha256, stimulus_sha256;
+@@ -24,8 +28,10 @@ Readout trial(const Case& c,unsigned rep,bool rewire,bool closed,bool plastic){
+  auto net=std::make_unique<nm_network>();nm_init(net.get());
+  for(unsigned id=0;id<scaffold+residues;++id)
+   require_native(nm_add_neuron(net.get(),id,0,id<scaffold?12:10,60000,0)==0,"configure neuron");
++ std::vector<nm_edge> authored_edges;
+  auto link=[&](unsigned u,unsigned v,int weight){
+   require_native(nm_add_edge(net.get(),static_cast<uint16_t>(u),static_cast<uint16_t>(v),weight,1,plastic?3:0,plastic?2:0,7,0,32)==0,"add native synapse");
++  authored_edges.push_back(net->edges[net->edge_count-1]);
+  };
+  for(unsigned j=0;j<base_edges;++j){const unsigned src=j%scaffold, offset=1+7*(j/scaffold);link(src,(src+offset)%scaffold,3);}
+  require_native(net->edge_count==base_edges,"118/324 scaffold changed");
+@@ -58,6 +64,10 @@ Readout trial(const Case& c,unsigned rep,bool rewire,bool closed,bool plastic){
+   }
+  }else demand(false,"unknown single-stranded case");
+  require_native(net->edge_count>=base_edges && residues+scaffold<=NM_MAX_NEURONS,"capacity/architecture invariant");
++#ifdef NM_V6_TEST_REVERSE_EDGE_STORAGE
++ std::reverse(net->edges,net->edges+net->edge_count);
++#endif
++ const auto stable_edge_slots=nm_v6::feedback_slots(*net,authored_edges);
+  const unsigned total_edges=static_cast<unsigned>(net->edge_count);
+  std::string degree_text="CONTACT_DEGREES|";
+  for(unsigned id=0;id<scaffold+residues;++id)
+@@ -82,9 +92,13 @@ Readout trial(const Case& c,unsigned rep,bool rewire,bool closed,bool plastic){
+    if(closed){
+     std::uint64_t sum=0, weighted=0;
+     for(std::size_t k=0;k<previous_fired.size();++k)sum+=static_cast<std::uint64_t>(previous_fired[k]+1)*(k+1);
+-    for(std::size_t e=0;e<net->edge_count;++e)weighted+=(e+1)*static_cast<std::uint64_t>(net->edges[e].weight);
++    for(std::size_t e=0;e<stable_edge_slots.size();++e)
++     weighted+=(e+1)*static_cast<std::uint64_t>(net->edges[stable_edge_slots[e]].weight);
+     feedback_target=static_cast<unsigned>((sum+weighted%scaffold)%scaffold);
+    }else feedback_target=(17+31*t)%scaffold;
++#ifdef NM_V6_TEST_TRACE_FEEDBACK
++   out.feedback_trace.push_back(feedback_target);
++#endif
+    require_native(nm_inject(net.get(),static_cast<uint16_t>(feedback_target),net->tick,12)==0,"matched feedback intervention");
+   }
+   std::vector<int32_t> before(net->edge_count);
+@@ -102,7 +116,7 @@ Readout trial(const Case& c,unsigned rep,bool rewire,bool closed,bool plastic){
+   out.total_spikes+=static_cast<unsigned>(sp.count);
+  }
+  out.weights.reserve(base_edges);
+- for(unsigned i=0;i<base_edges;++i)out.weights.push_back(net->edges[i].weight);
++ for(unsigned i=0;i<base_edges;++i)out.weights.push_back(net->edges[stable_edge_slots[i]].weight);
+  out.final_sha256=surreal::hex(surreal::sha256(canonical_state(*net)));
+  out.contact_degree_sha256=surreal::hex(surreal::sha256(degree_text));
+  out.stimulus_sha256=surreal::hex(surreal::sha256(stimulus_history));
+@@ -133,6 +147,9 @@ int main(int argc,char**argv){
+      output<<",\"molecular_bins\":";four_json(output,v.molecule_spikes);
+      output<<",\"temporal\":";array_json(output,v.temporal);
+      output<<",\"base_weights\":";array_json(output,v.weights);
++#ifdef NM_V6_TEST_TRACE_FEEDBACK
++     output<<",\"feedback_trace\":";array_json(output,v.feedback_trace);
++#endif
+      output<<"}\n";
+     }
+   demand(bool(output),"trial receipt write failure");
+diff --git a/research/v6/source/native/portable_newseeds.cpp b/research/v6/source/native/portable_newseeds.cpp
+index 1ea805e..2735cdb 100644
+--- a/research/v6/source/native/portable_newseeds.cpp
++++ b/research/v6/source/native/portable_newseeds.cpp
+@@ -6,11 +6,15 @@
+ #undef main
+ #include <cstring>
+ #include <cstdlib>
++#include "stable_feedback_edge_slots.hpp"
+ 
+ namespace {
+ struct Readout {
+  std::vector<unsigned> temporal;
+  std::vector<int32_t> weights;
++#ifdef NM_V6_TEST_TRACE_FEEDBACK
++ std::vector<unsigned> feedback_trace;
++#endif
+  std::array<unsigned,4> scaffold_spikes{};
+  std::array<unsigned,4> molecule_spikes{};
+  std::string final_sha256, contact_degree_sha256, stimulus_sha256;
+@@ -24,8 +28,10 @@ Readout trial(const Case& c,unsigned rep,bool rewire,bool closed,bool plastic){
+  auto net=std::make_unique<nm_network>();nm_init(net.get());
+  for(unsigned id=0;id<scaffold+residues;++id)
+   require_native(nm_add_neuron(net.get(),id,0,id<scaffold?12:10,60000,0)==0,"configure neuron");
++ std::vector<nm_edge> authored_edges;
+  auto link=[&](unsigned u,unsigned v,int weight){
+   require_native(nm_add_edge(net.get(),static_cast<uint16_t>(u),static_cast<uint16_t>(v),weight,1,plastic?3:0,plastic?2:0,7,0,32)==0,"add native synapse");
++  authored_edges.push_back(net->edges[net->edge_count-1]);
+  };
+  for(unsigned j=0;j<base_edges;++j){const unsigned src=j%scaffold, offset=1+7*(j/scaffold);link(src,(src+offset)%scaffold,3);}
+  require_native(net->edge_count==base_edges,"118/324 scaffold changed");
+@@ -58,6 +64,10 @@ Readout trial(const Case& c,unsigned rep,bool rewire,bool closed,bool plastic){
+   }
+  }else demand(false,"unknown single-stranded case");
+  require_native(net->edge_count>=base_edges && residues+scaffold<=NM_MAX_NEURONS,"capacity/architecture invariant");
++#ifdef NM_V6_TEST_REVERSE_EDGE_STORAGE
++ std::reverse(net->edges,net->edges+net->edge_count);
++#endif
++ const auto stable_edge_slots=nm_v6::feedback_slots(*net,authored_edges);
+  const unsigned total_edges=static_cast<unsigned>(net->edge_count);
+  std::string degree_text="CONTACT_DEGREES|";
+  for(unsigned id=0;id<scaffold+residues;++id)
+@@ -82,9 +92,13 @@ Readout trial(const Case& c,unsigned rep,bool rewire,bool closed,bool plastic){
+    if(closed){
+     std::uint64_t sum=0, weighted=0;
+     for(std::size_t k=0;k<previous_fired.size();++k)sum+=static_cast<std::uint64_t>(previous_fired[k]+1)*(k+1);
+-    for(std::size_t e=0;e<net->edge_count;++e)weighted+=(e+1)*static_cast<std::uint64_t>(net->edges[e].weight);
++    for(std::size_t e=0;e<stable_edge_slots.size();++e)
++     weighted+=(e+1)*static_cast<std::uint64_t>(net->edges[stable_edge_slots[e]].weight);
+     feedback_target=static_cast<unsigned>((sum+weighted%scaffold)%scaffold);
+    }else feedback_target=(17+31*t)%scaffold;
++#ifdef NM_V6_TEST_TRACE_FEEDBACK
++   out.feedback_trace.push_back(feedback_target);
++#endif
+    require_native(nm_inject(net.get(),static_cast<uint16_t>(feedback_target),net->tick,12)==0,"matched feedback intervention");
+   }
+   std::vector<int32_t> before(net->edge_count);
+@@ -102,7 +116,7 @@ Readout trial(const Case& c,unsigned rep,bool rewire,bool closed,bool plastic){
+   out.total_spikes+=static_cast<unsigned>(sp.count);
+  }
+  out.weights.reserve(base_edges);
+- for(unsigned i=0;i<base_edges;++i)out.weights.push_back(net->edges[i].weight);
++ for(unsigned i=0;i<base_edges;++i)out.weights.push_back(net->edges[stable_edge_slots[i]].weight);
+  out.final_sha256=surreal::hex(surreal::sha256(canonical_state(*net)));
+  out.contact_degree_sha256=surreal::hex(surreal::sha256(degree_text));
+  out.stimulus_sha256=surreal::hex(surreal::sha256(stimulus_history));
+@@ -133,6 +147,9 @@ int main(int argc,char**argv){
+      output<<",\"molecular_bins\":";four_json(output,v.molecule_spikes);
+      output<<",\"temporal\":";array_json(output,v.temporal);
+      output<<",\"base_weights\":";array_json(output,v.weights);
++#ifdef NM_V6_TEST_TRACE_FEEDBACK
++     output<<",\"feedback_trace\":";array_json(output,v.feedback_trace);
++#endif
+      output<<"}\n";
+     }
+   demand(bool(output),"trial receipt write failure");
+diff --git a/research/v6/source/native/portable_newseeds_asan_sample.cpp b/research/v6/source/native/portable_newseeds_asan_sample.cpp
+index d0baccf..23f5b5a 100644
+--- a/research/v6/source/native/portable_newseeds_asan_sample.cpp
++++ b/research/v6/source/native/portable_newseeds_asan_sample.cpp
+@@ -6,11 +6,15 @@
+ #undef main
+ #include <cstring>
+ #include <cstdlib>
++#include "stable_feedback_edge_slots.hpp"
+ 
+ namespace {
+ struct Readout {
+  std::vector<unsigned> temporal;
+  std::vector<int32_t> weights;
++#ifdef NM_V6_TEST_TRACE_FEEDBACK
++ std::vector<unsigned> feedback_trace;
++#endif
+  std::array<unsigned,4> scaffold_spikes{};
+  std::array<unsigned,4> molecule_spikes{};
+  std::string final_sha256, contact_degree_sha256, stimulus_sha256;
+@@ -24,8 +28,10 @@ Readout trial(const Case& c,unsigned rep,bool rewire,bool closed,bool plastic){
+  auto net=std::make_unique<nm_network>();nm_init(net.get());
+  for(unsigned id=0;id<scaffold+residues;++id)
+   require_native(nm_add_neuron(net.get(),id,0,id<scaffold?12:10,60000,0)==0,"configure neuron");
++ std::vector<nm_edge> authored_edges;
+  auto link=[&](unsigned u,unsigned v,int weight){
+   require_native(nm_add_edge(net.get(),static_cast<uint16_t>(u),static_cast<uint16_t>(v),weight,1,plastic?3:0,plastic?2:0,7,0,32)==0,"add native synapse");
++  authored_edges.push_back(net->edges[net->edge_count-1]);
+  };
+  for(unsigned j=0;j<base_edges;++j){const unsigned src=j%scaffold, offset=1+7*(j/scaffold);link(src,(src+offset)%scaffold,3);}
+  require_native(net->edge_count==base_edges,"118/324 scaffold changed");
+@@ -58,6 +64,10 @@ Readout trial(const Case& c,unsigned rep,bool rewire,bool closed,bool plastic){
+   }
+  }else demand(false,"unknown single-stranded case");
+  require_native(net->edge_count>=base_edges && residues+scaffold<=NM_MAX_NEURONS,"capacity/architecture invariant");
++#ifdef NM_V6_TEST_REVERSE_EDGE_STORAGE
++ std::reverse(net->edges,net->edges+net->edge_count);
++#endif
++ const auto stable_edge_slots=nm_v6::feedback_slots(*net,authored_edges);
+  const unsigned total_edges=static_cast<unsigned>(net->edge_count);
+  std::string degree_text="CONTACT_DEGREES|";
+  for(unsigned id=0;id<scaffold+residues;++id)
+@@ -82,9 +92,13 @@ Readout trial(const Case& c,unsigned rep,bool rewire,bool closed,bool plastic){
+    if(closed){
+     std::uint64_t sum=0, weighted=0;
+     for(std::size_t k=0;k<previous_fired.size();++k)sum+=static_cast<std::uint64_t>(previous_fired[k]+1)*(k+1);
+-    for(std::size_t e=0;e<net->edge_count;++e)weighted+=(e+1)*static_cast<std::uint64_t>(net->edges[e].weight);
++    for(std::size_t e=0;e<stable_edge_slots.size();++e)
++     weighted+=(e+1)*static_cast<std::uint64_t>(net->edges[stable_edge_slots[e]].weight);
+     feedback_target=static_cast<unsigned>((sum+weighted%scaffold)%scaffold);
+    }else feedback_target=(17+31*t)%scaffold;
++#ifdef NM_V6_TEST_TRACE_FEEDBACK
++   out.feedback_trace.push_back(feedback_target);
++#endif
+    require_native(nm_inject(net.get(),static_cast<uint16_t>(feedback_target),net->tick,12)==0,"matched feedback intervention");
+   }
+   std::vector<int32_t> before(net->edge_count);
+@@ -102,7 +116,7 @@ Readout trial(const Case& c,unsigned rep,bool rewire,bool closed,bool plastic){
+   out.total_spikes+=static_cast<unsigned>(sp.count);
+  }
+  out.weights.reserve(base_edges);
+- for(unsigned i=0;i<base_edges;++i)out.weights.push_back(net->edges[i].weight);
++ for(unsigned i=0;i<base_edges;++i)out.weights.push_back(net->edges[stable_edge_slots[i]].weight);
+  out.final_sha256=surreal::hex(surreal::sha256(canonical_state(*net)));
+  out.contact_degree_sha256=surreal::hex(surreal::sha256(degree_text));
+  out.stimulus_sha256=surreal::hex(surreal::sha256(stimulus_history));
+@@ -133,6 +147,9 @@ int main(int argc,char**argv){
+      output<<",\"molecular_bins\":";four_json(output,v.molecule_spikes);
+      output<<",\"temporal\":";array_json(output,v.temporal);
+      output<<",\"base_weights\":";array_json(output,v.weights);
++#ifdef NM_V6_TEST_TRACE_FEEDBACK
++     output<<",\"feedback_trace\":";array_json(output,v.feedback_trace);
++#endif
+      output<<"}\n";
+     }
+   demand(bool(output),"trial receipt write failure");
+diff --git a/research/v6/source/native/probe_kf1_ring.cpp b/research/v6/source/native/probe_kf1_ring.cpp
+index f18a875..22d2cc3 100644
+--- a/research/v6/source/native/probe_kf1_ring.cpp
++++ b/research/v6/source/native/probe_kf1_ring.cpp
+@@ -2,15 +2,19 @@
+ // This imports the original verified C++ bridge in the SAME translation unit,
+ // retaining catalog validation, native SNN, Surreal entropy, and its helpers.
+ #define main nm_v4_bridge_main
+-#include "/mnt/data/N-Molecular-Inception-v4-TOPOLOGY-DIAGNOSTICS-REVERIFIED/src/bridge.cpp"
++#include "../upstream_extracted/N-Molecular-Inception-v4-TOPOLOGY-DIAGNOSTICS-REVERIFIED/src/bridge.cpp"
+ #undef main
+ #include <cstring>
+ #include <cstdlib>
++#include "stable_feedback_edge_slots.hpp"
+ 
+ namespace {
+ struct Readout {
+  std::vector<unsigned> temporal;
+  std::vector<int32_t> weights;
++#ifdef NM_V6_TEST_TRACE_FEEDBACK
++ std::vector<unsigned> feedback_trace;
++#endif
+  std::array<unsigned,4> scaffold_spikes{};
+  std::array<unsigned,4> molecule_spikes{};
+  std::string final_sha256, contact_degree_sha256, stimulus_sha256;
+@@ -24,8 +28,10 @@ Readout trial(const Case& c,unsigned rep,bool rewire,bool closed,bool plastic){
+  auto net=std::make_unique<nm_network>();nm_init(net.get());
+  for(unsigned id=0;id<scaffold+residues;++id)
+   require_native(nm_add_neuron(net.get(),id,0,id<scaffold?12:10,60000,0)==0,"configure neuron");
++ std::vector<nm_edge> authored_edges;
+  auto link=[&](unsigned u,unsigned v,int weight){
+   require_native(nm_add_edge(net.get(),static_cast<uint16_t>(u),static_cast<uint16_t>(v),weight,1,plastic?3:0,plastic?2:0,7,0,32)==0,"add native synapse");
++  authored_edges.push_back(net->edges[net->edge_count-1]);
+  };
+  for(unsigned j=0;j<base_edges;++j){const unsigned src=j%scaffold, offset=1+7*(j/scaffold);link(src,(src+offset)%scaffold,3);}
+  require_native(net->edge_count==base_edges,"118/324 scaffold changed");
+@@ -58,6 +64,10 @@ Readout trial(const Case& c,unsigned rep,bool rewire,bool closed,bool plastic){
+   }
+  }else demand(false,"unknown single-stranded case");
+  require_native(net->edge_count>=base_edges && residues+scaffold<=NM_MAX_NEURONS,"capacity/architecture invariant");
++#ifdef NM_V6_TEST_REVERSE_EDGE_STORAGE
++ std::reverse(net->edges,net->edges+net->edge_count);
++#endif
++ const auto stable_edge_slots=nm_v6::feedback_slots(*net,authored_edges);
+  const unsigned total_edges=static_cast<unsigned>(net->edge_count);
+  std::string degree_text="CONTACT_DEGREES|";
+  for(unsigned id=0;id<scaffold+residues;++id)
+@@ -82,9 +92,13 @@ Readout trial(const Case& c,unsigned rep,bool rewire,bool closed,bool plastic){
+    if(closed){
+     std::uint64_t sum=0, weighted=0;
+     for(std::size_t k=0;k<previous_fired.size();++k)sum+=static_cast<std::uint64_t>(previous_fired[k]+1)*(k+1);
+-    for(std::size_t e=0;e<net->edge_count;++e)weighted+=(e+1)*static_cast<std::uint64_t>(net->edges[e].weight);
++    for(std::size_t e=0;e<stable_edge_slots.size();++e)
++     weighted+=(e+1)*static_cast<std::uint64_t>(net->edges[stable_edge_slots[e]].weight);
+     feedback_target=static_cast<unsigned>((sum+weighted%scaffold)%scaffold);
+    }else feedback_target=(17+31*t)%scaffold;
++#ifdef NM_V6_TEST_TRACE_FEEDBACK
++   out.feedback_trace.push_back(feedback_target);
++#endif
+    require_native(nm_inject(net.get(),static_cast<uint16_t>(feedback_target),net->tick,12)==0,"matched feedback intervention");
+   }
+   std::vector<int32_t> before(net->edge_count);
+@@ -102,7 +116,7 @@ Readout trial(const Case& c,unsigned rep,bool rewire,bool closed,bool plastic){
+   out.total_spikes+=static_cast<unsigned>(sp.count);
+  }
+  out.weights.reserve(base_edges);
+- for(unsigned i=0;i<base_edges;++i)out.weights.push_back(net->edges[i].weight);
++ for(unsigned i=0;i<base_edges;++i)out.weights.push_back(net->edges[stable_edge_slots[i]].weight);
+  out.final_sha256=surreal::hex(surreal::sha256(canonical_state(*net)));
+  out.contact_degree_sha256=surreal::hex(surreal::sha256(degree_text));
+  out.stimulus_sha256=surreal::hex(surreal::sha256(stimulus_history));
+@@ -133,6 +147,9 @@ int main(int argc,char**argv){
+      output<<",\"molecular_bins\":";four_json(output,v.molecule_spikes);
+      output<<",\"temporal\":";array_json(output,v.temporal);
+      output<<",\"base_weights\":";array_json(output,v.weights);
++#ifdef NM_V6_TEST_TRACE_FEEDBACK
++     output<<",\"feedback_trace\":";array_json(output,v.feedback_trace);
++#endif
+      output<<"}\n";
+     }
+   demand(bool(output),"trial receipt write failure");
+diff --git a/research/v6/source/native/probe_kf1_ring_asan_sample.cpp b/research/v6/source/native/probe_kf1_ring_asan_sample.cpp
+index 6d1dd34..ef340c1 100644
+--- a/research/v6/source/native/probe_kf1_ring_asan_sample.cpp
++++ b/research/v6/source/native/probe_kf1_ring_asan_sample.cpp
+@@ -2,15 +2,19 @@
+ // This imports the original verified C++ bridge in the SAME translation unit,
+ // retaining catalog validation, native SNN, Surreal entropy, and its helpers.
+ #define main nm_v4_bridge_main
+-#include "/mnt/data/N-Molecular-Inception-v4-TOPOLOGY-DIAGNOSTICS-REVERIFIED/src/bridge.cpp"
++#include "../upstream_extracted/N-Molecular-Inception-v4-TOPOLOGY-DIAGNOSTICS-REVERIFIED/src/bridge.cpp"
+ #undef main
+ #include <cstring>
+ #include <cstdlib>
++#include "stable_feedback_edge_slots.hpp"
+ 
+ namespace {
+ struct Readout {
+  std::vector<unsigned> temporal;
+  std::vector<int32_t> weights;
++#ifdef NM_V6_TEST_TRACE_FEEDBACK
++ std::vector<unsigned> feedback_trace;
++#endif
+  std::array<unsigned,4> scaffold_spikes{};
+  std::array<unsigned,4> molecule_spikes{};
+  std::string final_sha256, contact_degree_sha256, stimulus_sha256;
+@@ -24,8 +28,10 @@ Readout trial(const Case& c,unsigned rep,bool rewire,bool closed,bool plastic){
+  auto net=std::make_unique<nm_network>();nm_init(net.get());
+  for(unsigned id=0;id<scaffold+residues;++id)
+   require_native(nm_add_neuron(net.get(),id,0,id<scaffold?12:10,60000,0)==0,"configure neuron");
++ std::vector<nm_edge> authored_edges;
+  auto link=[&](unsigned u,unsigned v,int weight){
+   require_native(nm_add_edge(net.get(),static_cast<uint16_t>(u),static_cast<uint16_t>(v),weight,1,plastic?3:0,plastic?2:0,7,0,32)==0,"add native synapse");
++  authored_edges.push_back(net->edges[net->edge_count-1]);
+  };
+  for(unsigned j=0;j<base_edges;++j){const unsigned src=j%scaffold, offset=1+7*(j/scaffold);link(src,(src+offset)%scaffold,3);}
+  require_native(net->edge_count==base_edges,"118/324 scaffold changed");
+@@ -58,6 +64,10 @@ Readout trial(const Case& c,unsigned rep,bool rewire,bool closed,bool plastic){
+   }
+  }else demand(false,"unknown single-stranded case");
+  require_native(net->edge_count>=base_edges && residues+scaffold<=NM_MAX_NEURONS,"capacity/architecture invariant");
++#ifdef NM_V6_TEST_REVERSE_EDGE_STORAGE
++ std::reverse(net->edges,net->edges+net->edge_count);
++#endif
++ const auto stable_edge_slots=nm_v6::feedback_slots(*net,authored_edges);
+  const unsigned total_edges=static_cast<unsigned>(net->edge_count);
+  std::string degree_text="CONTACT_DEGREES|";
+  for(unsigned id=0;id<scaffold+residues;++id)
+@@ -82,9 +92,13 @@ Readout trial(const Case& c,unsigned rep,bool rewire,bool closed,bool plastic){
+    if(closed){
+     std::uint64_t sum=0, weighted=0;
+     for(std::size_t k=0;k<previous_fired.size();++k)sum+=static_cast<std::uint64_t>(previous_fired[k]+1)*(k+1);
+-    for(std::size_t e=0;e<net->edge_count;++e)weighted+=(e+1)*static_cast<std::uint64_t>(net->edges[e].weight);
++    for(std::size_t e=0;e<stable_edge_slots.size();++e)
++     weighted+=(e+1)*static_cast<std::uint64_t>(net->edges[stable_edge_slots[e]].weight);
+     feedback_target=static_cast<unsigned>((sum+weighted%scaffold)%scaffold);
+    }else feedback_target=(17+31*t)%scaffold;
++#ifdef NM_V6_TEST_TRACE_FEEDBACK
++   out.feedback_trace.push_back(feedback_target);
++#endif
+    require_native(nm_inject(net.get(),static_cast<uint16_t>(feedback_target),net->tick,12)==0,"matched feedback intervention");
+   }
+   std::vector<int32_t> before(net->edge_count);
+@@ -102,7 +116,7 @@ Readout trial(const Case& c,unsigned rep,bool rewire,bool closed,bool plastic){
+   out.total_spikes+=static_cast<unsigned>(sp.count);
+  }
+  out.weights.reserve(base_edges);
+- for(unsigned i=0;i<base_edges;++i)out.weights.push_back(net->edges[i].weight);
++ for(unsigned i=0;i<base_edges;++i)out.weights.push_back(net->edges[stable_edge_slots[i]].weight);
+  out.final_sha256=surreal::hex(surreal::sha256(canonical_state(*net)));
+  out.contact_degree_sha256=surreal::hex(surreal::sha256(degree_text));
+  out.stimulus_sha256=surreal::hex(surreal::sha256(stimulus_history));
+@@ -133,6 +147,9 @@ int main(int argc,char**argv){
+      output<<",\"molecular_bins\":";four_json(output,v.molecule_spikes);
+      output<<",\"temporal\":";array_json(output,v.temporal);
+      output<<",\"base_weights\":";array_json(output,v.weights);
++#ifdef NM_V6_TEST_TRACE_FEEDBACK
++     output<<",\"feedback_trace\":";array_json(output,v.feedback_trace);
++#endif
+      output<<"}\n";
+     }
+   demand(bool(output),"trial receipt write failure");
+diff --git a/research/v6/source/native/probe_newseeds.cpp b/research/v6/source/native/probe_newseeds.cpp
+index a7a27b0..2735cdb 100644
+--- a/research/v6/source/native/probe_newseeds.cpp
++++ b/research/v6/source/native/probe_newseeds.cpp
+@@ -2,15 +2,19 @@
+ // This imports the original verified C++ bridge in the SAME translation unit,
+ // retaining catalog validation, native SNN, Surreal entropy, and its helpers.
+ #define main nm_v4_bridge_main
+-#include "/mnt/data/N-Molecular-Inception-v4-TOPOLOGY-DIAGNOSTICS-REVERIFIED/src/bridge.cpp"
++#include "../upstream_extracted/N-Molecular-Inception-v4-TOPOLOGY-DIAGNOSTICS-REVERIFIED/src/bridge.cpp"
+ #undef main
+ #include <cstring>
+ #include <cstdlib>
++#include "stable_feedback_edge_slots.hpp"
+ 
+ namespace {
+ struct Readout {
+  std::vector<unsigned> temporal;
+  std::vector<int32_t> weights;
++#ifdef NM_V6_TEST_TRACE_FEEDBACK
++ std::vector<unsigned> feedback_trace;
++#endif
+  std::array<unsigned,4> scaffold_spikes{};
+  std::array<unsigned,4> molecule_spikes{};
+  std::string final_sha256, contact_degree_sha256, stimulus_sha256;
+@@ -24,8 +28,10 @@ Readout trial(const Case& c,unsigned rep,bool rewire,bool closed,bool plastic){
+  auto net=std::make_unique<nm_network>();nm_init(net.get());
+  for(unsigned id=0;id<scaffold+residues;++id)
+   require_native(nm_add_neuron(net.get(),id,0,id<scaffold?12:10,60000,0)==0,"configure neuron");
++ std::vector<nm_edge> authored_edges;
+  auto link=[&](unsigned u,unsigned v,int weight){
+   require_native(nm_add_edge(net.get(),static_cast<uint16_t>(u),static_cast<uint16_t>(v),weight,1,plastic?3:0,plastic?2:0,7,0,32)==0,"add native synapse");
++  authored_edges.push_back(net->edges[net->edge_count-1]);
+  };
+  for(unsigned j=0;j<base_edges;++j){const unsigned src=j%scaffold, offset=1+7*(j/scaffold);link(src,(src+offset)%scaffold,3);}
+  require_native(net->edge_count==base_edges,"118/324 scaffold changed");
+@@ -58,6 +64,10 @@ Readout trial(const Case& c,unsigned rep,bool rewire,bool closed,bool plastic){
+   }
+  }else demand(false,"unknown single-stranded case");
+  require_native(net->edge_count>=base_edges && residues+scaffold<=NM_MAX_NEURONS,"capacity/architecture invariant");
++#ifdef NM_V6_TEST_REVERSE_EDGE_STORAGE
++ std::reverse(net->edges,net->edges+net->edge_count);
++#endif
++ const auto stable_edge_slots=nm_v6::feedback_slots(*net,authored_edges);
+  const unsigned total_edges=static_cast<unsigned>(net->edge_count);
+  std::string degree_text="CONTACT_DEGREES|";
+  for(unsigned id=0;id<scaffold+residues;++id)
+@@ -82,9 +92,13 @@ Readout trial(const Case& c,unsigned rep,bool rewire,bool closed,bool plastic){
+    if(closed){
+     std::uint64_t sum=0, weighted=0;
+     for(std::size_t k=0;k<previous_fired.size();++k)sum+=static_cast<std::uint64_t>(previous_fired[k]+1)*(k+1);
+-    for(std::size_t e=0;e<net->edge_count;++e)weighted+=(e+1)*static_cast<std::uint64_t>(net->edges[e].weight);
++    for(std::size_t e=0;e<stable_edge_slots.size();++e)
++     weighted+=(e+1)*static_cast<std::uint64_t>(net->edges[stable_edge_slots[e]].weight);
+     feedback_target=static_cast<unsigned>((sum+weighted%scaffold)%scaffold);
+    }else feedback_target=(17+31*t)%scaffold;
++#ifdef NM_V6_TEST_TRACE_FEEDBACK
++   out.feedback_trace.push_back(feedback_target);
++#endif
+    require_native(nm_inject(net.get(),static_cast<uint16_t>(feedback_target),net->tick,12)==0,"matched feedback intervention");
+   }
+   std::vector<int32_t> before(net->edge_count);
+@@ -102,7 +116,7 @@ Readout trial(const Case& c,unsigned rep,bool rewire,bool closed,bool plastic){
+   out.total_spikes+=static_cast<unsigned>(sp.count);
+  }
+  out.weights.reserve(base_edges);
+- for(unsigned i=0;i<base_edges;++i)out.weights.push_back(net->edges[i].weight);
++ for(unsigned i=0;i<base_edges;++i)out.weights.push_back(net->edges[stable_edge_slots[i]].weight);
+  out.final_sha256=surreal::hex(surreal::sha256(canonical_state(*net)));
+  out.contact_degree_sha256=surreal::hex(surreal::sha256(degree_text));
+  out.stimulus_sha256=surreal::hex(surreal::sha256(stimulus_history));
+@@ -133,6 +147,9 @@ int main(int argc,char**argv){
+      output<<",\"molecular_bins\":";four_json(output,v.molecule_spikes);
+      output<<",\"temporal\":";array_json(output,v.temporal);
+      output<<",\"base_weights\":";array_json(output,v.weights);
++#ifdef NM_V6_TEST_TRACE_FEEDBACK
++     output<<",\"feedback_trace\":";array_json(output,v.feedback_trace);
++#endif
+      output<<"}\n";
+     }
+   demand(bool(output),"trial receipt write failure");
+diff --git a/research/v6/source/native/probe_newseeds_asan_sample.cpp b/research/v6/source/native/probe_newseeds_asan_sample.cpp
+index 9865ac6..23f5b5a 100644
+--- a/research/v6/source/native/probe_newseeds_asan_sample.cpp
++++ b/research/v6/source/native/probe_newseeds_asan_sample.cpp
+@@ -2,15 +2,19 @@
+ // This imports the original verified C++ bridge in the SAME translation unit,
+ // retaining catalog validation, native SNN, Surreal entropy, and its helpers.
+ #define main nm_v4_bridge_main
+-#include "/mnt/data/N-Molecular-Inception-v4-TOPOLOGY-DIAGNOSTICS-REVERIFIED/src/bridge.cpp"
++#include "../upstream_extracted/N-Molecular-Inception-v4-TOPOLOGY-DIAGNOSTICS-REVERIFIED/src/bridge.cpp"
+ #undef main
+ #include <cstring>
+ #include <cstdlib>
++#include "stable_feedback_edge_slots.hpp"
+ 
+ namespace {
+ struct Readout {
+  std::vector<unsigned> temporal;
+  std::vector<int32_t> weights;
++#ifdef NM_V6_TEST_TRACE_FEEDBACK
++ std::vector<unsigned> feedback_trace;
++#endif
+  std::array<unsigned,4> scaffold_spikes{};
+  std::array<unsigned,4> molecule_spikes{};
+  std::string final_sha256, contact_degree_sha256, stimulus_sha256;
+@@ -24,8 +28,10 @@ Readout trial(const Case& c,unsigned rep,bool rewire,bool closed,bool plastic){
+  auto net=std::make_unique<nm_network>();nm_init(net.get());
+  for(unsigned id=0;id<scaffold+residues;++id)
+   require_native(nm_add_neuron(net.get(),id,0,id<scaffold?12:10,60000,0)==0,"configure neuron");
++ std::vector<nm_edge> authored_edges;
+  auto link=[&](unsigned u,unsigned v,int weight){
+   require_native(nm_add_edge(net.get(),static_cast<uint16_t>(u),static_cast<uint16_t>(v),weight,1,plastic?3:0,plastic?2:0,7,0,32)==0,"add native synapse");
++  authored_edges.push_back(net->edges[net->edge_count-1]);
+  };
+  for(unsigned j=0;j<base_edges;++j){const unsigned src=j%scaffold, offset=1+7*(j/scaffold);link(src,(src+offset)%scaffold,3);}
+  require_native(net->edge_count==base_edges,"118/324 scaffold changed");
+@@ -58,6 +64,10 @@ Readout trial(const Case& c,unsigned rep,bool rewire,bool closed,bool plastic){
+   }
+  }else demand(false,"unknown single-stranded case");
+  require_native(net->edge_count>=base_edges && residues+scaffold<=NM_MAX_NEURONS,"capacity/architecture invariant");
++#ifdef NM_V6_TEST_REVERSE_EDGE_STORAGE
++ std::reverse(net->edges,net->edges+net->edge_count);
++#endif
++ const auto stable_edge_slots=nm_v6::feedback_slots(*net,authored_edges);
+  const unsigned total_edges=static_cast<unsigned>(net->edge_count);
+  std::string degree_text="CONTACT_DEGREES|";
+  for(unsigned id=0;id<scaffold+residues;++id)
+@@ -82,9 +92,13 @@ Readout trial(const Case& c,unsigned rep,bool rewire,bool closed,bool plastic){
+    if(closed){
+     std::uint64_t sum=0, weighted=0;
+     for(std::size_t k=0;k<previous_fired.size();++k)sum+=static_cast<std::uint64_t>(previous_fired[k]+1)*(k+1);
+-    for(std::size_t e=0;e<net->edge_count;++e)weighted+=(e+1)*static_cast<std::uint64_t>(net->edges[e].weight);
++    for(std::size_t e=0;e<stable_edge_slots.size();++e)
++     weighted+=(e+1)*static_cast<std::uint64_t>(net->edges[stable_edge_slots[e]].weight);
+     feedback_target=static_cast<unsigned>((sum+weighted%scaffold)%scaffold);
+    }else feedback_target=(17+31*t)%scaffold;
++#ifdef NM_V6_TEST_TRACE_FEEDBACK
++   out.feedback_trace.push_back(feedback_target);
++#endif
+    require_native(nm_inject(net.get(),static_cast<uint16_t>(feedback_target),net->tick,12)==0,"matched feedback intervention");
+   }
+   std::vector<int32_t> before(net->edge_count);
+@@ -102,7 +116,7 @@ Readout trial(const Case& c,unsigned rep,bool rewire,bool closed,bool plastic){
+   out.total_spikes+=static_cast<unsigned>(sp.count);
+  }
+  out.weights.reserve(base_edges);
+- for(unsigned i=0;i<base_edges;++i)out.weights.push_back(net->edges[i].weight);
++ for(unsigned i=0;i<base_edges;++i)out.weights.push_back(net->edges[stable_edge_slots[i]].weight);
+  out.final_sha256=surreal::hex(surreal::sha256(canonical_state(*net)));
+  out.contact_degree_sha256=surreal::hex(surreal::sha256(degree_text));
+  out.stimulus_sha256=surreal::hex(surreal::sha256(stimulus_history));
+@@ -133,6 +147,9 @@ int main(int argc,char**argv){
+      output<<",\"molecular_bins\":";four_json(output,v.molecule_spikes);
+      output<<",\"temporal\":";array_json(output,v.temporal);
+      output<<",\"base_weights\":";array_json(output,v.weights);
++#ifdef NM_V6_TEST_TRACE_FEEDBACK
++     output<<",\"feedback_trace\":";array_json(output,v.feedback_trace);
++#endif
+      output<<"}\n";
+     }
+   demand(bool(output),"trial receipt write failure");
+diff --git a/research/v6/source/native/stable_feedback_edge_slots.hpp b/research/v6/source/native/stable_feedback_edge_slots.hpp
+new file mode 100644
+index 0000000..c434c6b
+--- /dev/null
++++ b/research/v6/source/native/stable_feedback_edge_slots.hpp
+@@ -0,0 +1,48 @@
++#pragma once
++// V6 feedback boundary: preserve the authored edge ordinal independently of
++// mutable nm_network.edges[] storage order. No change to NeuroMantle C core.
++// Only the weight is mutable under STDP; all other edge fields form its key.
++#include "neuro_mantle.h"
++#include <cstddef>
++#include <deque>
++#include <map>
++#include <stdexcept>
++#include <tuple>
++#include <vector>
++
++namespace nm_v6 {
++using EdgeIdentity = std::tuple<uint16_t, uint16_t, uint16_t,
++                                int32_t, int32_t, int32_t,
++                                uint16_t, uint16_t, uint16_t>;
++inline EdgeIdentity identity(const nm_edge& e) {
++  return {e.src, e.dst, e.delay, e.initial_weight,
++          e.min_weight, e.max_weight,
++          e.plus, e.minus, e.window};
++}
++
++// Match the originally authored edges to the same *complete* edge records in
++// their current array positions. Identical duplicate records are indistinguishable
++// in the native transition; match them in increasing physical index order.
++inline std::vector<std::size_t> feedback_slots(
++    const nm_network& net, const std::vector<nm_edge>& authored) {
++  if (authored.size() != net.edge_count)
++    throw std::runtime_error("V6 authored-edge count differs from native edge count");
++  std::map<EdgeIdentity, std::deque<std::size_t>> locations;
++  for (std::size_t i=0; i<net.edge_count; ++i)
++    locations[identity(net.edges[i])].push_back(i);
++  std::vector<std::size_t> result;
++  result.reserve(authored.size());
++  for (const auto& edge : authored) {
++    const auto key=identity(edge);
++    auto it=locations.find(key);
++    if (it==locations.end() || it->second.empty())
++      throw std::runtime_error("V6 storage permutation changed an edge identity");
++    result.push_back(it->second.front());
++    it->second.pop_front();
++  }
++  for (const auto& entry : locations)
++    if (!entry.second.empty())
++      throw std::runtime_error("V6 unmatched stored edge identity");
++  return result;
++}
++} // namespace nm_v6
+diff --git a/research/v6/source/tests/check_edge_storage_invariance.py b/research/v6/source/tests/check_edge_storage_invariance.py
+new file mode 100644
+index 0000000..4c832ba
+--- /dev/null
++++ b/research/v6/source/tests/check_edge_storage_invariance.py
+@@ -0,0 +1,86 @@
++#!/usr/bin/env python3
++"""Compare real v6 native receipts from original/reordered edge arrays.
++
++Only behavioral fields and separately declared trial metadata are compared.
++Physical-position serialized state hashes are not behavioral readouts.
++No mutation of source files, data or receipts.
++"""
++import argparse
++import json
++from pathlib import Path
++
++KEY = ('pdb', 'rep', 'closed', 'plastic', 'rewired')
++BEHAVIOR = ('temporal', 'scaffold_bins', 'molecular_bins', 'total_spikes',
++            'plastic_changes', 'feedback_trace')
++CONTROL = ('residues', 'topology_directed_contacts', 'all_edges',
++           'contact_degree_sha256', 'stimulus_sha256')
++EXPECTED_COUNTS = (2048, 6144)
++
++
++def read(path):
++    rows = [json.loads(line) for line in path.read_text().splitlines() if line]
++    if len(rows) not in EXPECTED_COUNTS:
++        raise AssertionError(f'{path}: unexpected row count {len(rows)}')
++    index = {}
++    for row in rows:
++        key = tuple(row[f] for f in KEY)
++        if key in index:
++            raise AssertionError(f'{path}: duplicate key {key}')
++        index[key] = row
++        if len(row['temporal']) != 4 * (118 + row['residues']):
++            raise AssertionError(f'{path}: malformed temporal vector for {key}')
++        if sum(row['temporal']) != row['total_spikes']:
++            raise AssertionError(f'{path}: inconsistent spike sum for {key}')
++        if 'feedback_trace' in row and len(row['feedback_trace']) != 47:
++            raise AssertionError(f'{path}: malformed feedback trace for {key}')
++    return index
++
++
++def verify(original, permuted):
++    if original.keys() != permuted.keys():
++        raise AssertionError('trial keys differ')
++    checks = 0
++    for key, a in original.items():
++        b = permuted[key]
++        for field in (*BEHAVIOR, *CONTROL):
++            if (field in a) != (field in b):
++                raise AssertionError(f'{key}: field presence differs: {field}')
++            if field in a and a[field] != b[field]:
++                raise AssertionError(f'{key}: {field} differs')
++            if field in a:
++                checks += 1
++    return checks
++
++
++def main():
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('original', type=Path)
++    parser.add_argument('reversed', type=Path)
++    parser.add_argument('--historical', type=Path,
++                        help='requires byte identical, uninstrumented baseline receipt')
++    args = parser.parse_args()
++    if args.historical and args.original.read_bytes() != args.historical.read_bytes():
++        raise AssertionError('original edge order no longer reproduces the archive')
++    original = read(args.original)
++    reversed_rows = read(args.reversed)
++    checks = verify(original, reversed_rows)
++    # Negative self-check: detect altered real output without writing a fixture.
++    first = next(iter(original))
++    corrupted = dict(reversed_rows[first])
++    corrupted['total_spikes'] += 1
++    mutated = dict(reversed_rows)
++    mutated[first] = corrupted
++    try:
++        verify(original, mutated)
++    except AssertionError:
++        pass
++    else:
++        raise AssertionError('negative behavioral mutation escaped detection')
++    print(f'PASS: {len(original)} native records, {checks} behavioral/control checks, '
++          'and deliberate in-memory corruption rejected')
++    if 'feedback_trace' in next(iter(original.values())):
++        print('PASS: all 47 feedback targets per comparison were checked')
++
++
++if __name__ == '__main__':
++    main()
