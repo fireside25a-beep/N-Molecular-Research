@@ -1,314 +1,210 @@
-Structural Sensitivity in a Native Spiking Neural Network Under Molecular Graph Interventions
+# Structural Sensitivity in a Native Spiking Neural Network Under Molecular Graph Interventions
 
-Computational neuroscience Molecular graphs Native spiking network Research evidence
+![Computational neuroscience](https://img.shields.io/badge/Computational-Neuroscience-214B65?style=flat-square) ![Molecular graphs](https://img.shields.io/badge/Molecular-Graphs-176C75?style=flat-square) ![Native SNN](https://img.shields.io/badge/Native-Spiking%20Neural%20Network-47566A?style=flat-square) ![Research evidence](https://img.shields.io/badge/Research-Reproducible%20Evidence-50684D?style=flat-square)
 
-An experimental study of how controlled changes to molecularly derived graph connections affect the activity of a compiled spiking neural network. The archive brings together the native implementation, original experiment records, independent numerical checks, negative controls, scientific manuscript, figures, and source provenance.
+**Controlled graph interventions, native spiking dynamics, molecular representations, and independently auditable computational results\.**
 
-Research snapshot: 23 October 2026 · Study type: computational, intervention based · Repository: N-Molecular-Research
+This repository archives a research study asking whether changes to molecularly derived *computational graph connectivity* can be distinguished through the firing activity of a compiled spiking neural network\. The study combines constructed DNA and RNA contact graphs, chemical bond interventions, computational RNA pairing, molecular conformers, and force\-derived spatial contacts\. It documents both responses and negative controls, with the original records retained for inspection\.
 
-Read the manuscript · See the results · Inspect the tests · Explore the files · Reproduce the audit
+**Research snapshot:** 23 October 2026 · **Type:** archival computational research · **Status:** manuscript and evidence release; not presented as peer reviewed
 
-────────
+[**Read the research paper**](original_extracted/Molecular_Graph_Research_Publication_20261023/01_Research_Article/Research_Article.pdf) · [**Results and figures**](#findings) · [**Tests and verification**](#verification-and-tests) · [**Repository guide**](#repository-contents) · [**How to reproduce**](#reproducibility)
 
-Research in brief
+---
 
-The research asks whether changing a computational graph’s connectivity changes the firing of a native spiking neural network when the experiment controls the stimulation seed, reset state, and neural operating conditions. It tests two distinct outcomes:
+## Research question and contribution
 
-1. Graph intervention classification: whether neural activity distinguishes an original constructed graph from a rewired one on held-out stimulation seeds.
-2. Paired neural response: how many target-neuron firing positions differ when molecular bonds, predicted RNA contacts, or generated spatial contacts are removed from a matched input graph.
+The study evaluates three testable propositions:
 
-These are measurements of computational structural sensitivity, not interchangeable measures of molecular-folding accuracy.
+1. Some constructed graph interventions can be classified from held\-out native SNN activity\.
+2. Breaking directed graph cycles and changing connections while preserving those cycles need not give the same result\.
+3. Removing defined chemical bonds, calculated RNA\-pairing contacts, or geometry\-derived spatial contacts can change matched neural firing masks\.
 
-|Research record                                |Result                                    |What was measured                                                            |
-|:----------------------------------------------|-----------------------------------------:|:----------------------------------------------------------------------------|
-|Paired neural comparisons                      |**13,312**                                |Intact versus intervened graph conditions across three experimental campaigns|
-|Independently reconstructed condition summaries|**208**                                   |Aggregated neural disagreement under defined controls                        |
-|Archived graph-classifier statistic rows       |**100**                                   |Historical graph classification and control results                          |
-|Native network scaffold                        |**118 neurons · 324 synapses**            |Compiled baseline before experiment-specific inputs and contacts             |
-|Paired execution readout                       |**48 ticks · 22 target slots**            |Binary temporal spike-mask comparisons                                       |
-|Final campaign                                 |**7,936 pairs · 15,872 native executions**|Two independently reset network executions per matched comparison            |
-|Molecular mechanics                            |**13 / 13 converged**                     |MMFF94 optimizations of eight small molecules and five short RNA fragments   |
-|Recorded project regression tests              |**81 passing named tests**                |Preserved historical software test log                                       |
+The key result is **reproducible sensitivity to selected graph interventions**\. This is not a claim that the SNN predicts the experimentally correct fold or binding behavior of a molecule\.
 
-Main result: within the tested representations and controls, the compiled network exhibited measurable and reproducible changes in firing activity after selected graph interventions. A cycle-preserving control and four additional RNA-labelled null results substantially narrow that interpretation. The manuscript provides the complete qualifications.
+### Evidence at a glance
 
-Experimental system
+|Recorded measurement                                            |Result      |
+|:---------------------------------------------------------------|-----------:|
+|Paired neural comparisons audited from saved spike masks        |**13,312**  |
+|Native SNN executions across those paired comparisons           |**26,624**  |
+|Independently recomputed condition summaries                    |**208**     |
+|Archived graph-classifier statistic rows                        |**100**     |
+|Historical named Python tests reported passing                  |**81**      |
+|GCC/Clang byte-identical comparison records in extended campaign|**7,936**   |
+|Independently matching sampled sanitizer comparison records     |**248**     |
+|Converged MMFF94 optimizations                                  |**13 of 13**|
 
-The original computational scaffold contains 118 neurons and 324 directed synapses. Experiment-specific input nodes and graph contacts are added to the native model; the compiled network’s state-transition routine is retained. Each paired test resets the network, applies matched deterministic stimulation, and varies the graph representation or selected connections.
+These figures are counts of **computations and recorded software evidence**, not counts of experimentally validated molecules, biological samples, or prediction successes\.
 
-flowchart LR
-    A["Constructed DNA / RNA contact graphs"] --> E["Matched original and intervened graphs"]
-    B["Chemical bond graphs from SMILES"] --> E
-    C["Computed RNA pairing and candidate crossing contacts"] --> E
-    D["ETKDG / MMFF94 derived spatial contacts"] --> E
-    E --> F["Independently reset native SNN"]
-    F --> G["48 tick firing records"]
-    G --> H["Held out graph label classification"]
-    G --> I["Paired 22 slot spike mask comparison"]
-    H --> J["Statistics, controls and recorded evidence"]
-    I --> J
-    classDef input fill:#eef4f7,stroke:#688b9d,color:#17384a
-    classDef neural fill:#e5f3ef,stroke:#24796c,color:#14463e
-    classDef result fill:#f5f1e9,stroke:#9e8563,color:#55452b
-    class A,B,C,D input
-    class E,F,G neural
-    class H,I,J result
+## Experimental method
 
-Design schematic, not a measured molecular structure. Different branches were introduced in different experiments; it is not one simultaneous biological model.
+The native baseline contains **118 neurons and 324 directed synapses**\. The experiment adds input nodes and graph\-derived contacts without replacing the compiled network state\-transition routine\. A matched pair consists of independently reset runs under the same deterministic seed and declared stimulation policy, differing in a specified graph connection or contact intervention\.
 
-Controlled factors
+### Research workflow
 
-|Factor       |Conditions                                                                |
-|:------------|:-------------------------------------------------------------------------|
-|Graph        |Original contact representation versus a defined rewire or contact removal|
-|Stimulation  |Same deterministic seed and matched declared stimulation policy           |
-|Feedback     |Output-conditioned feedback versus a fixed-current stimulation schedule   |
-|Plasticity   |Spike-timing-dependent plasticity (STDP) enabled versus weights frozen    |
-|Run duration |48 network ticks per reset execution                                      |
-|Neural output|Selected target-neuron spike masks, retained for auditing                 |
+|Stage               |What the experiment does                                                                                                                                  |
+|:-------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------|
+|**1. Represent**    |Construct a directed contact graph, parse a chemical SMILES graph, calculate RNA base-pair contacts, or derive spatial contacts from optimized geometries.|
+|**2. Intervene**    |Compare a declared intact graph against a cycle rewire, bond removal, RNA-contact removal, or spatial-contact removal.                                    |
+|**3. Run natively** |Reset the compiled spiking network and execute matched 48-tick trials under controlled stimulation.                                                       |
+|**4. Vary controls**|Compare native-output feedback against fixed stimulation, with STDP enabled or weights frozen.                                                            |
+|**5. Measure**      |Classify graph intervention labels, or compare 48 consecutive firing masks for 22 target-neuron positions.                                                |
+|**6. Audit**        |Recalculate spike-mask differences, summary statistics, compiler parity, numerical gradients, and archive integrity.                                      |
 
-Neural response metric
+This is a description of the recorded computational workflow\. The separate research branches were introduced over time and do not form a single simultaneous biological folding simulator\.
 
-For every matched pair, the network produces 48 consecutive binary spike masks for 22 selected target-neuron positions. The audit counts the positions that differ between the original and intervened graph:
+**Paired neural disagreement** is the count of firing positions that change between the intact and modified graph, divided by the **48 ticks × 22 target positions**, expressed as a percentage\. For grouped conditions, the counts and denominators are aggregated across matched pairs\. **Held\-out classification accuracy is a different measure** and is never pooled with disagreement percentages\.
 
-Neural disagreement (%) =
-    100 × sum over 48 ticks of popcount(original_mask XOR modified_mask)
-    ÷ (48 × 22)
+## Findings
 
-XOR identifies the bits that changed, and popcount counts those changed bits. The expression is displayed as plain text for reliable GitHub rendering; the exact mathematical definition and denominators are documented in the manuscript.
+### 1\. Constructed contact graphs and directed\-cycle controls
 
-For grouped conditions, changed positions and denominators are summed across the matched pairs. A value of 20% means that 20% of the computational firing positions differ. It is not 20% biological prediction accuracy. The initial graph-classification experiments use a separate accuracy measure: correctly classified held-out graph labels divided by all evaluated labels.
+In the 1KF1\-labelled computational graph, a cycle\-breaking rewire produced **196 correct classifications out of 256 held\-out labels &#40;76\.56%&#41;**, with a six\-case Holm\-adjusted **p = 0\.02783**\. A separate intervention that changed connections while **preserving four\-site directed cycles** produced **116/256 &#40;45\.31%&#41;**\.
 
-Experimental results
+The difference is consistent with sensitivity to the tested cycle organization\. The rewirings were *constructed computational controls*, not two experimentally observed DNA conformations\. Four additional RNA\-labelled constructed\-graph cases did not pass their documented multiple\-test correction\.
 
-1. Constructed graph topology and held-out classification
+|Case    |Held-out accuracy|Holm-adjusted p|
+|:-------|----------------:|--------------:|
+|1BNA    |49.61%           |1.0000         |
+|1ANA    |57.81%           |0.3173         |
+|1WOE    |58.59%           |0.0952         |
+|1RNA    |52.34%           |0.8692         |
+|1ZIH    |46.48%           |1.0000         |
+|**1KF1**|**76.56%**       |**0.0278**     |
 
-The first experiments used graph cases labelled with deposited DNA and RNA structure identifiers. The alternative contact graphs were computationally constructed, not taken as full experimentally determined atomic contact maps.
+![Held-out graph classification from the preserved experiment](original_extracted/Molecular_Graph_Research_Publication_20261023/02_Publication_Figures/Figure_01_Held_Out_Graph_Classification.png)
 
-|PDB-associated case|Held-out classifications correct|Accuracy  |Holm-adjusted p|
-|:------------------|-------------------------------:|---------:|--------------:|
-|1BNA               |127 / 256                       |49.61%    |1.0000         |
-|1ANA               |148 / 256                       |57.81%    |0.3173         |
-|1WOE               |150 / 256                       |58.59%    |0.0952         |
-|1RNA               |134 / 256                       |52.34%    |0.8692         |
-|1ZIH               |119 / 256                       |46.48%    |1.0000         |
-|**1KF1**           |**196 / 256**                   |**76.56%**|**0.0278**     |
+*Figure 1\. Constructed graph\-label discrimination using held\-out stimulation seeds\.*
 
-The 1KF1-labelled constructed graph yielded 196/256 (76.56%) correct when its four-site directed cycles were broken, with a Holm-adjusted p value of 0.02783. A different intervention that preserved those four-site cycles, while changing their orientation, gave 116/256 (45.31%). The contrast is consistent with sensitivity to the tested cycle organization rather than generalized molecular geometry recognition. The cycle-preserving comparison was a subsequent control, not an independent prospective physical validation.
+![Cycle-breaking and cycle-preserving intervention control](original_extracted/Molecular_Graph_Research_Publication_20261023/02_Publication_Figures/Figure_02_Cycle_Intervention_Control.png)
 
-Four additional RNA-labelled constructed graph cases produced 44.92% (1ZIF), 44.92% (1ZIG), 53.52% (2KOC), and 48.05% (1EHZ) classification accuracy. None survived the documented four-comparison correction. These null findings are part of the published record.
+*Figure 2\. The cycle\-preserving comparison is an essential negative control\.*
 
-|Held-out classification                                                                                                                                                      |Cycle-control comparison                                                                                                                                                |
-|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-|![Held-out graph classification results](original_extracted/Molecular_Graph_Research_Publication_20261023/02_Publication_Figures/Figure_01_Held_Out_Graph_Classification.png)|![Cycle intervention negative control](original_extracted/Molecular_Graph_Research_Publication_20261023/02_Publication_Figures/Figure_02_Cycle_Intervention_Control.png)|
-|**Figure 1.** Original and fresh-seed graph classification                                                                                                                   |**Figure 2.** Cycle-breaking versus cycle-preserving controls                                                                                                           |
+![Actual graph cycle constructions in the research](original_extracted/Molecular_Graph_Research_Publication_20261023/02_Publication_Figures/Figure_03_Source_Specified_Cycle_Graphs.png)
 
-Source-defined directed-cycle interventions
+*Figure 3\. Directed\-cycle topology drawn from the original documented graph interventions\. This replaces a generic schematic with an actual archived research figure\.*
 
-Figure 3. Source-described changes to directed four-site cycles. These are constructed graph interventions, not experimentally reconstructed DNA geometry.
+### 2\. Chemical bond intervention and controlled neural response
 
-2. Chemical bond and spatial-contact interventions
+Eight RDKit\-validated small molecules were represented by their chemical graphs: **aspirin, benzene, caffeine, cyclohexane, ethanol, naphthalene, nicotinamide, and pyridine**\. The initial intervention retains the same atoms and removes defined bond\-derived computational connections\. Later studies examine optimized conformers and proximity\-derived contacts\.
 
-Eight RDKit-validated SMILES molecules were tested: aspirin, benzene, caffeine, cyclohexane, ethanol, naphthalene, nicotinamide, and pyridine. Chemical bond interventions retain the declared atom set and change selected bond-derived graph edges. Later experiments use ETKDG conformers and MMFF94-optimized geometries to derive spatial contacts.
+For caffeine’s bond\-graph intervention, the recorded native feedback condition produced **17\.17% changed target firing positions** with plasticity enabled and **10\.93%** with plasticity frozen\. These are neural disagreement measurements, not molecular potency or ligand activity\. Other inputs and controls include zero response and learning effects in different directions\.
 
-For example, removing caffeine’s bond-derived contacts changed 17.17% of neural firing positions with native feedback and plasticity enabled, versus 10.93% with plasticity frozen. These are separate controlled neural responses, not caffeine binding, activity, or toxicity measurements. Other experimental arms include zero and reversed plasticity effects; the complete factorial results are retained in the tables.
+![Eight chemical inputs across neural control conditions](original_extracted/Molecular_Graph_Research_Publication_20261023/02_Publication_Figures/Figure_05_Chemical_Bond_Ablation.png)
 
-|Bond-graph intervention responses                                                                                                                                        |Paired-seed distribution for caffeine                                                                                                                                                   |
-|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-|![Chemical bond graph intervention results](original_extracted/Molecular_Graph_Research_Publication_20261023/02_Publication_Figures/Figure_05_Chemical_Bond_Ablation.png)|![Caffeine paired-seed response distributions](original_extracted/Molecular_Graph_Research_Publication_20261023/02_Publication_Figures/Figure_06_Caffeine_Paired_Seed_Distributions.png)|
-|**Figure 5.** Responses across feedback and plasticity settings                                                                                                          |**Figure 6.** Distributions across matched stimulation seeds                                                                                                                            |
+*Figure 5\. Chemical graph sensitivity across feedback and plasticity conditions\.*
 
-Both figures report neural firing-mask differences under computational contact interventions, not measurements of chemical action.
+![Caffeine firing-disagreement distributions for matched seeds](original_extracted/Molecular_Graph_Research_Publication_20261023/02_Publication_Figures/Figure_06_Caffeine_Paired_Seed_Distributions.png)
 
-3. RNA pairing, candidate crossing structures, and neural response
+*Figure 6\. Seed\-level response distributions instead of a single averaged score\.*
 
-The RNA experiments use five sequence-associated inputs: 1ZIH, 1ZIF, 1ZIG, 2KOC, and 1EHZ. Their recorded computational paths include a weighted noncrossing Nussinov-style solver, later selected RNA nearest-neighbor energy terms, and a separate heuristic search for candidate crossing stems.
+### 3\. RNA pairing and contact interventions
 
-|RNA identifier|Weighted solver pairs|Selected-energy-model pairs|Model energy (kcal/mol)|Crossing candidate selected|
-|:-------------|--------------------:|--------------------------:|----------------------:|:-------------------------:|
-|1ZIH          |4                    |4                          |−2.740                 |No                         |
-|1ZIF          |4                    |4                          |−2.740                 |No                         |
-|1ZIG          |4                    |4                          |−2.740                 |No                         |
-|2KOC          |5                    |5                          |−5.430                 |No                         |
-|1EHZ          |26                   |23                         |−14.604                |Yes                        |
+Five RNA sequence\-associated inputs, **1ZIH, 1ZIF, 1ZIG, 2KOC, and 1EHZ**, were used to evaluate computational pairing and neural sensitivity to the resulting contacts\. The recorded methods include a weighted noncrossing pairing solver, selected nearest\-neighbor energy terms, and a heuristic crossing\-stem candidate search\.
 
-These are model outputs. The selected energy terms and loop penalties do not constitute a complete calibrated RNA thermodynamic package. A heuristic crossing-stem candidate is not an experimentally validated pseudoknot. The atomistic RNA branch operates on four-nucleotide fragments rather than whole RNA molecules.
+|RNA-associated input|Weighted solver pairs|Selected-energy-model pairs|
+|:-------------------|--------------------:|--------------------------:|
+|1ZIH                |4                    |4                          |
+|1ZIF                |4                    |4                          |
+|1ZIG                |4                    |4                          |
+|2KOC                |5                    |5                          |
+|1EHZ                |26                   |23                         |
 
-|Calculated RNA pairing                                                                                                                                        |Contact intervention response                                                                                                                                       |
-|:------------------------------------------------------------------------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-|![RNA pairing algorithm outputs](original_extracted/Molecular_Graph_Research_Publication_20261023/02_Publication_Figures/Figure_07_RNA_Pairing_Algorithms.png)|![RNA contact ablation neural response](original_extracted/Molecular_Graph_Research_Publication_20261023/02_Publication_Figures/Figure_09_RNA_Contact_Ablations.png)|
-|**Figure 7.** Pair counts from the documented computational solvers                                                                                           |**Figure 9.** Neural response after removal of calculated RNA contacts                                                                                              |
+The selected\-energy model generated an internal energy of approximately **−14\.604 kcal/mol** for 1EHZ and a crossing\-stem *candidate*\. Those outputs have not been validated as experimentally accurate structures, and the implemented energy terms are not a complete calibrated RNAfold model\.
 
-Partial-model RNA energy outputs
-
-Figure 8. Energies calculated from the implemented subset of RNA thermodynamic terms. These are not experimental folding free energies.
-
-4. Molecular mechanics and post-optimization contacts
-
-RDKit MMFF94 calculations were recorded for eight small molecules and five four-nucleotide RNA fragments. All 13 recorded minimizations converged. Sampled analytical derivatives were compared with centered finite differences, with a maximum absolute discrepancy of approximately 1.59 × 10⁻⁷ kcal/mol/Å across the checked components. The extended campaign also produced 1,909 inferred nonbonded spatial contacts for derived graph interventions.
-
-|Force-gradient numerical check                                                                                                                                             |Derived contact counts                                                                                                                                                               |
-|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-|![MMFF94 numerical force-gradient comparisons](original_extracted/Molecular_Graph_Research_Publication_20261023/02_Publication_Figures/Figure_10_Force_Gradient_Checks.png)|![Post-optimization derived spatial contact counts](original_extracted/Molecular_Graph_Research_Publication_20261023/02_Publication_Figures/Figure_11_Post_Optimization_Contacts.png)|
-|**Figure 10.** Sampled gradient consistency                                                                                                                                |**Figure 11.** Contacts produced from optimized geometry                                                                                                                             |
-
-The numerical check establishes consistency between sampled derivative calculations. The derived contacts depend on the computational representation and spatial threshold; neither result validates experimental molecular structure.
+![RNA pairing algorithm comparison](original_extracted/Molecular_Graph_Research_Publication_20261023/02_Publication_Figures/Figure_07_RNA_Pairing_Algorithms.png)
 
-5. Recorded computational workload
-
-The archived computational comparisons comprise three different intervention campaigns. Their values indicate execution volume, not a progressive molecular prediction accuracy score.
+*Figure 7\. Recorded pair counts from distinct computational pairing methods\.*
 
-|Intervention campaign                          |Matched pairs|Native reset executions|
-|:----------------------------------------------|------------:|----------------------:|
-|Chemical bond graphs                           |2,048        |4,096                  |
-|Computed RNA contacts and ligand spatial graphs|3,328        |6,656                  |
-|Extended RNA and post-force contact graphs     |7,936        |15,872                 |
-|**Total across these campaigns**               |**13,312**   |**26,624**             |
+![RNA contact-removal response in the native network](original_extracted/Molecular_Graph_Research_Publication_20261023/02_Publication_Figures/Figure_09_RNA_Contact_Ablations.png)
 
-The extended campaign used 64 deterministic excitation seeds and 48 ticks per network execution. Its recorded 7,936 matched pairs separate into 1,280 nested-RNA, 1,280 candidate-crossing-RNA, 2,048 ligand, and 3,328 post-force graph comparisons. These are computational trials; they are not biological replicates or independent patient samples.
+*Figure 9\. Neural activity differences after removing calculated RNA contacts\. These are not RNA base\-pair accuracy scores\.*
 
-Verification and tests
+### 4\. Molecular mechanics and post\-optimization contacts
 
-The archive separates recorded software execution, independent calculation from saved output, and release-file integrity. These are different levels of evidence.
+The extended experiment uses **RDKit ETKDG** to generate conformations and **MMFF94** for energy and force evaluation\. The 13 recorded minimizations include **eight small molecules and five four\-nucleotide RNA fragments**, rather than entire RNA molecules\. All 13 minimizations converged\.
 
-|Evidence level           |What a reader can check                                                                              |
-|:------------------------|:----------------------------------------------------------------------------------------------------|
-|Native execution receipts|Compiler outputs, regression logs, sanitized samples and deterministic replay records                |
-|Numerical recomputation  |Spike-mask disagreement totals, grouped conditions, original classifications and figure source tables|
-|Archive integrity        |Hash manifests, ZIP CRC checks, source provenance and the Git LFS content-addressed archives         |
+Sampled analytical gradients agreed with centered finite\-difference checks to a maximum recorded discrepancy of approximately **1\.59 × 10⁻⁷ kcal/mol/Å** across checked components\. The subsequent graph construction derived **1,909 nonbonded spatial contacts** for network interventions\. This establishes numerical consistency and recorded computational contact sensitivity, not validation against experimental molecular forces\.
 
-No single check substitutes for the other two, and none is a benchmark against experimental molecular ground truth.
+![MMFF94 analytical and numerical force-gradient comparison](original_extracted/Molecular_Graph_Research_Publication_20261023/02_Publication_Figures/Figure_10_Force_Gradient_Checks.png)
 
-|Check                                |Archived result                                                                                                       |Verification scope                                                                |
-|:------------------------------------|:---------------------------------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------|
-|Held-out graph intervention tests    |Six initial cases, 128 fresh stimulus-seed pairs and 256 labelled readouts per case                                   |Conditional graph-label discrimination                                            |
-|Permutation and multiplicity controls|4,096 sign-swap permutations; Holm adjustment                                                                         |Computational null tests and corrected comparisons                                |
-|Additional RNA negative tests        |Four new cases failed multiplicity correction                                                                         |Negative findings preserved                                                       |
-|Spike-mask arithmetic                |**13,312 / 13,312** paired disagreements reconstructed                                                                |XOR/popcount counts from recorded 48-tick masks; **zero arithmetic discrepancies**|
-|Condition-level recomputation        |**208** condition summaries                                                                                           |Reconstructed grouped outcomes                                                    |
-|Classifier-statistic archive         |**100** historical statistic rows                                                                                     |Source-derived table audit                                                        |
-|Historical project regression        |**81** passing named Python tests                                                                                     |Stored execution logs; not newly run by this README                               |
-|Cross-compiler determinism           |**7,936** GCC/Clang paired comparison records byte-identical                                                          |Archived build and replay outputs                                                 |
-|Sanitizer sample                     |**248** ASan/UBSan comparison records matched                                                                         |Independent sample, not a full 7,936-record sanitizer campaign                    |
-|Earlier-record replay                |**3,328** pair records reproduced byte-for-byte                                                                       |Prior experiment against rebuilt native executable                                |
-|Molecular mechanics                  |**13 / 13** converged minimizations                                                                                   |Sampled force-gradient numerical agreement, not experimental validation           |
-|Full upstream suite                  |Complete earlier full-suite pass recorded; a later one-shot invocation was interrupted and followed by separate checks|Do not equate command-level checks with an uninterrupted later full-suite result  |
-|Release snapshot on MacBook          |**405 / 405** original file SHA-256 matches; **6 / 6** nested ZIP CRC checks                                          |Copy and package integrity, not a fresh scientific rerun                          |
-
-The source release has 1,267 archived ZIP members, and the historical packaging status records CRC and manifest-digest checks. The source archive is distributed as an LFS-backed ZIP; the original historical Git development timeline was not recovered as a complete sequence of commits.
-
-|Recorded execution-stage timing                                                                                                                                |Recorded regression coverage                                                                                                                            |
-|:-------------------------------------------------------------------------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------------------------------------------------------------:|
-|![Recorded execution-stage timings](original_extracted/Molecular_Graph_Research_Publication_20261023/02_Publication_Figures/Figure_13_Record_Stage_Timings.png)|![Software regression figure](original_extracted/Molecular_Graph_Research_Publication_20261023/02_Publication_Figures/Figure_14_Software_Regression.png)|
-|**Figure 13.** Wall-clock timings from the recorded execution host                                                                                             |**Figure 14.** Historical software regression evidence                                                                                                  |
-
-Timing excludes full compilation and is not a cross-tool benchmark. Passing tests verify the reported software checks, not biological prediction quality.
-
-For the exact data and source trail, consult the claim-to-evidence matrix, technical validation, original experimental logs, and integrity ledger.
-
-Repository structure
-
-The repository root is a publication wrapper; the research contents remain in their original preserved folder hierarchy.
+*Figure 10\. Numerical force consistency on sampled Cartesian components\.*
 
-N-Molecular-Research/
-├── README.md                         Research overview and reader navigation
-├── .gitattributes                    Git LFS rules for ZIP archives
-├── EVIDENCE/
-│   ├── SOURCE_SHA256_MANIFEST.csv    405 relative source-file hashes and sizes
-│   ├── SOURCE_DIRECTORIES.txt        65 preserved directory paths
-│   ├── LARGE_FILE_INVENTORY.json
-│   ├── COPY_VERIFICATION.json
-│   └── EMPTY_DIRECTORIES.txt
-└── original_extracted/
-    └── Molecular_Graph_Research_Publication_20261023/
-        ├── START_HERE.md
-        ├── FOLDER_GUIDE.md
-        ├── index.html
-        ├── 01_Research_Article/            Research_Article.pdf and LaTeX source
-        ├── 02_Publication_Figures/         14 source-derived PNG figures
-        ├── 03_Study_Guide/                Explanation and equations
-        ├── 04_Data_And_Results/           Results CSVs, audit workbook, dictionary
-        ├── 05_Technical_Supplement/       Scientific and software validation
-        ├── 06_Experimental_Evidence/      Original logs and evidence archive
-        ├── 07_Reproduce_And_Verify/       Recalculation and publication scripts
-        ├── 08_Executable_Source_Archive/  Native source and binary ZIP (LFS)
-        ├── 09_Legacy_Edition/             Preserved earlier portfolios and archives
-        ├── 10_Provenance_And_Integrity/   Path mapping, recorded checksums
-        └── 11_Editorial_Submission/       Unsubmitted draft documents
+### 5\. Experimental workload and denominators
 
-|To examine…                  |Open                                                                                                                                                                                                                                                                                    |
-|:----------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|Original study and scope     |[Scientific manuscript](original_extracted/Molecular_Graph_Research_Publication_20261023/01_Research_Article/Research_Article.pdf) · [LaTeX source](original_extracted/Molecular_Graph_Research_Publication_20261023/01_Research_Article/Research_Article.tex)                          |
-|Research explanations        |[Study guide](original_extracted/Molecular_Graph_Research_Publication_20261023/03_Study_Guide/ABOUT_THE_STUDY.md) · [Methods and equations](original_extracted/Molecular_Graph_Research_Publication_20261023/03_Study_Guide/METHODS_AND_EQUATIONS.md)                                   |
-|Raw-derived measurements     |[Paired comparison data](original_extracted/Molecular_Graph_Research_Publication_20261023/04_Data_And_Results/ALL_V9_V10_V11_PAIRED_COMPARISONS.csv) · [RNA structures](original_extracted/Molecular_Graph_Research_Publication_20261023/04_Data_And_Results/RNA_FOLDING_STRUCTURES.csv)|
-|Figure provenance            |[Figure-to-source ledger](original_extracted/Molecular_Graph_Research_Publication_20261023/04_Data_And_Results/FIGURE_PROVENANCE.csv) · [All figures](original_extracted/Molecular_Graph_Research_Publication_20261023/02_Publication_Figures/)                                         |
-|Source and execution evidence|[Native source archive](original_extracted/Molecular_Graph_Research_Publication_20261023/08_Executable_Source_Archive/) · [Preserved experiment logs](original_extracted/Molecular_Graph_Research_Publication_20261023/06_Experimental_Evidence/original_logs/)                         |
-|Recalculation scripts        |[Verification directory](original_extracted/Molecular_Graph_Research_Publication_20261023/07_Reproduce_And_Verify/) · [Historical verification scripts](original_extracted/Molecular_Graph_Research_Publication_20261023/07_Reproduce_And_Verify/Original_Verification_Scripts/)        |
-|Original file lineage        |[Provenance and integrity](original_extracted/Molecular_Graph_Research_Publication_20261023/10_Provenance_And_Integrity/) · [Legacy portfolio](original_extracted/Molecular_Graph_Research_Publication_20261023/09_Legacy_Edition/)                                                     |
+|Computational intervention family  |Paired comparisons|Independently reset native executions|
+|:----------------------------------|-----------------:|------------------------------------:|
+|Chemical bond graphs               |2,048             |4,096                                |
+|Computed RNA and ligand contacts   |3,328             |6,656                                |
+|Extended RNA and atomistic contacts|7,936             |15,872                               |
+|**Total**                          |**13,312**        |**26,624**                           |
 
-Reproducibility
+The extended campaign used **64 deterministic excitation seeds** per condition and **48 neural ticks** per execution\. Its 7,936 comparisons comprise 1,280 nested\-RNA, 1,280 crossing\-candidate RNA, 2,048 ligand spatial\-graph, and 3,328 post\-force contact comparisons\. These are repeated computational trials, not independent biological specimens\.
 
-1. Clone with Git LFS
+## Verification and tests
 
-Six preserved ZIP file paths are tracked by Git LFS. Two of the historical ZIP paths contain identical bytes, so these six paths correspond to five distinct LFS content hashes. Both filenames are retained for provenance; they need not store duplicate binary payloads.
+The release preserves raw evidence and multiple independent checks\. It distinguishes historical execution logs, recalculation of stored results, and byte\-level preservation verification\.
 
-git clone https://github.com/fireside25a-beep/N-Molecular-Research.git
-cd N-Molecular-Research
-git lfs pull
-git lfs ls-files
+|Validation               |Evidence recorded                                                                                                                         |
+|:------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------|
+|**Native neural results**|13,312 individual pairwise firing differences independently recalculated from saved 48-tick masks, with **zero arithmetic discrepancies**.|
+|**Condition summaries**  |208 factorial condition summaries reconstructed from the archived records.                                                                |
+|**Graph statistics**     |100 archived classifier-statistic rows; 4,096 sign-swap permutations used for the original hypothesis tests, with Holm correction.        |
+|**Regression tests**     |81 passing named Python project tests in preserved historical logs.                                                                       |
+|**Cross-compiler replay**|7,936 paired records reproduced byte-for-byte between GCC and Clang native builds.                                                        |
+|**Sanitizers**           |248 independently sampled records matched under AddressSanitizer and UndefinedBehaviorSanitizer checks. This is sampled coverage.         |
+|**Historical replay**    |3,328 earlier paired records reproduced identically with a rebuilt native executable.                                                     |
+|**Molecular mechanics**  |13/13 converged MMFF94 optimizations and sampled numerical force-gradient checks.                                                         |
+|**Source preservation**  |405 original files hash-verified in a separate publication copy; six nested ZIP CRC checks passed.                                        |
 
-A GitHub-generated source download may not contain the large LFS payloads. Use a Git LFS-enabled clone for full archive access.
+One complete earlier upstream test\-suite pass is historically recorded\. A later one\-shot upstream suite invocation was interrupted; separate subsequent checks are preserved but are not represented as an uninterrupted complete suite pass\. The software tests verify the implementation and recordings, not experimental biological predictive accuracy\.
 
-2. Verify the preserved 405 original files
+![Original software test coverage and regression records](original_extracted/Molecular_Graph_Research_Publication_20261023/02_Publication_Figures/Figure_14_Software_Regression.png)
 
-This read-only script compares each original research path, file size, and SHA-256 hash against the repository manifest. It does not execute the neural model or change any research file.
+*Figure 14\. Preserved regression evidence by experimental release\.*
 
-python3 - <<'PY'
-from pathlib import Path
-from hashlib import sha256
-import csv
-import sys
+Consult the [claim/evidence matrix](original_extracted/Molecular_Graph_Research_Publication_20261023/04_Data_And_Results/CLAIM_EVIDENCE_MATRIX.csv), [test case index](original_extracted/Molecular_Graph_Research_Publication_20261023/04_Data_And_Results/TEST_CASE_INDEX.csv), [technical validation](original_extracted/Molecular_Graph_Research_Publication_20261023/05_Technical_Supplement/TECHNICAL_VALIDATION.md), and [original execution logs](original_extracted/Molecular_Graph_Research_Publication_20261023/06_Experimental_Evidence/original_logs/)\.
 
-root = Path('original_extracted')
-manifest = Path('EVIDENCE/SOURCE_SHA256_MANIFEST.csv')
+## Repository contents
 
-if not root.is_dir() or not manifest.is_file():
-    sys.exit('FAIL: required archive directory or manifest is missing')
-with manifest.open(encoding='utf-8', newline='') as stream:
-    rows = list(csv.DictReader(stream))
-if len(rows) != 405:
-    sys.exit('FAIL: manifest must contain 405 original file records')
-names = [row['relative_path'] for row in rows]
-if len(set(names)) != len(names):
-    sys.exit('FAIL: duplicate relative paths in manifest')
-actual = {p.relative_to(root).as_posix() for p in root.rglob('*') if p.is_file()}
-if actual != set(names):
-    sys.exit('FAIL: research file paths differ from manifest')
-for row in rows:
-    p = root / row['relative_path']
-    h = sha256()
-    with p.open('rb') as stream:
-        for block in iter(lambda: stream.read(1024 * 1024), b''):
-            h.update(block)
-    if p.stat().st_size != int(row['size_bytes']) or h.hexdigest() != row['sha256']:
-        sys.exit('FAIL: file differs from source manifest: ' + row['relative_path'])
-print('PASS: 405 original file paths, sizes and SHA-256 hashes match')
-PY
+The repository preserves the dated research publication tree, rather than reorganizing or modifying the scientific source files\.
 
-3. Recalculate recorded outcomes or rerun native experiments
+|Path                             |Contents                                                                                                |
+|:--------------------------------|:-------------------------------------------------------------------------------------------------------|
+|**README.md**                    |This research overview.                                                                                 |
+|**EVIDENCE/**                    |Original file SHA-256 manifest, copy-verification record, directory inventory, and large-file inventory.|
+|**original_extracted/**          |Preserved extracted research snapshot.                                                                  |
+|**01_Research_Article/**         |16-page manuscript, LaTeX and explanatory notes.                                                        |
+|**02_Publication_Figures/**      |14 PNGs derived from source data.                                                                       |
+|**03_Study_Guide/**              |Study explanation, methods and equations.                                                               |
+|**04_Data_And_Results/**         |CSVs, audit workbook, experimental metrics and figure provenance.                                       |
+|**05_Technical_Supplement/**     |Source and validation boundaries.                                                                       |
+|**06_Experimental_Evidence/**    |Original experiment logs and complete evidence ZIP.                                                     |
+|**07_Reproduce_And_Verify/**     |Original and publication verification scripts.                                                          |
+|**08_Executable_Source_Archive/**|Original executable source and binary release ZIP.                                                      |
+|**09_Legacy_Edition/**           |Earlier portfolios and original historical archives.                                                    |
+|**10_Provenance_And_Integrity/** |Source path mapping, hashes and integrity reports.                                                      |
+|**11_Editorial_Submission/**     |Unsubmitted editorial and availability drafts.                                                          |
 
-Recalculation from preserved spike masks and fresh native execution are distinct tasks. The publication’s verification scripts audit original counts and tables; the source archive retains the compiled research implementation and build/replay instructions.
+The numbered folders are all located within **original\_extracted/Molecular\_Graph\_Research\_Publication\_20261023/**\.
 
-For native reruns, extract the source ZIP to a new location, inspect its dependencies and script entry points, and direct fresh outputs away from the preserved evidence. No universal one-line native build instruction is asserted without checking the extracted source and target toolchain.
+**Start reading:** [Scientific paper](original_extracted/Molecular_Graph_Research_Publication_20261023/01_Research_Article/Research_Article.pdf) · [Study guide](original_extracted/Molecular_Graph_Research_Publication_20261023/03_Study_Guide/ABOUT_THE_STUDY.md) · [Data dictionary](original_extracted/Molecular_Graph_Research_Publication_20261023/04_Data_And_Results/DATA_DICTIONARY.md) · [Full folder guide](original_extracted/Molecular_Graph_Research_Publication_20261023/FOLDER_GUIDE.md) · [Publication index](original_extracted/Molecular_Graph_Research_Publication_20261023/index.html)
 
-Interpretation and scope
+## Reproducibility
 
-Demonstrated in the archived computational evidence: selected constructed DNA/RNA graph contrasts can affect native neural firing and, in some conditions, yield held-out intervention discrimination; selected chemical-bond, RNA-pairing, and geometry-derived contact removals change matched spike masks; the recorded numerical observations can be independently recomputed; compiler and regression receipts are preserved.
+**Complete archive access requires Git LFS\.** Clone **https://github\.com/fireside25a\-beep/N\-Molecular\-Research\.git** with Git and Git LFS installed, then retrieve the LFS objects\. All six nested ZIP paths are retained; two historical ZIPs are byte\-identical and correspond to the same content\-addressed LFS object\.
 
-Not demonstrated by these experiments: blinded experimental base-pair precision/recall, full-RNA three-dimensional structure accuracy, molecular-binding affinity, chemical efficacy, or superiority to RNAfold, RNAstructure, BPfold, other graph-learning methods, or molecular dynamics. Some observed graph effects could be captured by simpler graph algorithms; that requires direct, same-task baselines.
+**Verify byte preservation:** compare every file in **original\_extracted/** with its path, size, and SHA\-256 in [EVIDENCE/SOURCE\_SHA256\_MANIFEST\.csv](EVIDENCE/SOURCE_SHA256_MANIFEST.csv)\. The archived snapshot records 405 original files and 65 original directories\. Git does not natively represent empty directories; the release records their paths in [EVIDENCE/SOURCE\_DIRECTORIES\.txt](EVIDENCE/SOURCE_DIRECTORIES.txt)\.
 
-The original study is an archival computational manuscript, not evidence of journal peer review. The repository snapshot does not recreate missing original development Git history. Third-party rights and licenses need review before adding a blanket repository license or promising unrestricted reuse.
+**Recalculate recorded results:** start with [07\_Reproduce\_And\_Verify](original_extracted/Molecular_Graph_Research_Publication_20261023/07_Reproduce_And_Verify/) and the [original verification scripts](original_extracted/Molecular_Graph_Research_Publication_20261023/07_Reproduce_And_Verify/Original_Verification_Scripts/)\. Independent numerical auditing of stored output is not the same operation as rerunning the native model\.
 
-Source and citation
+**Rerun native computation:** examine the build and replay instructions inside the [executable source archive](original_extracted/Molecular_Graph_Research_Publication_20261023/08_Executable_Source_Archive/)\. Extract to a new location and write new outputs separately from the preserved evidence\. The archive includes historical source and binaries, but no unverified universal build command is prescribed here\.
 
-The authoritative reference for numerical and scientific claims is the research manuscript, supported by raw-derived results, experiment receipts, and source provenance. Until a formal DOI or citation record exists, reference the repository URL, manuscript title and research snapshot date. No DOI, independent biological validation, or peer-review status is implied.
+## Interpretation and research boundaries
+
+The study demonstrates reproducible computational sensitivity of a compiled spiking neural network to **selected** constructed graph rewirings and derived molecular contacts\. It does not demonstrate blind experimental RNA base\-pair F1, full RNA 3D structural accuracy, DNA folding prediction, ligand affinity, medicinal efficacy, or superiority to established folding and graph\-analysis algorithms\. Some responses may reflect simple graph invariants, which require direct same\-task algorithmic baselines\.
+
+The repository is an **archival research release**, not a claim of peer review or a recovered complete original Git development history\. Historical logs and preserved sources are supplied to make the record inspectable\. The original manuscript and its supporting data take precedence over this overview\. Third\-party redistribution and licensing rights should be checked before claiming blanket open\-source licensing\.
+
+**Primary scientific record:** [Research\_Article\.pdf](original_extracted/Molecular_Graph_Research_Publication_20261023/01_Research_Article/Research_Article.pdf) · [Data and results](original_extracted/Molecular_Graph_Research_Publication_20261023/04_Data_And_Results/) · [Experimental evidence](original_extracted/Molecular_Graph_Research_Publication_20261023/06_Experimental_Evidence/) · [Integrity records](original_extracted/Molecular_Graph_Research_Publication_20261023/10_Provenance_And_Integrity/)\.
