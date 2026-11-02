@@ -1,0 +1,5 @@
+/mnt/data/N_Molecular_Research_Portfolio_V3-V11_FINAL_SEALED_20261023/publication_methods/build_research_manuscript.py:296: SyntaxWarning: invalid escape sequence '\m'
+  s+= '\\begin{table}[ht]\\centering\\caption{Constructed graph interventions: historical and fresh-seed classification. Percentages are conditional computational accuracies, not structure-prediction scores.}\\label{tab:six}\\small\\begin{tabular}{lrrrr}\\toprule\n PDB & Earlier (\\%) & Fresh (\\%) & Fresh correct & Holm-adjusted $p$ \\\\\midrule\n'
+/mnt/data/N_Molecular_Research_Portfolio_V3-V11_FINAL_SEALED_20261023/publication_methods/build_research_manuscript.py:314: SyntaxWarning: invalid escape sequence '\m'
+  s+='\\begin{table}[ht]\\centering\\caption{Algorithmic RNA pairing results and recorded model energies.}\n\\small\\begin{tabular}{lrrrr}\\toprule RNA & Weighted pairs & Energy-model pairs & Energy (kcal/mol) & Crossing candidate \\\\\midrule\n'
+Generated 14 public figures and 31171 characters of LaTeX source

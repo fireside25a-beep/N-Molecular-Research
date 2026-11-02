@@ -1,0 +1,1 @@
+sandbox denied file overwrite/create/delete, directory creation, IPv4/Unix sockets, SysV shared memory and fork: PASS

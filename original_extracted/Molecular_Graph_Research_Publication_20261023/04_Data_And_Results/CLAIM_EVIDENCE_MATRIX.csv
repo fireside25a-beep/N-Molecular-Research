@@ -1,0 +1,10 @@
+claim,status,source,interpretation
+V6 cycle-breaking 1KF1 graph classification 196/256,Recorded computational result,data/GRAPH_CLASSIFICATION_CONDITIONS.csv,Closed STDP fresh seed; constructed graph classification
+V6 ring-preserving 1KF1 116/256,Recorded computational result,data/GRAPH_CLASSIFICATION_CONDITIONS.csv,Posthoc ring-preserving constructed intervention
+V7-V8 four additional cases not significant,Recorded source analysis,data/GRAPH_CLASSIFICATION_CONDITIONS.csv,Adjusted p values for primary held-out readout
+V9-V11 XOR-popcount consistency across 13312 records,Independent arithmetic audit,data/ALL_V9_V10_V11_PAIRED_COMPARISONS.csv,Computation of mask disagreement only
+V11 13 MMFF94 minimizers converged,Recorded computational result,data/ATOMIC_FORCE_RESULTS.csv,Molecular mechanics of 8 ligands and 5 four-base RNA fragments
+V11 81 named Python tests passed,Historical execution log,data/TEST_CASE_INDEX.csv,Not re-executed during paper editing
+Experimentally validated RNA tertiary folding accuracy,Not established,data/RNA_FOLDING_STRUCTURES.csv,No paired experimental ground-truth F1/RMSD
+Experimental ligand binding affinity prediction,Not established,data/ALL_CONDITIONS_FROM_RAW.csv,No measured ligand binding data in experimental source
+Outperformance vs ViennaRNA/BPfold/KnotFold,Not established,data/SCIENTIFIC_REFERENCES.csv,No direct benchmark sharing tasks metrics and hardware

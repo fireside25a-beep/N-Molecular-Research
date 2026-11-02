@@ -1,0 +1,405 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=22mm,headheight=16pt]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[utf8]{inputenc}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{booktabs,longtable,array}
+\usepackage{amsmath,amssymb}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{titlesec}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{needspace}
+\definecolor{ink}{HTML}{102C3A}
+\definecolor{accent}{HTML}{146C80}
+\definecolor{muted}{HTML}{526C79}
+\hypersetup{colorlinks=true,linkcolor=accent,urlcolor=accent,pdftitle={N Molecular V3-V11 - Experimental Research Portfolio},pdfauthor={Research Archive}}
+\titleformat{\section}{\Large\bfseries\color{ink}}{\thesection}{1em}{}
+\titleformat{\subsection}{\large\bfseries\color{accent}}{\thesubsection}{1em}{}
+\captionsetup{font=small,labelfont=bf}
+\pagestyle{fancy}\fancyhf{}\lhead{\small N MOLECULAR | V3--V11}\rhead{\small SOURCE-RENDERED RESEARCH}\cfoot{\thepage}
+\setlength{\parskip}{5pt}\setlength{\parindent}{0pt}
+\begin{document}
+\begin{titlepage}
+\centering\vspace*{24mm}
+{\Huge\bfseries\color{ink} N MOLECULAR\\[5pt] Experimental Research Portfolio\par}
+\vspace{8mm}
+{\Large V3--V11 | Source-derived charts, methods, results, audits and literature context\par}
+\vspace{22mm}
+\begin{tabular}{rl}
+13,312 & paired SNN comparisons audited (V9--V11)\\
+100 & archived V6--V8 classification-statistic rows\\
+208 & V9--V11 computational condition summaries\\
+81 & named V11 tests in preserved historical logs\\
+32.067 s & recorded V11 64-seed pipeline runtime
+\end{tabular}
+\vfill
+{\large Research archive snapshot: 23 October 2026}\par
+\vspace{4mm}
+{\small All in-project plots are derived from the recovered files. External benchmarks are shown in a separate literature panel and are not claimed as project outcomes.}\par
+\end{titlepage}
+\tableofcontents\clearpage
+
+\section{Research scope and evidentiary standard}
+This report consolidates experiments originally recorded from V3 through V11. It describes a compiled native spiking neural network (SNN) receiving graph interventions constructed from molecular sequences, chemical bonds, computed RNA secondary structures, or small-molecule and short RNA-fragment geometries. The central observed quantity in V9--V11 is \\emph{neural firing disagreement}; it is not a direct measurement of drug binding, DNA/RNA folding accuracy, free-energy agreement with experiment, or biological efficacy.
+
+\textbf{Evidence layers.} Raw JSONL execution records and source code are primary computational records; source-derived audit CSVs are secondary reconstructions; test logs and SHA-256 manifests establish reproducibility of particular software outputs. Public PDB entries and thermodynamic references identify scientific input provenance or external validation standards, not proof that the SNN recovered atomic structures.
+
+\textbf{Non-independence.} Network resets under deterministic seeds are computational trials, not biological replicates. A model or graph intervention repeated with changed seeds is not independent molecular evidence. V9, V10 and V11 run distinct interventions and should not be pooled as one biological response distribution.
+
+\section{Experiment chronology}
+
+\begin{center}\small\begin{longtable}{lll}
+\toprule
+Stage & Recorded scope & Interpretation\\
+\midrule
+\endfirsthead
+\toprule
+Stage & Recorded scope & Interpretation\\
+\midrule
+\endhead
+V3--V5 & Six-case native DNA/RNA bridge and controlled runs & Constructed molecular graph experiments\\
+V6 & 6,144 additional seed trials; 2,048 ring-control trials & Structural graph discrimination, multiple controls\\
+V7--V8 & Four added RNA classes; 8,192 additional native trials & Negative and positive readout controls, replays\\
+V9 & 2,048 paired SMILES graph comparisons & Chemical-bond graph ablation\\
+V10 & 3,328 paired comparisons & RNA base-pair and 3D conformer contacts\\
+V11 & 7,936 paired comparisons; 13 MMFF94 optimizations & Selected RNA energy, pseudoknot candidates, post-force contacts\\
+\bottomrule
+\end{longtable}
+\end{center}
+\section{Computational methods}
+\subsection{SNN contrast and firing disagreement}
+The experiment constructs matched native runs with contact edges present and absent. The SNN retains the 118-neuron, 324-synapse original scaffold and advances for 48 ticks in each paired execution. For a 22-target-node bitmask at tick $t$ (intact $A_t$, intervened $B_t$), the recorded disagreement fraction is
+\begin{equation}
+D=\frac{1}{48\cdot22}\sum_{t=0}^{47}\operatorname{popcount}(A_t\oplus B_t).
+\end{equation}
+The audit recomputes this fraction from both emitted spike-mask arrays and compares it with the recorded fraction. A larger $D$ indicates more changed target-neuron firing positions under the specified intervention, not improved molecular prediction accuracy.
+
+\subsection{Graph classifier accuracy and conditional permutation nulls}
+The pre-V9 six-case study trains binary graph-intervention decoders on one group of deterministic stimulation seeds and evaluates on held-out seeds. For the binary classification label,
+\begin{equation}
+\mathrm{Accuracy}=\frac{N_{\rm correct}}{N_{\rm total}},\qquad
+p_{\rm conditional}=\frac{1+\#\{a_{\rm null}\ge a_{\rm obs}\}}{4097},
+\end{equation}
+using 4,096 sign-swap permutations in the archived conditional null. Holm family-wise corrections were recorded for prespecified comparison families. These $p$ values describe this computational design, not a population of biological molecules.
+
+\subsection{RNA structure and molecular mechanics}
+V10 uses a weighted nested-pair solver for canonical RNA pairing. V11 augments this with selected experimentally sourced nearest-neighbor energy terms and a crossing-stem candidate search; some thermodynamic terms remain simplified. The short RNA-fragment and ligand geometry path runs RDKit MMFF94 minimization and sampled Cartesian finite-difference checks. RNA fragments are four nucleotides long, not complete tertiary RNA folds. The analytical force consistency condition is sampled as
+\begin{equation}
+\Delta_{\rm grad}=\max_k\left|\frac{\partial E}{\partial x_k} - \frac{E(\mathbf x+h\mathbf e_k)-E(\mathbf x-h\mathbf e_k)}{2h}\right|.
+\end{equation}
+The computed energies are force-field/model outputs, not experimental binding free energies.
+
+\section{Verified experimental results}
+\subsection{Six-case classification and the 1KF1 ring control}
+The V6 readouts for the 1KF1 construct reached 196/256 (76.56\%) on the fresh-seed cycle-breaking comparison. A ring-preserving comparator reached 116/256 (45.31\%), which did not reliably classify the graph intervention. This supports selective sensitivity to the tested cycle organization, not a claim of molecular geometry prediction. The four added V7/V8 RNA cases showed no corrected classification significance.
+
+\subsection{Compound and RNA response interpretation}
+V9 compares intact chemical bond graphs against their computational ablations; V10 uses RDKit-generated spatial contacts; V11 additionally studies post-force contacts and selected pseudoknot structures. Different versions use different interventions. Disagreement values for caffeine or other compounds therefore should not be ranked across versions as improvements in chemical efficacy.
+
+\subsection{V11 execution totals}
+
+\begin{center}\small\begin{longtable}{lrr}
+\toprule
+Branch & Paired comparisons & Native resets\\
+\midrule
+\endfirsthead
+\toprule
+Branch & Paired comparisons & Native resets\\
+\midrule
+\endhead
+Nested RNA & 1,280 & 2,560\\
+RNA crossing-stem candidates & 1,280 & 2,560\\
+Ligand 3D contacts & 2,048 & 4,096\\
+Post-force contacts & 3,328 & 6,656\\
+Total & 7,936 & 15,872\\
+\bottomrule
+\end{longtable}
+\end{center}
+Each reset executes 48 native SNN ticks; therefore the accepted V11 comparison campaign documents 761,856 ticks in 15,872 resets. Its wall time was recorded as 32.067 seconds on the execution host, not as a benchmark against third-party physical simulation programs.
+
+\section{Detailed data visualizations}
+Every exhibit below names the source evidence table and states what the figure does, or does not, measure. Chart images are emitted from the packaged CSVs with documented rendering programs and SHA-256 digests.
+
+\Needspace{0.49\textheight}\subsection{Exhibit 01: Original vs fresh-seed graph classification}
+Six previously studied DNA/RNA graph interventions; performance is intervention-label classification, not fold accuracy.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.96\textwidth,height=0.39\textheight,keepaspectratio]{../figures/01_v6_original_vs_fresh.png}
+\caption{Six previously studied DNA/RNA graph interventions; performance is intervention-label classification, not fold accuracy.}
+\end{figure}
+
+\Needspace{0.49\textheight}\subsection{Exhibit 02: 1KF1 structural ring-control result}
+The distinct cycle-breaking and cycle-preserving comparisons test sensitivity to the contact-cycle configuration.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.96\textwidth,height=0.39\textheight,keepaspectratio]{../figures/02_v6_ring_control.png}
+\caption{The distinct cycle-breaking and cycle-preserving comparisons test sensitivity to the contact-cycle configuration.}
+\end{figure}
+
+\Needspace{0.49\textheight}\subsection{Exhibit 03: Additional RNA structure labels}
+Four RNA cases from the V7/V8 expansion, with retained negative results.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.96\textwidth,height=0.39\textheight,keepaspectratio]{../figures/03_v7_v8_rna_classification.png}
+\caption{Four RNA cases from the V7/V8 expansion, with retained negative results.}
+\end{figure}
+
+\Needspace{0.49\textheight}\subsection{Exhibit 04: V9 chemical-graph screening}
+Eight compounds across four feedback and plasticity settings; response is changed target-neuron firing positions.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.96\textwidth,height=0.39\textheight,keepaspectratio]{../figures/04_v9_chemical_factorial.png}
+\caption{Eight compounds across four feedback and plasticity settings; response is changed target-neuron firing positions.}
+\end{figure}
+
+\Needspace{0.49\textheight}\subsection{Exhibit 05: V10 versus V11 RNA pairing}
+Algorithmically predicted secondary-structure pair counts; experimental accuracy is not plotted.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.96\textwidth,height=0.39\textheight,keepaspectratio]{../figures/05_rna_predicted_pairs.png}
+\caption{Algorithmically predicted secondary-structure pair counts; experimental accuracy is not plotted.}
+\end{figure}
+
+\Needspace{0.49\textheight}\subsection{Exhibit 06: V11 RNA structural arc visualization}
+Computed base-pair connectivity rather than a measured molecular structure.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.96\textwidth,height=0.39\textheight,keepaspectratio]{../figures/06_v11_rna_pair_arcs.png}
+\caption{Computed base-pair connectivity rather than a measured molecular structure.}
+\end{figure}
+
+\Needspace{0.49\textheight}\subsection{Exhibit 07: V11 modeled RNA energies}
+Energy outputs of the implemented partial thermodynamic model, not experimental folding free energies.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.96\textwidth,height=0.39\textheight,keepaspectratio]{../figures/07_v11_partial_rna_energies.png}
+\caption{Energy outputs of the implemented partial thermodynamic model, not experimental folding free energies.}
+\end{figure}
+
+\Needspace{0.49\textheight}\subsection{Exhibit 08: Two separate compound response protocols}
+V9 bond ablation versus V11 spatial-contact ablation; values are not a direct performance comparison.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.96\textwidth,height=0.39\textheight,keepaspectratio]{../figures/08_v9_vs_v11_compounds_distinct_protocols.png}
+\caption{V9 bond ablation versus V11 spatial-contact ablation; values are not a direct performance comparison.}
+\end{figure}
+
+\Needspace{0.49\textheight}\subsection{Exhibit 09: Short RNA-fragment neural response}
+Four-nucleotide fragment contacts drive the SNN; responses are not full RNA folding accuracy.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.96\textwidth,height=0.39\textheight,keepaspectratio]{../figures/09_v11_rna_fragment_response.png}
+\caption{Four-nucleotide fragment contacts drive the SNN; responses are not full RNA folding accuracy.}
+\end{figure}
+
+\Needspace{0.49\textheight}\subsection{Exhibit 10: MMFF94 gradient-consistency checks}
+Sampled differences between analytical force derivatives and numerical finite differences.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.96\textwidth,height=0.39\textheight,keepaspectratio]{../figures/10_v11_gradient_verification.png}
+\caption{Sampled differences between analytical force derivatives and numerical finite differences.}
+\end{figure}
+
+\Needspace{0.49\textheight}\subsection{Exhibit 11: V11 execution stage timing}
+Stage-by-stage measured wall times from the accepted 64-seed pipeline report.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.96\textwidth,height=0.39\textheight,keepaspectratio]{../figures/11_v11_stage_timing.png}
+\caption{Stage-by-stage measured wall times from the accepted 64-seed pipeline report.}
+\end{figure}
+
+\Needspace{0.49\textheight}\subsection{Exhibit 12: Experimental computation volume}
+Counts of preserved paired comparisons; no implication of biological sample size.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.96\textwidth,height=0.39\textheight,keepaspectratio]{../figures/12_version_computational_volume.png}
+\caption{Counts of preserved paired comparisons; no implication of biological sample size.}
+\end{figure}
+
+\Needspace{0.49\textheight}\subsection{Exhibit 13: Recorded regression test suites}
+Preserved V9, V10 and V11 test logs; not newly executed biological validation.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.96\textwidth,height=0.39\textheight,keepaspectratio]{../figures/13_unit_tests_passed.png}
+\caption{Preserved V9, V10 and V11 test logs; not newly executed biological validation.}
+\end{figure}
+
+\Needspace{0.49\textheight}\subsection{Exhibit 14: All ten reported graph classification cases}
+Original six and four later cases used different study designs and are explicitly separated.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.96\textwidth,height=0.39\textheight,keepaspectratio]{../figures_extra/14_all_archived_structure_classification.png}
+\caption{Original six and four later cases used different study designs and are explicitly separated.}
+\end{figure}
+
+\Needspace{0.49\textheight}\subsection{Exhibit 15: V9 complete factorial heatmap}
+Every compound across fixed/closed feedback and enabled/frozen plasticity.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.96\textwidth,height=0.39\textheight,keepaspectratio]{../figures_extra/15_v9_compound_protocol_heatmap.png}
+\caption{Every compound across fixed/closed feedback and enabled/frozen plasticity.}
+\end{figure}
+
+\Needspace{0.49\textheight}\subsection{Exhibit 16: V10 RNA contact response heatmap}
+Five sequences and four SNN control settings.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.96\textwidth,height=0.39\textheight,keepaspectratio]{../figures_extra/16_v10_rna_protocol_heatmap.png}
+\caption{Five sequences and four SNN control settings.}
+\end{figure}
+
+\Needspace{0.49\textheight}\subsection{Exhibit 17: V10 spatial contact counts and response}
+Descriptive comparison of computed contacts and neural firing changes; not binding prediction.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.96\textwidth,height=0.39\textheight,keepaspectratio]{../figures_extra/17_v10_contacts_vs_response.png}
+\caption{Descriptive comparison of computed contacts and neural firing changes; not binding prediction.}
+\end{figure}
+
+\Needspace{0.49\textheight}\subsection{Exhibit 18: V11 RNA pair counts and model energies}
+Two distinct computational outputs; no experimental accuracy scores.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.96\textwidth,height=0.39\textheight,keepaspectratio]{../figures_extra/18_v11_rna_pairs_and_energy.png}
+\caption{Two distinct computational outputs; no experimental accuracy scores.}
+\end{figure}
+
+\Needspace{0.49\textheight}\subsection{Exhibit 19: V11 post-force contact count}
+Thirteen RDKit structures, including eight small molecules and five short RNA fragments.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.96\textwidth,height=0.39\textheight,keepaspectratio]{../figures_extra/19_v11_atomic_contacts.png}
+\caption{Thirteen RDKit structures, including eight small molecules and five short RNA fragments.}
+\end{figure}
+
+\Needspace{0.49\textheight}\subsection{Exhibit 20: Historical experiment volume and test counts}
+Computational scale over three releases; overlapping source logic is preserved.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.96\textwidth,height=0.39\textheight,keepaspectratio]{../figures_extra/20_records_and_tests_growth.png}
+\caption{Computational scale over three releases; overlapping source logic is preserved.}
+\end{figure}
+
+\Needspace{0.49\textheight}\subsection{Exhibit 21: External literature reference results}
+Different published datasets: BPfold on ArchiveII and KnotFold on PKTest; not directly comparable with each other or with the SNN runs.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.96\textwidth,height=0.39\textheight,keepaspectratio]{../figures_extra/21_external_rna_benchmarks.png}
+\caption{Different published datasets: BPfold on ArchiveII and KnotFold on PKTest; not directly comparable with each other or with the SNN runs.}
+\end{figure}
+
+\clearpage\section{Source-derived numerical summary}
+
+\subsection{V11 RNA energy outputs}
+
+\begin{center}\small\begin{longtable}{lrrrl}
+\toprule
+PDB & Length & Pairs & Model energy (kcal/mol) & Crossing candidate\\
+\midrule
+\endfirsthead
+\toprule
+PDB & Length & Pairs & Model energy (kcal/mol) & Crossing candidate\\
+\midrule
+\endhead
+1ZIH & 12 & 4 & -2.74000 & 0\\
+1ZIF & 12 & 4 & -2.74000 & 0\\
+1ZIG & 12 & 4 & -2.74000 & 0\\
+2KOC & 14 & 5 & -5.43000 & 0\\
+1EHZ & 76 & 23 & -14.60356 & 1\\
+\bottomrule
+\end{longtable}
+\end{center}
+\textit{Source: } \texttt{data/RNA\_FOLDING\_STRUCTURES.csv}. The energy entries do not constitute experimental structure-quality measurements.
+\subsection{V11 MMFF94 minimized energies and gradients}
+
+\begin{center}\small\begin{longtable}{lrrrr}
+\toprule
+Structure & Atoms & Final MMFF energy & Max derivative delta & Converged\\
+\midrule
+\endfirsthead
+\toprule
+Structure & Atoms & Final MMFF energy & Max derivative delta & Converged\\
+\midrule
+\endhead
+benzene & 12 & 16.227 & 6.16e-08 & 1\\
+cyclohexane & 18 & -3.561 & 6.62e-08 & 1\\
+naphthalene & 18 & 31.133 & 4.98e-08 & 1\\
+caffeine & 24 & -122.528 & 1.59e-07 & 1\\
+aspirin & 21 & 18.910 & 3.87e-08 & 1\\
+ethanol & 9 & -1.517 & 3.60e-08 & 1\\
+pyridine & 11 & 15.523 & 7.02e-08 & 1\\
+nicotinamide & 15 & 5.024 & 8.37e-08 & 1\\
+1ZIH\_RNA4 & 135 & -463.114 & 6.29e-08 & 1\\
+1ZIF\_RNA4 & 135 & -463.114 & 6.29e-08 & 1\\
+1ZIG\_RNA4 & 135 & -463.114 & 6.29e-08 & 1\\
+2KOC\_RNA4 & 134 & -422.257 & 7.77e-08 & 1\\
+1EHZ\_RNA4 & 135 & -473.756 & 5.75e-08 & 1\\
+\bottomrule
+\end{longtable}
+\end{center}
+\textit{Source: } \texttt{data/ATOMIC\_FORCE\_RESULTS.csv}. Intermolecular energies are not ligand binding energies.
+\subsection{V11 timing ledger}
+
+\begin{center}\small\begin{longtable}{lr}
+\toprule
+Recorded stage & Wall seconds\\
+\midrule
+\endfirsthead
+\toprule
+Recorded stage & Wall seconds\\
+\midrule
+\endhead
+audit\_3d\_ligand\_seconds & 0.9854\\
+audit\_nested\_seconds & 0.9083\\
+audit\_pseudoknot\_seconds & 0.9602\\
+graph\_nested\_seconds & 0.7489\\
+graph\_pseudoknot\_seconds & 0.7813\\
+mmff94\_atomic\_forces\_seconds & 6.9057\\
+native\_3d\_ligand\_seconds & 3.1853\\
+native\_nested\_seconds & 1.5822\\
+native\_post\_force\_seconds & 10.9967\\
+native\_pseudoknot\_seconds & 1.6699\\
+post\_force\_contact\_seconds & 0.8598\\
+real\_3d\_conformer\_seconds & 1.1486\\
+rna\_thermodynamics\_seconds & 0.8488\\
+full\_pipeline\_wall & 32.0671\\
+\bottomrule
+\end{longtable}
+\end{center}
+\section{Reproducibility, raw logs and source audit}
+\subsection{Evidence inventory}
+\begin{itemize}[leftmargin=*]
+\item \texttt{data/ALL\_V9\_V10\_V11\_PAIRED\_COMPARISONS.csv}: 13,312 computational paired records.
+\item \texttt{data/ALL\_CONDITIONS\_FROM\_RAW.csv}: 208 condition summaries.
+\item \texttt{data/GRAPH\_CLASSIFICATION\_CONDITIONS.csv}: 100 archived graph-classifier results.
+\item \texttt{data/FIGURE\_PROVENANCE.csv}: figure-to-source mapping and prior figure hashes.
+\item \texttt{data/FIGURE\_PROVENANCE\_EXTENDED.csv}: added figure-to-source mapping.
+\item \texttt{data/FIGURE\_SHA256\_EXTENDED.csv}: current rendered figure checksums.
+\item \texttt{evidence\_and\_logs/}: preserved logs, source checks, and a reproducible evidence ZIP.
+\item \texttt{reproduce/}: independent verifier and original chart-rendering scripts.
+\item \texttt{prior\_portfolios/}: earlier self-contained portfolio releases retained byte for byte.
+\end{itemize}
+\subsection{Independent audit outcome}
+The previous source audit found 0 errors in 13,312 firing-mask disagreement calculations, 208 condition aggregations, and 100 graph-classification-statistic rows. The archived V11 test ledger identifies 81 passing tests, but this portfolio release is a render-and-archive exercise, not a fresh execution of the entire native machine or external molecular benchmarks. The ZIP includes source and data needed for independent checks.
+\subsection{Scientific interpretation and limitations}
+The project demonstrates the technical ability to execute native SNN experiments, compute selected RNA secondary-structure representations, generate small-molecule conformers, optimize short fragments, and couple resulting graph contacts into neural execution. It has not established a blind experimental benchmark for folding precision/recall, complete atomistic folding trajectories, measured affinity prediction, or superiority over published structural prediction systems. These distinctions are essential for reproducibility and falsifiability.
+
+\section{External scientific literature and data provenance}
+\begin{enumerate}[leftmargin=*]
+\item Turner nearest-neighbor energy model (University of Rochester): \url{https://rna.urmc.rochester.edu/NNDB/}.
+\item RNAstructure thermodynamic tables: \url{https://rna.urmc.rochester.edu/Overview/Parameters.html}.
+\item ViennaRNA RNAfold MFE and partition-function documentation: \url{https://www.tbi.univie.ac.at/RNA/ViennaRNA/doc/html/man/RNAfold.html}.
+\item RDKit force-field helpers API: \url{https://www.rdkit.org/docs/source/rdkit.Chem.rdForceFieldHelpers.html}.
+\item BPfold: ``Deep generalizable prediction of RNA secondary structure via base pair motif energy,'' \emph{Nature Communications} (2025): \url{https://www.nature.com/articles/s41467-025-60048-1}.
+\item KnotFold: ``Accurate prediction of RNA secondary structure including pseudoknots through solving minimum-cost flow with learned potentials,'' \emph{Communications Biology} (2024): \url{https://www.nature.com/articles/s42003-024-05952-w}.
+\item G4ShapePredictor: Liew et al., \emph{Scientific Reports} 14, 24238 (2024): \url{https://www.nature.com/articles/s41598-024-74826-2}.
+\item RCSB experimentally determined RNA structure 1EHZ: \url{https://www.rcsb.org/structure/1EHZ}.
+\end{enumerate}
+The BPfold F1 value of 82.0\% is reported on ArchiveII (3,966 RNAs). KnotFold's overall 75.8\% F1 is reported on PKTest (1,009 pseudoknotted RNAs). These are independent benchmarks with different datasets. Neither is a score achieved by the project described here.
+\end{document}

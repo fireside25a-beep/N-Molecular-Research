@@ -1,0 +1,11 @@
+version,pdb,length,sequence,nested_pairs,model_energy_kcal_mol,weighted_score,pseudoknot_candidate_selected,dot_bracket,source_jsonl
+v10,1ZIH,12,GGGCGCAAGCCU,4,,10,,((((....)))),v10_evidence/native_64/rna/predicted.jsonl
+v10,1ZIF,12,GGGCGAAAGCCU,4,,10,,((((....)))),v10_evidence/native_64/rna/predicted.jsonl
+v10,1ZIG,12,GGGCGAGAGCCU,4,,10,,((((....)))),v10_evidence/native_64/rna/predicted.jsonl
+v10,2KOC,14,GGCACUUCGGUGCC,5,,14,,(((((...).)))),v10_evidence/native_64/rna/predicted.jsonl
+v10,1EHZ,76,GCGGAUUUAGCUCAGUUGGGAGAGCGCCAGACUGAAGAUCUGGAGGUCCUGUGUUCGAUCCACAGAAUUCGCACCA,26,,67,,..((...(.(((((((((((....).))).))))).(((((((.(((.(.(....)))))).)))).).)))))).,v10_evidence/native_64/rna/predicted.jsonl
+v11,1ZIH,12,GGGCGCAAGCCU,4,-2.74,,0,((((....)))),v11/verified_run/rna_thermo.jsonl
+v11,1ZIF,12,GGGCGAAAGCCU,4,-2.74,,0,((((....)))),v11/verified_run/rna_thermo.jsonl
+v11,1ZIG,12,GGGCGAGAGCCU,4,-2.74,,0,((((....)))),v11/verified_run/rna_thermo.jsonl
+v11,2KOC,14,GGCACUUCGGUGCC,5,-5.43,,0,(((((....))))),v11/verified_run/rna_thermo.jsonl
+v11,1EHZ,76,GCGGAUUUAGCUCAGUUGGGAGAGCGCCAGACUGAAGAUCUGGAGGUCCUGUGUUCGAUCCACAGAAUUCGCACCA,23,-14.60356,,1,(((((((...((....((((.((((((..((((...........))))..))))))..)))).)))))))))....,v11/verified_run/rna_thermo.jsonl

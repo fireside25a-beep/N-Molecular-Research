@@ -1,0 +1,7 @@
+argv: ['/mnt/data/N-Molecular-v11-RESEARCH-20261023/bin/fold_screen_native', '/mnt/data/N-Molecular-v11-RESEARCH-20261023/v11/verified_run/rna_nested.graph', '/mnt/data/N-Molecular-v11-RESEARCH-20261023/v11/verified_run/rna_nested_native.jsonl', '0', '64']
+status: 0
+seconds: 1.6259365599999
+stdout:
+
+stderr:
+NATIVE_FOLD_ROWS 1280 COMPOUNDS 5 SEEDS 64

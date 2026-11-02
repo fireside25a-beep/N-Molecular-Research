@@ -1,0 +1,17 @@
+{
+  "public_title": "Structural Sensitivity in a Native Spiking Neural Network Under Molecular Graph Interventions",
+  "article_pdf": "RESEARCH_MANUSCRIPT.pdf",
+  "manuscript_pages": 16,
+  "publication_figures": 14,
+  "historical_figures": 22,
+  "paired_mask_records": 13312,
+  "grouped_conditions": 208,
+  "classifier_statistics": 100,
+  "historical_logged_tests": 81,
+  "sha256_payload_items": 374,
+  "verification": "PASS",
+  "numerical_audit": "PASS",
+  "publication_figure_checksums": "PASS",
+  "nature_of_claim": "reproducible computational structural sensitivity; no experimental biological folding validation",
+  "preserved_original_portfolios": 4
+}

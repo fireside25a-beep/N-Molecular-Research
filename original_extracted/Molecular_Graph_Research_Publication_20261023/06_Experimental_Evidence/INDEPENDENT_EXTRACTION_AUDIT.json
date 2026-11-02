@@ -1,0 +1,86 @@
+{
+  "root": "/mnt/data/N-Molecular-v11-ALL-RECOVERED-GIT-SNAPSHOT-LOGS-20261023/v11-REAL-SOURCE-OFFLINE-GIT",
+  "total_source_files_except_git": 1267,
+  "total_paired_records": 13312,
+  "raw_comparison_rows": {
+    "v9.chemical_bonds": 2048,
+    "v10.rna_nussinov": 1280,
+    "v10.ligand_etkdg": 2048,
+    "v11.rna_nested": 1280,
+    "v11.rna_pseudoknot": 1280,
+    "v11.ligand_3d": 2048,
+    "v11.post_force": 3328
+  },
+  "all_mask_recalculation_mismatches": 0,
+  "anomalies": [],
+  "total_conditions": 208,
+  "graph_classifier_rows": 100,
+  "unit_test_log_cases": 81,
+  "v11_compared_data_hashes": {
+    "atomistic_forces.jsonl": {
+      "listed": "e4ccd0ef90f7a60dd4eec9f1ebff4df4ee5f71289e2bd528683bf6c8fd92ff98",
+      "actual": "e4ccd0ef90f7a60dd4eec9f1ebff4df4ee5f71289e2bd528683bf6c8fd92ff98",
+      "match": true
+    },
+    "ligand_3d.graph": {
+      "listed": "245a8f62aa689cfe66ae99227eb9b3e6af67943cc22f29290657b36f3a7c9d8a",
+      "actual": "245a8f62aa689cfe66ae99227eb9b3e6af67943cc22f29290657b36f3a7c9d8a",
+      "match": true
+    },
+    "ligand_3d_native.jsonl": {
+      "listed": "eabdc50511f559d5e46083b26aa2fe8c56f16ea9e58ca322ca40780f2f109e9f",
+      "actual": "eabdc50511f559d5e46083b26aa2fe8c56f16ea9e58ca322ca40780f2f109e9f",
+      "match": true
+    },
+    "ligand_conformers.sdf": {
+      "listed": "071c6c835933f1ce03b1bde33c7e93f54bd42ede1ff2c862722736433caa5d05",
+      "actual": "071c6c835933f1ce03b1bde33c7e93f54bd42ede1ff2c862722736433caa5d05",
+      "match": true
+    },
+    "minimized_atomistic.sdf": {
+      "listed": "158f26629e47cd52d1929ee0b5c548e80d1e2de1cf828beab7c94f062b4401a8",
+      "actual": "158f26629e47cd52d1929ee0b5c548e80d1e2de1cf828beab7c94f062b4401a8",
+      "match": true
+    },
+    "post_force.graph": {
+      "listed": "ddc27a8d4196c9b9e52d32f3f59c6de0dffc463dd6e22799f4ca5a56ee7ad53b",
+      "actual": "ddc27a8d4196c9b9e52d32f3f59c6de0dffc463dd6e22799f4ca5a56ee7ad53b",
+      "match": true
+    },
+    "post_force_catalog.json": {
+      "listed": "9f201b29685777b2b8ca5826966a1d8210abc7fdc9916c4439f7fcde907154a1",
+      "actual": "9f201b29685777b2b8ca5826966a1d8210abc7fdc9916c4439f7fcde907154a1",
+      "match": true
+    },
+    "post_force_native.jsonl": {
+      "listed": "1bb13de4208b304d820241918c3b58edd9351efb1be74e632f8efb9a0f92da8a",
+      "actual": "1bb13de4208b304d820241918c3b58edd9351efb1be74e632f8efb9a0f92da8a",
+      "match": true
+    },
+    "rna_nested.graph": {
+      "listed": "3523b418120574b81b92bf78e8de384fc1fcbb39c997e40c44b459793316aa16",
+      "actual": "3523b418120574b81b92bf78e8de384fc1fcbb39c997e40c44b459793316aa16",
+      "match": true
+    },
+    "rna_nested_native.jsonl": {
+      "listed": "8392e491a44c35f461c5d1f4a5ea429339270f9ddedc4645645595dccf6ddf4f",
+      "actual": "8392e491a44c35f461c5d1f4a5ea429339270f9ddedc4645645595dccf6ddf4f",
+      "match": true
+    },
+    "rna_pseudoknot.graph": {
+      "listed": "7c5fbd884250eed8e009015f753dd72888bed0962be0c1259f93457baca67083",
+      "actual": "7c5fbd884250eed8e009015f753dd72888bed0962be0c1259f93457baca67083",
+      "match": true
+    },
+    "rna_pseudoknot_native.jsonl": {
+      "listed": "d163378cb3d656fc881e587093b204e7e4ea037ae260a171d9ab19750d47816d",
+      "actual": "d163378cb3d656fc881e587093b204e7e4ea037ae260a171d9ab19750d47816d",
+      "match": true
+    },
+    "rna_thermo.jsonl": {
+      "listed": "3e43ba50320077feef925559953e256794f30b67356cefc894ece107f82a38b7",
+      "actual": "3e43ba50320077feef925559953e256794f30b67356cefc894ece107f82a38b7",
+      "match": true
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "gate": 3,
+  "status": "PASS",
+  "timestamp_utc": "2026-11-02T05:55:11.086631+00:00",
+  "source_path": "/Users/alexmoraru/Desktop/Research ready/Molecular_Graph_Extracted_20261023",
+  "stage_path": "/Users/alexmoraru/Desktop/Molecular_Graph_GitHub_STAGE",
+  "original_files": 405,
+  "original_directories": 65,
+  "nested_zip_archives": 6,
+  "copy_sha256_matches": 405,
+  "missing_files": 0,
+  "extra_files_in_preserved_copy": 0,
+  "directory_path_mismatches": 0,
+  "source_modified_by_script": false
+}

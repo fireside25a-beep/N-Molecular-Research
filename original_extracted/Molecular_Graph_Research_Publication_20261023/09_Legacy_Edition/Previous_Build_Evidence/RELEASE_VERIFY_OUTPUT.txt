@@ -1,0 +1,1 @@
+PASS: 22 source-derived figure hashes, 13,312 paired rows, 208 conditions, 100 classifier rows

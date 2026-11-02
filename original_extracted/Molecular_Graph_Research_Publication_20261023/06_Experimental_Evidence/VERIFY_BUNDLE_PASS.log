@@ -1,0 +1,6 @@
+PASS: 13312 paired trials including native bit-mask XOR/popcount parity
+PASS: all 208 condition-rate aggregates
+PASS: all 100 saved v6–v8 classifier numerator/denominator and permutation results
+PASS: v11 machine receipts, four-branch counts and key retained hash matches
+PASS: 81 historical Python test IDs parsed from original log (not freshly executed)
+NOTE: this audit checks recovered files; no prospective experimental folding accuracy is established

@@ -1,0 +1,21 @@
+test_01_original_v9_source_manifest_verified (test_v10_folding.V10ScientificTests.test_01_original_v9_source_manifest_verified) ... ok
+test_02_rna_five_true_native_sequences (test_v10_folding.V10ScientificTests.test_02_rna_five_true_native_sequences) ... ok
+test_03_independent_exhaustive_nussinov_small (test_v10_folding.V10ScientificTests.test_03_independent_exhaustive_nussinov_small) ... ok
+test_04_rna_deterministic_replay (test_v10_folding.V10ScientificTests.test_04_rna_deterministic_replay) ... ok
+test_05_rna_malformed_batch_does_not_write_output (test_v10_folding.V10ScientificTests.test_05_rna_malformed_batch_does_not_write_output) ... ok
+test_06_rna_existing_output_refused (test_v10_folding.V10ScientificTests.test_06_rna_existing_output_refused) ... ok
+test_07_rna_bridge_rejects_tampered_pairs (test_v10_folding.V10ScientificTests.test_07_rna_bridge_rejects_tampered_pairs) ... ok
+test_08_rna_bridge_rejects_fake_score (test_v10_folding.V10ScientificTests.test_08_rna_bridge_rejects_fake_score) ... ok
+test_09_native_rna_real_causal_contacts (test_v10_folding.V10ScientificTests.test_09_native_rna_real_causal_contacts) ... ok
+test_10_native_rna_byte_replay (test_v10_folding.V10ScientificTests.test_10_native_rna_byte_replay) ... ok
+test_11_spatial_graph_real_mmff_conformer (test_v10_folding.V10ScientificTests.test_11_spatial_graph_real_mmff_conformer) ... ok
+test_12_native_wrong_sha_denied (test_v10_folding.V10ScientificTests.test_12_native_wrong_sha_denied) ... ok
+test_13_invalid_rna_sequence_refused (test_v10_folding.V10ScientificTests.test_13_invalid_rna_sequence_refused) ... ok
+test_14_empty_rna_refused (test_v10_folding.V10ScientificTests.test_14_empty_rna_refused) ... ok
+test_15_no_silent_overwrite_of_native_receipts (test_v10_folding.V10ScientificTests.test_15_no_silent_overwrite_of_native_receipts) ... ok
+test_16_v9_original_bridge_no_replacement (test_v10_folding.V10ScientificTests.test_16_v9_original_bridge_no_replacement) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 6.790s
+
+OK

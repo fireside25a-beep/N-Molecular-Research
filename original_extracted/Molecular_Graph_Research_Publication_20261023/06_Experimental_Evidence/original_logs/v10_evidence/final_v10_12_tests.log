@@ -1,0 +1,19 @@
+test_01_original_v9_sources_unchanged (test_v10.NewV10.test_01_original_v9_sources_unchanged) ... ok
+test_02_rna_structures_basic (test_v10.NewV10.test_02_rna_structures_basic) ... ok
+test_03_optimality_against_independent_oracle (test_v10.NewV10.test_03_optimality_against_independent_oracle) ... ok
+test_04_rna_refusal (test_v10.NewV10.test_04_rna_refusal) ... ok
+test_05_3d_mmff_energy_against_forcefield (test_v10.NewV10.test_05_3d_mmff_energy_against_forcefield) ... ok
+test_06_chemical_negative (test_v10.NewV10.test_06_chemical_negative) ... ok
+test_07_fold_graph_hash_validation (test_v10.NewV10.test_07_fold_graph_hash_validation) ... ok
+test_08_native_replay_exact (test_v10.NewV10.test_08_native_replay_exact) ... ok
+test_09_original_native_parity_exact (test_v10.NewV10.test_09_original_native_parity_exact) ... ok
+test_10_input_output_protection (test_v10.NewV10.test_10_input_output_protection) ... ok
+test_11_integrated_accepted_run (test_v10.NewV10.test_11_integrated_accepted_run) ... ok
+test_12_native_sensitivity_is_not_assay_label (test_v10.NewV10.test_12_native_sensitivity_is_not_assay_label) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.869s
+
+OK
+ETKDG_MMFF_CONFORMERS 2 DISTANCE_CONTACTS 36
+RNA_CONTACT_GRAPH 1

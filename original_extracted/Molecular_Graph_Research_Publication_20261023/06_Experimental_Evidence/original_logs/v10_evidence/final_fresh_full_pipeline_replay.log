@@ -1,0 +1,15 @@
+V10_NATIVE_FOLD_PIPELINE_COMPLETE /mnt/data/N-Molecular-v10-COMPLETE-RESEARCH-E2E-20261023
+----------------------------------------------------------------------
+Ran 31 tests in 3.529s
+
+OK
+----------------------------------------------------------------------
+Ran 16 tests in 7.323s
+
+OK
+----------------------------------------------------------------------
+Ran 12 tests in 1.024s
+
+OK
+ETKDG_MMFF_CONFORMERS 2 DISTANCE_CONTACTS 36
+RNA_CONTACT_GRAPH 1

@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "manuscript_title": "Structural Sensitivity in a Native Spiking Neural Network Under Molecular Graph Interventions",
+  "pdf_pages": 16,
+  "paired_records": 13312,
+  "condition_groups": 208,
+  "historical_classification_results": 100,
+  "source_derived_public_figures": 14,
+  "numerical_errors": 0,
+  "historical_regression_tests": 81,
+  "new_native_experiments_executed": 0,
+  "source_label_policy": "Historical internal release names confined to source metadata and prior archival documents"
+}

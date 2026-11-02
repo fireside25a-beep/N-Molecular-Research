@@ -1,0 +1,9 @@
+publication_or_provider,role,url
+Rochester NNDB / Turner 2004,"Thermodynamic parameter provenance, not full model parity",https://rna.urmc.rochester.edu/NNDB/
+RNAstructure parameters,Complete reference model for comparative secondary structure prediction,https://rna.urmc.rochester.edu/Overview/Parameters.html
+ViennaRNA RNAfold,"Minimum free energy, ensemble / partition function capabilities",https://www.tbi.univie.ac.at/RNA/ViennaRNA/doc/html/usage/man/RNAfold.html
+"BPfold, Nature Communications 2025",External measured structure F1; no direct N benchmark,https://www.nature.com/articles/s41467-025-60048-1
+"G4ShapePredictor, Scientific Reports 2024","External G4 folding-class classification, not 1KF1 constructed graph discrimination",https://www.nature.com/articles/s41598-024-74826-2
+RDKit,ETKDG conformer and MMFF94 computations used by software,https://www.rdkit.org/docs/
+RCSB PDB 1KF1,"Deposited X-ray resolved DNA G-quadruplex, 2.10 Å",https://www.rcsb.org/structure/1KF1
+RCSB PDB 1EHZ,"Deposited yeast tRNA X-ray structure, 1.93 Å",https://www.rcsb.org/structure/1EHZ

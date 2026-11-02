@@ -1,0 +1,7 @@
+argv: ['/opt/pyvenv/bin/python', '/mnt/data/N-Molecular-v11-RESEARCH-20261023/tools/audit_v10.py', '/mnt/data/N-Molecular-v11-RESEARCH-20261023/v11/verified_run/ligand_3d_native.jsonl', '/mnt/data/N-Molecular-v11-RESEARCH-20261023/v11/verified_run/ligand_3d_audit.json']
+status: 0
+seconds: 1.1389188490002198
+stdout:
+V10_RECEIPT_PASS 2048
+
+stderr:

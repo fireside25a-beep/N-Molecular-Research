@@ -1,0 +1,15 @@
+version,stage,seconds,source_json
+v11,audit_3d_ligand_seconds,0.9854286640002101,v11/verified_run/V11_EXECUTION_REPORT.json
+v11,audit_nested_seconds,0.9083345899998676,v11/verified_run/V11_EXECUTION_REPORT.json
+v11,audit_pseudoknot_seconds,0.9601579380005205,v11/verified_run/V11_EXECUTION_REPORT.json
+v11,graph_nested_seconds,0.7488834840005438,v11/verified_run/V11_EXECUTION_REPORT.json
+v11,graph_pseudoknot_seconds,0.7812795770005323,v11/verified_run/V11_EXECUTION_REPORT.json
+v11,mmff94_atomic_forces_seconds,6.905727198000022,v11/verified_run/V11_EXECUTION_REPORT.json
+v11,native_3d_ligand_seconds,3.1853386230004617,v11/verified_run/V11_EXECUTION_REPORT.json
+v11,native_nested_seconds,1.5821650739999313,v11/verified_run/V11_EXECUTION_REPORT.json
+v11,native_post_force_seconds,10.996748943999592,v11/verified_run/V11_EXECUTION_REPORT.json
+v11,native_pseudoknot_seconds,1.6699103660002947,v11/verified_run/V11_EXECUTION_REPORT.json
+v11,post_force_contact_seconds,0.8597797760003232,v11/verified_run/V11_EXECUTION_REPORT.json
+v11,real_3d_conformer_seconds,1.1486106160000418,v11/verified_run/V11_EXECUTION_REPORT.json
+v11,rna_thermodynamics_seconds,0.84879541600003,v11/verified_run/V11_EXECUTION_REPORT.json
+v11,full_pipeline_wall,32.06708316699951,v11/verified_run/V11_EXECUTION_REPORT.json

@@ -1,0 +1,11 @@
+Latexmk: Missing input file 'portfolio_extended.toc' (or dependence on it) from following:
+  No file portfolio_extended.toc.
+Latexmk: Missing bbl file 'portfolio_extended.bbl' in following:
+ No file portfolio_extended.bbl.
+sh: 1: bibtex: not found
+Latexmk: Sometimes, the -f option can be used to get latexmk
+  to try to force complete processing.
+  But normally, you will need to correct the file(s) that caused the
+  error, and then rerun latexmk.
+  In some cases, it is best to clean out generated files before rerunning
+  latexmk after you've corrected the files.

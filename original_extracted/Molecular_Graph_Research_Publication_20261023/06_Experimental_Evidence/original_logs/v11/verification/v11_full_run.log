@@ -1,0 +1,56 @@
+{
+  "V11_COMPLETE": true,
+  "comparison_records": 7936,
+  "total_network_executions": 15872,
+  "rna": {
+    "structures": 5,
+    "nested_base_pairs": 40,
+    "pseudoknot_candidates_selected": 1,
+    "details": [
+      {
+        "id": "1ZIH",
+        "nested_energy_kcal_mol": -2.74,
+        "nested_pairs": 4,
+        "pseudoknot_selected": false,
+        "pseudoknot_pairs": 4
+      },
+      {
+        "id": "1ZIF",
+        "nested_energy_kcal_mol": -2.74,
+        "nested_pairs": 4,
+        "pseudoknot_selected": false,
+        "pseudoknot_pairs": 4
+      },
+      {
+        "id": "1ZIG",
+        "nested_energy_kcal_mol": -2.74,
+        "nested_pairs": 4,
+        "pseudoknot_selected": false,
+        "pseudoknot_pairs": 4
+      },
+      {
+        "id": "2KOC",
+        "nested_energy_kcal_mol": -5.43,
+        "nested_pairs": 5,
+        "pseudoknot_selected": false,
+        "pseudoknot_pairs": 5
+      },
+      {
+        "id": "1EHZ",
+        "nested_energy_kcal_mol": -14.60356,
+        "nested_pairs": 23,
+        "pseudoknot_selected": true,
+        "pseudoknot_pairs": 12
+      }
+    ]
+  },
+  "atomistic": {
+    "molecules": 13,
+    "ligands": 8,
+    "rna_four_nucleotide_fragments": 5,
+    "force_gradient_checks": 13,
+    "converged_minimizers": 13,
+    "max_abs_numeric_vs_analytic_gradient_error": 1.5926466012672336e-07
+  },
+  "seconds": 32.06708316699951
+}

@@ -1,0 +1,221 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[margin=20mm,headheight=15pt]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,microtype}
+\usepackage{graphicx,booktabs,longtable,array,amsmath,amssymb,xcolor,hyperref,float,fancyhdr,enumitem,caption,needspace}
+\definecolor{ink}{HTML}{173340}\definecolor{accent}{HTML}{176D78}\definecolor{muted}{HTML}{617684}
+\hypersetup{colorlinks=true,linkcolor=accent,urlcolor=accent,pdftitle={Structural Sensitivity in a Native Spiking Neural Network Under Molecular Graph Interventions}}
+\captionsetup{font=small,labelfont=bf}
+\pagestyle{fancy}\fancyhf{}\lhead{\small Molecular graph interventions and spiking dynamics}\rhead{\small Computational research}\cfoot{\thepage}
+\setlength{\parskip}{4pt}\setlength{\parindent}{0pt}
+\begin{document}
+\begin{titlepage}
+\vspace*{34mm}
+{\Huge\bfseries\color{ink} Structural Sensitivity in a Native Spiking Neural Network Under Molecular Graph Interventions\par}
+\vspace{11mm}
+{\Large\color{muted} Controlled graph perturbations, RNA pairing inputs, atomic-force-derived contacts, and deterministic neural responses\par}
+\vspace{21mm}
+{\large Archival computational research manuscript\par}
+\vspace{6mm}
+{\normalsize Evidence snapshot: 23 October 2026\par}
+\vspace{15mm}
+\begin{tabular}{rl}
+\textbf{13,312} & independently recalculated paired neural comparison records\\
+\textbf{100} & archived classifier-statistic rows\\
+\textbf{208} & four-factor computational condition summaries\\
+\textbf{81} & named software tests in preserved execution records\\
+\end{tabular}
+\vfill
+\textbf{Scope:} A reproducible computational study of graph-intervention sensitivity. The reported neural responses are not biological folding accuracy, binding affinities, or experimental physical measurements. Authorship and affiliation information are reserved for the research authors; none is invented here.
+\end{titlepage}
+\tableofcontents\clearpage
+\section*{Abstract}\addcontentsline{toc}{section}{Abstract}
+\textbf{Background.} The capacity of a temporally evolving spiking network to retain decodable information about graph organization can be investigated through controlled contact interventions.\par
+\textbf{Methods.} We analyze original compiled spiking-network records spanning a six-case paired graph-classification study, four additional RNA-labelled negative tests, eight chemical-bond graph ablations, five RNA input sequences and 13 molecular-mechanics structures. Matched graph contrasts used deterministic seed resets, controlled stimulation, feedback and plasticity manipulations. Complete 48-tick target-neuron masks were independently rechecked for 13,312 paired comparisons.\par
+\textbf{Results.} In the 1KF1-labelled computational graph, the classifier reached 196/256 correct (76.56\%) under a cycle-breaking rewire, but 116/256 (45.31\%) under a different ring-preserving rewire. The chemical and contact-derived runs yielded nonzero response differences in their supported conditions; they also contained null and reversed learning effects. Thirteen MMFF94 minimizations reported convergence with sampled analytical/numerical gradient agreement. The 13,312 mask-derived disagreement records matched the archived counts.\par
+\textbf{Interpretation.} The compiled network exhibits reproducible sensitivity to selected computational contact interventions. These data do not establish general structural equivalence recognition, experimental RNA structure prediction quality or ligand affinity.\par
+\textbf{Keywords:} spiking neural network; directed graph cycles; molecular representations; contact ablation; deterministic replay; RNA secondary structure; molecular mechanics.
+
+\section{Introduction}
+Changes in contact organization can affect a dynamical neural system even when other input properties are held fixed. To investigate this question without equating computational trajectories with physical chemistry, the experiments considered graph structures associated with deposited DNA and RNA sequences, SMILES-encoded molecular connectivity, and subsequently computed RNA pairing and nonbonded spatial contacts.
+
+The central objective is to quantify \emph{which computational interventions produced decodable or changed neural activity}, not to infer the unknown three-dimensional fold of a molecule. Two endpoints are analyzed separately: held-out classification of intervention identity in the original graph experiments, and the fraction of changed target-neuron firing positions in later paired mask experiments. These endpoints use different experimental units, denominators and hypotheses and are not interchangeable.
+
+Existing molecular folding tools such as ViennaRNA RNAfold predict minimum-free-energy secondary structures and related ensemble observables. Published spiking graph-learning methods and classical graph algorithms also offer distinct comparison targets. No matched benchmark of this particular experiment against those methods appears in the preserved records. Direct cross-paper superiority claims are therefore inappropriate \cite{ViennaRNA,MethodsPolicies}.
+
+\section{Hypotheses and scope}
+\textbf{H1 (graph perturbation):} Changes to selected constructed contact graphs can be discriminated from native spiking activity under held-out deterministic seeds.\par
+\textbf{H2 (cycle selectivity):} A cycle-breaking graph contrast and a cycle-preserving contrast need not produce equal classification performance.\par
+\textbf{H3 (contact influence):} Removing chemical-bond, RNA-pairing, or force-derived contacts can change the native SNN spike masks for matched computational inputs.\par
+\textbf{Not tested:} Prediction of measured molecular binding, held-out physical folding coordinates, chemical reaction rates, or medical outcomes.
+
+\section{Materials and methods}
+\subsection{Native network and experimental unit}
+The preserved original computational scaffold contains 118 neurons and 324 directed synapses. Experiment-specific input nodes and contact edges are added without replacing the compiled native state-transition routine. Runs consist of 48 deterministic ticks per independently reset network. A paired comparison holds seed and declared exogenous stimulation policy matched while varying the recorded contact graph. A seed reset is the unit of computational variation; it is not a biological replicate.
+
+The experimental factors cross native-output-conditioned feedback versus a matched-current fixed schedule with synaptic learning enabled (spike-timing-dependent plasticity, STDP) versus frozen connection weights. The feedback-selected input target can depend on prior native spike output and evolved weights; it is not a chemistry-aware autonomous scientist.
+
+\subsection{Historical classification experiment}
+The initial six input cases use deposited structure identifiers 1BNA, 1ANA, 1WOE, 1RNA, 1ZIH and 1KF1, but the alternative computational contact graphs were \emph{manually constructed} rather than derived from complete crystallographic coordinates. Labels denote the intact or rewired graph. For the later hold-out, the frozen linear classifier evaluated 256 graph labels over 128 fresh stimulus seed pairs. Original classifier readouts use late scaffold-neuron spike identities. Accuracy is
+\begin{equation}\mathrm{Accuracy}=\frac{N_{\mathrm{correct}}}{N_{\mathrm{evaluated}}}.\end{equation}
+The preserved paired-label sign-swap null uses 4,096 permutations, with plus-one probability
+\begin{equation}p_{\mathrm{cond}}=\frac{1+\#\{a_{\mathrm{null}}\geq a_{\mathrm{observed}}\}}{4097}.\end{equation}
+Multiple-test adjustments in the archive follow Holm's step-down rule across the identified hypotheses. These conditional probabilities depend on the chosen training procedure and label-exchangeability assumptions; they are not population biological $p$ values.
+
+\subsection{Constructed cycle controls}
+For the telomeric quadruplex-labelled graph, the original constructed contacts contain directed four-site rings. The coarse rewire replaces their offset-1 arrows with offset-2 arrows, splitting a four-cycle into two reciprocal two-cycles while preserving directed vertex degrees. The subsequently introduced offset-3 alternative preserves each four-cycle while changing its orientation. This was a \emph{post hoc} control, not prospective independent physical confirmation. Figure~\ref{fig:cycle} draws only the source-described graph construction.
+
+\subsection{Paired spike-mask difference}
+For each pair, the original native output records 48 temporal target masks over 22 target slots. If $A_t$ and $B_t$ denote two masks at step $t$, the recorded computational response is
+\begin{equation}\label{eq:disagreement}D=\frac{\sum_{t=0}^{47}\operatorname{popcount}(A_t\oplus B_t)}{48\times22}.\end{equation}
+The audit independently recomputes each XOR/popcount from the recorded masks and reconstructs condition means by summing changed positions over matched pairs. A 64-pair condition therefore has denominator $64\times48\times22$ positions. This is a difference statistic, not a measure of folding success or molecular potency.
+
+\subsection{Chemical-bond and RNA-contact perturbations}
+Chemical structures in the source are eight RDKit-validated SMILES compounds. The bond-graph experiment retains the same atoms while removing the declared bond-derived computational edges. Later input generation uses RDKit ETKDG conformers and MMFF94 optimization to derive spatial contacts, while RNA input generation uses weighted noncrossing base-pair optimization and, in a subsequent branch, selected Turner-derived stack/hairpin terms. The later branch also searches for crossing H-type stems using a separate \emph{heuristic} scoring criterion. These model outputs should not be called a complete RNA folding free-energy landscape.
+
+\subsection{Atomistic force evaluation}
+RDKit MMFF94 was used for eight small-molecule structures and five four-nucleotide RNA fragments. Sampled Cartesian analytical derivatives were compared with centered finite differences, with four checked components per molecular entry in the final record. A small sampled gradient discrepancy confirms consistency of those calculations; it does not establish experimentally correct forces or full-RNA fold geometry \cite{RDKit}.
+
+\subsection{Data analysis and independent checks}
+The archived result table contains 13,312 paired records: 2,048 bond-graph comparisons, 3,328 predicted-contact comparisons and 7,936 extended model/force-contact comparisons. The underlying 48-tick mask pairs were independently audited and grouped into 208 condition summaries. A separate table retains 100 historical graph-classifier result rows. The original logs list 81 passing Python test cases for the final pipeline. The latter are \emph{historical executions}, not tests newly executed by this manuscript-compilation step.
+
+\section{Results}
+\subsection{Held-out discrimination and cycle controls}
+The constructed 1KF1 cycle-breaking comparison achieved 196/256 correct predictions (76.56\%) on fresh held-out seeds, with a six-case Holm-adjusted probability of 0.02783. A separate ring-preserving comparison produced 116/256 correct (45.31\%) and did not demonstrate reliable separation under that readout. This pattern is consistent with a sensitivity to the changed coarse cycle organization. Chance-level performance in the second comparison does \emph{not} prove generalized graph-equivalence recognition. The remaining six-case values and negative results appear in Table~\ref{tab:six}.
+\begin{table}[ht]\centering\caption{Constructed graph interventions: historical and fresh-seed classification. Percentages are conditional computational accuracies, not structure-prediction scores.}\label{tab:six}\small\begin{tabular}{lrrrr}\toprule
+ PDB & Earlier (\%) & Fresh (\%) & Fresh correct & Holm-adjusted $p$ \\\midrule
+1BNA & 50.00 & 49.61 & 127/256 & 1.0000 \
+1ANA & 64.06 & 57.81 & 148/256 & 0.3173 \
+1WOE & 61.72 & 58.59 & 150/256 & 0.0952 \
+1RNA & 53.91 & 52.34 & 134/256 & 0.8692 \
+1ZIH & 43.75 & 46.48 & 119/256 & 1.0000 \
+1KF1 & 74.22 & 76.56 & 196/256 & 0.0278 \
+\bottomrule\end{tabular}\end{table}
+\begin{figure}[p]\centering\includegraphics[width=.96\textwidth,height=.66\textheight,keepaspectratio]{../figures_publication/Figure_01_Held_Out_Graph_Classification.png}\caption{Earlier and fresh-seed held-out accuracy for six computational graph interventions. Source: archived graph-classification table.}\end{figure}
+\begin{figure}[p]\centering\includegraphics[width=.96\textwidth,height=.66\textheight,keepaspectratio]{../figures_publication/Figure_02_Cycle_Intervention_Control.png}\caption{Distinct graph interventions in the telomeric quadruplex-labelled case. Differences in classification are not DNA folding accuracy.}\end{figure}
+\begin{figure}[p]\centering\includegraphics[width=.98\textwidth]{../figures_publication/Figure_03_Source_Specified_Cycle_Graphs.png}\caption{Source-defined directed cycle interventions, schematic from recorded edge offsets (+1, +2, +3).}\label{fig:cycle}\end{figure}
+\subsection{Four additional RNA-labelled contact graph cases}
+The four later RNA-labelled cases did not pass their documented multiple-test correction. Their measured primary accuracies were 44.92\% for 1ZIF, 44.92\% for 1ZIG, 53.52\% for 2KOC and 48.05\% for 1EHZ. These are classification of constructed graph interventions, not four external RNA folding tests.
+\begin{figure}[p]\centering\includegraphics[width=.96\textwidth,height=.66\textheight,keepaspectratio]{../figures_publication/Figure_04_Additional_RNA_Cases.png}\caption{Additional RNA-labelled intervention accuracies. The preserved null results are part of the outcome.}\end{figure}
+\subsection{Chemical-bond graph ablations}
+Eight chemically valid SMILES inputs were screened under the two feedback modes and two plasticity states. The result was the proportion of target-neuron firing positions that changed when bond-derived contact edges were removed. For caffeine, the native-feedback/STDP condition yielded 17.17\% altered firing positions; the corresponding frozen-weight condition yielded 10.93\%. Such differences demonstrate sensitivity to the computational intervention, not stimulant activity, toxicity or affinity. The full factorial values are shown in Figure~\ref{fig:chem} and the per-seed caffeine distribution is retained rather than reporting only means.
+\begin{figure}[p]\centering\includegraphics[width=.95\textwidth]{../figures_publication/Figure_05_Chemical_Bond_Ablation.png}\caption{All eight compounds across the four experimentally declared SNN control settings.}\label{fig:chem}\end{figure}
+\begin{figure}[p]\centering\includegraphics[width=.96\textwidth,height=.66\textheight,keepaspectratio]{../figures_publication/Figure_06_Caffeine_Paired_Seed_Distributions.png}\caption{Caffeine paired-seed distributions in four SNN configurations; each box summarizes 64 computational seed pairs.}\end{figure}
+\subsection{RNA structure calculations and contact ablations}
+For the five RNA input sequences, the earlier weighted nested-pair solver predicted respectively 4, 4, 4, 5 and 26 pairs; the selected-energy-term model predicted 4, 4, 4, 5 and 23 pairs. The later model outputs were $-2.74$, $-2.74$, $-2.74$, $-5.43$ and $-14.60356$ kcal/mol. They reflect its implemented model terms, including simplified internal/bulge penalties, and are not experimentally measured RNA free energies. A separate crossing-stem search selected a 1EHZ candidate; the candidate's heuristic score is not Gibbs free energy and does not validate the actual tRNA tertiary fold.
+\begin{table}[ht]\centering\caption{Algorithmic RNA pairing results and recorded model energies.}
+\small\begin{tabular}{lrrrr}\toprule RNA & Weighted pairs & Energy-model pairs & Energy (kcal/mol) & Crossing candidate \\\midrule
+1ZIH & 4 & 4 & -2.740 & No \
+1ZIF & 4 & 4 & -2.740 & No \
+1ZIG & 4 & 4 & -2.740 & No \
+2KOC & 5 & 5 & -5.430 & No \
+1EHZ & 26 & 23 & -14.604 & Yes \
+\bottomrule\end{tabular}\end{table}
+\begin{figure}[p]\centering\includegraphics[width=.96\textwidth,height=.66\textheight,keepaspectratio]{../figures_publication/Figure_07_RNA_Pairing_Algorithms.png}\caption{Predicted base-pair counts for the same five RNA sequences under two documented computational models.}\end{figure}
+\begin{figure}[p]\centering\includegraphics[width=.96\textwidth,height=.66\textheight,keepaspectratio]{../figures_publication/Figure_08_RNA_Model_Energies.png}\caption{Recorded RNA model energies. They do not quantify experimental folding accuracy.}\end{figure}
+\begin{figure}[p]\centering\includegraphics[width=.96\textwidth,height=.66\textheight,keepaspectratio]{../figures_publication/Figure_09_RNA_Contact_Ablations.png}\caption{Native target-neuron sensitivity to removal of RNA-pairing contacts. These are ablation-response percentages, not RNA base-pair F1.}\end{figure}
+\subsection{MMFF94 molecular mechanics and spatial contacts}
+Eight small molecules and five four-nucleotide RNA fragments were subjected to RDKit MMFF94 minimization. The final record reports convergence for all 13 cases and a largest sampled analytical-vs-numerical gradient difference of $1.59\times 10^{-7}$ kcal/mol/\AA. The five RNA inputs are short \emph{fragments}, not whole RNA atomistic folding predictions. The fragments attached to 1ZIH, 1ZIF and 1ZIG share their first four nucleotides, and therefore share computed atomic outputs; they are not independent molecular confirmations. The coordinate-derived contacts and the recorded neural-response differences depend on the implemented contact definition.
+\begin{figure}[p]\centering\includegraphics[width=.96\textwidth,height=.66\textheight,keepaspectratio]{../figures_publication/Figure_10_Force_Gradient_Checks.png}\caption{Numerical gradient consistency for all 13 source-minimized molecular systems.}\end{figure}
+\begin{figure}[p]\centering\includegraphics[width=.96\textwidth,height=.66\textheight,keepaspectratio]{../figures_publication/Figure_11_Post_Optimization_Contacts.png}\caption{Computed spatial contacts for eight small-molecule structures and five four-nucleotide RNA fragments.}\end{figure}
+\begin{figure}[p]\centering\includegraphics[width=.96\textwidth,height=.66\textheight,keepaspectratio]{../figures_publication/Figure_12_Post_Force_Chemical_Sensitivity.png}\caption{Chemical contact-ablation responses in the post-optimization branch; means across the four recorded settings, not potency estimates.}\end{figure}
+\subsection{Recorded execution and regression}
+The final molecular analysis campaign produced 7,936 paired comparisons, representing 15,872 network resets at 48 ticks each, or 761,856 SNN ticks. One recorded end-to-end pipeline run took 32.067 seconds on its execution host, excluding a fresh full upstream rebuild. This is a single-host measured workload, not a task-matched speed comparison with independent molecular simulators. Cross-compiler/sanitizer evidence and 81 named historical Python test outcomes are preserved in the supplementary logs. The later one-shot upstream test command was interrupted, although individual follow-up commands passed; it is not described as a full one-shot successful rerun.
+\begin{figure}[p]\centering\includegraphics[width=.96\textwidth,height=.66\textheight,keepaspectratio]{../figures_publication/Figure_13_Record_Stage_Timings.png}\caption{Recorded stage timings for the final 64-seed workload; compiler and independent biological benchmarks are excluded.}\end{figure}
+\begin{figure}[p]\centering\includegraphics[width=.96\textwidth,height=.66\textheight,keepaspectratio]{../figures_publication/Figure_14_Software_Regression.png}\caption{Historical Python test counts in preserved logs; software regressions are distinct from scientific prediction accuracy.}\end{figure}
+\section{Discussion}
+The principal computational observation is that a stateful native spiking network can exhibit reproducible contact-graph sensitivity under specified interventions. The telomeric quadruplex-labelled cycle experiment offers a particularly interpretable result because its non-significant ring-preserving control narrows the mechanism consistent with the original contrast. The later chemical, pairing-derived and post-force contact experiments demonstrate additional input pathways into the same native network, but use different interventions and should not be treated as direct repetitions of the cycle-discrimination experiment.
+
+A key alternative explanation is that simple graph features or exact cycle-decomposition algorithms suffice for portions of the intervention task. The existing record does not contain a controlled same-task graph-algorithm baseline or held-out biological structure benchmark. Accordingly, this manuscript makes neither a novelty claim for graph cycle detection itself nor a claim of superiority to established spiking graph models or physical folding predictors. Evidence here supports \emph{conditional computational sensitivity and reproducibility}.
+
+The binary classifier score and mask-disagreement fraction measure different events and should not be pooled. Similarly, statistical variability over deterministic seeds is not the same as biological uncertainty over independent specimens. The figure provenance, negative results and exact build/test records are retained to make those distinctions reviewable.
+
+\section{Limitations and independent validation}
+The contact interventions in the original DNA/RNA studies were manually constructed, even though their molecular accession records are real. The RNA energy model is not a complete nearest-neighbor thermodynamic implementation, and the crossing-stem predictor is a deterministic heuristic candidate search. MMFF94 calculations involve short RNA fragments rather than full coordinate prediction of 76-nucleotide tRNA. No ligand-binding measurements or held-out experimental RNA coordinate comparisons under the same evaluation protocol appear in this record.
+
+Necessary future experiments include graph-label tests across new graph families with exact-algorithm and graph-learning baselines, blind experimental RNA base-pair comparisons with family-separated splits, and independent three-dimensional structure evaluation when a full-coordinate model exists. These are \emph{planned validations}, not experiments claimed as completed here.
+
+\section{Reproducibility and availability}\subsection{Data availability}
+All numerical observations discussed here are contained in the accompanying local research archive. The main files are \texttt{data/GRAPH\_CLASSIFICATION\_CONDITIONS.csv}, \texttt{data/ALL\_CONDITIONS\_FROM\_RAW.csv}, \texttt{data/ALL\_V9\_V10\_V11\_PAIRED\_COMPARISONS.csv}, \texttt{data/RNA\_FOLDING\_STRUCTURES.csv}, \texttt{data/ATOMIC\_FORCE\_RESULTS.csv}, and \texttt{data/RECORDED\_TIMING\_SECONDS.csv}. Each source-data lineage is preserved in the supplementary evidence package. \emph{No external DOI or public deposit is claimed.}
+\subsection{Code availability}
+The original executable research source and its historical archives are bundled in \texttt{native\_source\_release/}. The paper-generation code is under \texttt{publication\_methods/}. Re-execution requires a matching native development toolchain and the documented scientific dependencies; the provided audit scripts can independently verify the numerical records without rerunning the molecular engine. No GitHub repository update or new permanent upstream deposit is implied.
+\subsection{Verification levels}
+Recorded output integrity and numerical recomputation are distinct from independent biological validity. The portfolio verifier recalculates the 13,312 individual disagreement records and 208 grouped conditions and checks 100 graph classification rows. The previous software logs are historical and are labelled accordingly. A current rendered-PDF build is evidence of document generation, not a fresh native molecular experiment.
+
+\section{Conclusion}
+The preserved native SNN records establish reproducible intervention-dependent responses for specified constructed molecular contact graphs and programmatically derived chemical, RNA and short-fragment structural contacts. In the main graph-classification case, the strong cycle-breaking result and the non-significant ring-preserving control together narrow the supported explanation to sensitivity to the tested graph organization. Biological folding and ligand prediction performance, and relative superiority to established methods, require prospective task-matched validation.
+
+\section{Selected scientific references}
+\begin{thebibliography}{9}
+\bibitem{ViennaRNA} ViennaRNA Package. RNAfold manual: minimum-free-energy structures and partition functions. \url{https://www.tbi.univie.ac.at/RNA/ViennaRNA/doc/html/man/RNAfold.html}.
+\bibitem{RDKit} RDKit Project. Force-field helpers API and documented molecular force-field routines. \url{https://www.rdkit.org/docs/source/rdkit.Chem.rdForceFieldHelpers.html}.
+\bibitem{RCSB} RCSB Protein Data Bank. PDB 1EHZ: yeast phenylalanine tRNA experimental crystal structure (1.93 \AA). \url{https://www.rcsb.org/structure/1EHZ}.
+\bibitem{MethodsPolicies} PLOS Computational Biology. Submission guidelines: reproducibility, data and code availability, claims supported by methods. \url{https://journals.plos.org/ploscompbiol/s/submission-guidelines}.
+\bibitem{SRPolicies} Scientific Reports. Editorial policies: data and code availability for reproducibility. \url{https://www.nature.com/srep/journal-policies/editorial-policies}.
+\end{thebibliography}
+\clearpage\appendix
+\section{Supplementary experiment registry and provenance}
+Internal historical version identifiers (e.g. \texttt{v6}, \texttt{v9}, \texttt{v10}, \texttt{v11}) are retained \emph{only} in the machine-readable source metadata to locate their original records. They are not scientific model names or public results labels. The preserved older portfolio reports are included under \texttt{prior\_portfolios/} for archival transparency; this manuscript supersedes their public-facing narrative.
+\subsection{Dataset and outcome ledger}
+\begin{center}\small\begin{longtable}{lrr}
+\toprule
+Experiment & Paired comparisons & Native resets\\
+\midrule
+\endfirsthead
+\toprule
+Experiment & Paired comparisons & Native resets\\
+\midrule
+\endhead
+Bond-graph perturbation & 2,048 & 4,096\\
+Predicted RNA contacts + 3D ligands & 3,328 & 6,656\\
+Energy-derived RNA + post-force contacts & 7,936 & 15,872\\
+\bottomrule
+\end{longtable}
+\end{center}
+\subsection{Five RNA sequences}
+\begin{center}\small\begin{longtable}{lrrrr}
+\toprule
+PDB & Weighted pairs & Energy-model pairs & Energy (kcal/mol) & Crossing candidate\\
+\midrule
+\endfirsthead
+\toprule
+PDB & Weighted pairs & Energy-model pairs & Energy (kcal/mol) & Crossing candidate\\
+\midrule
+\endhead
+1ZIH & 4 & 4 & -2.740 & No\\
+1ZIF & 4 & 4 & -2.740 & No\\
+1ZIG & 4 & 4 & -2.740 & No\\
+2KOC & 5 & 5 & -5.430 & No\\
+1EHZ & 26 & 23 & -14.604 & Yes\\
+\bottomrule
+\end{longtable}
+\end{center}
+\subsection{Atomistic minimization ledger}
+\begin{center}\scriptsize\begin{longtable}{lrrrr}
+\toprule
+Structure & Atoms & Final MMFF energy & Derivative error & Converged\\
+\midrule
+\endfirsthead
+\toprule
+Structure & Atoms & Final MMFF energy & Derivative error & Converged\\
+\midrule
+\endhead
+benzene & 12 & 16.227 & 6.16e-08 & Yes\\
+cyclohexane & 18 & -3.561 & 6.62e-08 & Yes\\
+naphthalene & 18 & 31.133 & 4.98e-08 & Yes\\
+caffeine & 24 & -122.528 & 1.59e-07 & Yes\\
+aspirin & 21 & 18.910 & 3.87e-08 & Yes\\
+ethanol & 9 & -1.517 & 3.60e-08 & Yes\\
+pyridine & 11 & 15.523 & 7.02e-08 & Yes\\
+nicotinamide & 15 & 5.024 & 8.37e-08 & Yes\\
+1ZIH RNA fragment & 135 & -463.114 & 6.29e-08 & Yes\\
+1ZIF RNA fragment & 135 & -463.114 & 6.29e-08 & Yes\\
+1ZIG RNA fragment & 135 & -463.114 & 6.29e-08 & Yes\\
+2KOC RNA fragment & 134 & -422.257 & 7.77e-08 & Yes\\
+1EHZ RNA fragment & 135 & -473.756 & 5.75e-08 & Yes\\
+\bottomrule
+\end{longtable}
+\end{center}
+\subsection{Independent audit contract}
+Figure-to-data SHA-256 mapping is in \texttt{data/PUBLICATION\_FIGURE\_PROVENANCE.csv}. The numerical verification script checks source pairing, integer XOR-popcount totals, denominator normalization, grouped condition counts and historical graph-classification rows. A reader can reproduce the entire PDF via the included LaTeX source and \texttt{latexmk} or \texttt{pdflatex}. The original archive includes test logs, compiler receipts, invalid-input tests and cross-compiler replay evidence; these are not replaced with synthetic outputs.
+\end{document}

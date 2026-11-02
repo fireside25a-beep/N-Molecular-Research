@@ -1,0 +1,14 @@
+# Primary scientific sources, reference methods and limitations
+
+1. Nearest Neighbor Database, Turner 2004 RNA folding parameters: https://rna.urmc.rochester.edu/NNDB/ . Original research: Mathews et al. (2004), PNAS 101, 7287–7292. The N program uses sourced stacking and hairpin initiation terms at 37 °C, with explicitly declared simplified internal/bulge treatment. The available energy model is not parameter-complete.
+2. Turner 2004 **hairpin initiation** table: https://rna.urmc.rochester.edu/NNDB/parameter_tables/turner_2004_rnastructure/turner_2004_hairpin_initiation.htm . Direct source for 3–9 nucleotide loop-initiation values used in code.
+3. Turner 2004 **internal loops**: https://rna.urmc.rochester.edu/NNDB/rna_2004/rna_2004_internal_loops.html . Shows precisely why an arbitrary simplified internal-loop penalty cannot be presented as full experimental nearest-neighbor energetics.
+4. Turner **multibranch loops**: https://rna.urmc.rochester.edu/NNDB/rna_2004/rna_2004_multibranch_loops.html . Native N model currently does not implement this complete functional form.
+5. ViennaRNA RNAfold documentation: https://viennarna.readthedocs.io/en/latest/man/RNAfold.html and model parameter docs https://viennarna.readthedocs.io/en/latest/eval/energy_parameters.html . Reference for state-of-practice MFE + ensemble partition-function folding and parameter handling. Not an embedded dependency of v11.
+6. RNAstructure parameter reference: https://rna.urmc.rochester.edu/Overview/Parameters.html . V11 is **not** a replacement for this mature software.
+7. RNA pseudoknot algorithm comparison: https://pmc.ncbi.nlm.nih.gov/articles/PMC5886407/ (2018; IPknot, HotKnots, CCJ and Iterative HFold compared under shared models). Explains why pseudoknot *detection* under a two-stem heuristic does not establish a validated energy optimum.
+8. RDKit documentation and source: https://www.rdkit.org/docs/ and https://www.rdkit.org/docs/source/rdkit.Chem.AllChem.html . `rdkit.Chem.AllChem.ETKDGv3`, `MMFFGetMoleculeProperties`, `MMFFGetMoleculeForceField`, analytic `CalcGrad`, `CalcEnergy` and `Minimize` are executed directly; use `v11/verified_run/atomistic_forces.jsonl` for numerical verification.
+9. RCSB PDB primary structure sources for historical RNAs: https://www.rcsb.org/structure/1ZIH , https://www.rcsb.org/structure/1ZIF , https://www.rcsb.org/structure/1ZIG , https://www.rcsb.org/structure/2KOC , https://www.rcsb.org/structure/1EHZ . These are sequence provenance references, not physical force-field input coordinates in the v11 machine.
+10. Preserved independent ten-case research reports in `research/v8/SCIENCE_AND_SOURCES.md` and `research/v6/SCIENTIFIC_REPORT.md`, plus unchanged original v9 ZIP in `history_original_zip`.
+
+All references were inspected as public scientific context. No experimental 3D RNA model or chemical binding measurements were manufactured to make the test matrix appear complete.

@@ -1,0 +1,10 @@
+V7 NATIVE PAIR-PRESERVING TOPOLOGY EXAMINATION
+1ZIF accuracy=0.449219 correct=115/256 raw_p=0.882353 Holm4=1.000000 spike_JSD=0.02148 bits
+1ZIG accuracy=0.449219 correct=115/256 raw_p=0.837686 Holm4=1.000000 spike_JSD=0.02388 bits
+2KOC accuracy=0.535156 correct=137/256 raw_p=0.137662 Holm4=0.550647 spike_JSD=0.01998 bits
+1EHZ accuracy=0.480469 correct=123/256 raw_p=0.758116 Holm4=1.000000 spike_JSD=0.02553 bits
+CROSS-MOTIF 1ZIH source decoder -> new structures:
+1ZIF accuracy=0.531250 (136/256), paired rank=0.507812
+1ZIG accuracy=0.488281 (125/256), paired rank=0.492188
+NATIVE_ROWS=8192, INDEPENDENT_CHECKS=129024, SHA256=0cf0c9bea50316f270072792fd6a6b83d1ba7f1ec330735ef18a1b75ddcb5bae
+

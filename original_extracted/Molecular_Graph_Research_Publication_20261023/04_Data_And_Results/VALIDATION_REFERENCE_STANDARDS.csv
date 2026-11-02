@@ -1,0 +1,8 @@
+resource,what_it_documents,url
+BPfold (2025),ArchiveII family-aware and PDB base-pair F1 benchmarks,https://www.nature.com/articles/s41467-025-60048-1
+KnotFold (2024),Pseudoknot-bearing secondary structure and minimum-cost-flow approach,https://www.nature.com/articles/s42003-024-05952-w
+RNA3DB (2024),Structurally dissimilar RNA train-test partitions,https://doi.org/10.1016/j.jmb.2024.168552
+ViennaRNA RNAfold,"MFE, partition-function and base-pairing probability standards",https://www.tbi.univie.ac.at/RNA/ViennaRNA/doc/html/man/RNAfold.html
+RDKit force-field helpers,MMFF94/force field interfaces and formula semantics,https://www.rdkit.org/docs/source/rdkit.Chem.rdForceFieldHelpers.html
+RCSB 1EHZ,Experimental 1.93 Angstrom RNA structure,https://www.rcsb.org/structure/1EHZ
+Scientific Data guidelines,Methods technical validation and availability disclosure,https://www.nature.com/sdata/publish/submission-guidelines

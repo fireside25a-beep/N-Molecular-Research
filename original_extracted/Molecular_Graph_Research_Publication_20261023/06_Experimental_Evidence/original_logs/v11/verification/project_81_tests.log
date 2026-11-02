@@ -1,0 +1,91 @@
+test_01_core_manifest (test_pipeline.NativeScientificTests.test_01_core_manifest) ... ok
+test_02_rdkit_valid_caffeine (test_pipeline.NativeScientificTests.test_02_rdkit_valid_caffeine) ... ok
+test_03_invalid_smiles_refused (test_pipeline.NativeScientificTests.test_03_invalid_smiles_refused) ... ok
+test_04_invalid_valence_refused (test_pipeline.NativeScientificTests.test_04_invalid_valence_refused) ... ok
+test_05_disconnected_salt_refused (test_pipeline.NativeScientificTests.test_05_disconnected_salt_refused) ... ok
+test_06_bad_id_refused (test_pipeline.NativeScientificTests.test_06_bad_id_refused) ... ok
+test_07_smiles_canonical_equivalence (test_pipeline.NativeScientificTests.test_07_smiles_canonical_equivalence) ... ok
+test_08_connectivity_distinguishes_isomers (test_pipeline.NativeScientificTests.test_08_connectivity_distinguishes_isomers) ... ok
+test_09_isotope_distinction (test_pipeline.NativeScientificTests.test_09_isotope_distinction) ... ok
+test_10_stereochemistry_distinction (test_pipeline.NativeScientificTests.test_10_stereochemistry_distinction) ... ok
+test_11_native_receipt_sha_rejection (test_pipeline.NativeScientificTests.test_11_native_receipt_sha_rejection) ... ok
+test_12_native_duplicate_id_rejection (test_pipeline.NativeScientificTests.test_12_native_duplicate_id_rejection) ... ok
+test_13_native_integer_attack_refused (test_pipeline.NativeScientificTests.test_13_native_integer_attack_refused) ... ok
+test_14_native_run_is_bit_reproducible (test_pipeline.NativeScientificTests.test_14_native_run_is_bit_reproducible) ... ok
+test_15_preserved_scaffold (test_pipeline.NativeScientificTests.test_15_preserved_scaffold) ... ok
+test_16_factorial_interventions (test_pipeline.NativeScientificTests.test_16_factorial_interventions) ... ok
+test_17_stimulus_identity (test_pipeline.NativeScientificTests.test_17_stimulus_identity) ... ok
+test_18_frozen_weights (test_pipeline.NativeScientificTests.test_18_frozen_weights) ... ok
+test_19_bond_counterfactual (test_pipeline.NativeScientificTests.test_19_bond_counterfactual) ... ok
+test_20_input_overwrite_refusal (test_pipeline.NativeScientificTests.test_20_input_overwrite_refusal) ... ok
+test_21_preparation_batch_atomic_rejection (test_pipeline.NativeScientificTests.test_21_preparation_batch_atomic_rejection) ... ok
+test_22_coordinateless_audit_refused (test_pipeline.NativeScientificTests.test_22_coordinateless_audit_refused) ... ok
+test_23_corrupt_coordinates_refused (test_pipeline.NativeScientificTests.test_23_corrupt_coordinates_refused) ... ok
+test_24_analysis_denies_modified_receipts (test_pipeline.NativeScientificTests.test_24_analysis_denies_modified_receipts) ... ok
+test_25_source_hash (test_pipeline.NativeScientificTests.test_25_source_hash) ... ok
+test_26_canonical_atom_order_from_rdkit (test_pipeline.NativeScientificTests.test_26_canonical_atom_order_from_rdkit) ... ok
+test_27_causal_feedback_trace (test_pipeline.NativeScientificTests.test_27_causal_feedback_trace) ... ok
+test_28_wrong_feedback_refused (test_pipeline.NativeScientificTests.test_28_wrong_feedback_refused) ... ok
+test_29_corrupted_event_masks_refused (test_pipeline.NativeScientificTests.test_29_corrupted_event_masks_refused) ... ok
+test_30_full_64_seed_cross_build_equality (test_pipeline.NativeScientificTests.test_30_full_64_seed_cross_build_equality) ... ok
+test_31_information_theoretic_ranges (test_pipeline.NativeScientificTests.test_31_information_theoretic_ranges) ... ok
+test_01_original_v9_sources_unchanged (test_v10.NewV10.test_01_original_v9_sources_unchanged) ... ok
+test_02_rna_structures_basic (test_v10.NewV10.test_02_rna_structures_basic) ... ok
+test_03_optimality_against_independent_oracle (test_v10.NewV10.test_03_optimality_against_independent_oracle) ... ok
+test_04_rna_refusal (test_v10.NewV10.test_04_rna_refusal) ... ok
+test_05_3d_mmff_energy_against_forcefield (test_v10.NewV10.test_05_3d_mmff_energy_against_forcefield) ... ok
+test_06_chemical_negative (test_v10.NewV10.test_06_chemical_negative) ... ok
+test_07_fold_graph_hash_validation (test_v10.NewV10.test_07_fold_graph_hash_validation) ... ok
+test_08_native_replay_exact (test_v10.NewV10.test_08_native_replay_exact) ... ok
+test_09_original_native_parity_exact (test_v10.NewV10.test_09_original_native_parity_exact) ... ok
+test_10_input_output_protection (test_v10.NewV10.test_10_input_output_protection) ... ok
+test_11_integrated_accepted_run (test_v10.NewV10.test_11_integrated_accepted_run) ... ok
+test_12_native_sensitivity_is_not_assay_label (test_v10.NewV10.test_12_native_sensitivity_is_not_assay_label) ... ok
+test_01_original_v9_source_manifest_verified (test_v10_folding.V10ScientificTests.test_01_original_v9_source_manifest_verified) ... ok
+test_02_rna_five_true_native_sequences (test_v10_folding.V10ScientificTests.test_02_rna_five_true_native_sequences) ... ok
+test_03_independent_exhaustive_nussinov_small (test_v10_folding.V10ScientificTests.test_03_independent_exhaustive_nussinov_small) ... ok
+test_04_rna_deterministic_replay (test_v10_folding.V10ScientificTests.test_04_rna_deterministic_replay) ... ok
+test_05_rna_malformed_batch_does_not_write_output (test_v10_folding.V10ScientificTests.test_05_rna_malformed_batch_does_not_write_output) ... ok
+test_06_rna_existing_output_refused (test_v10_folding.V10ScientificTests.test_06_rna_existing_output_refused) ... ok
+test_07_rna_bridge_rejects_tampered_pairs (test_v10_folding.V10ScientificTests.test_07_rna_bridge_rejects_tampered_pairs) ... ok
+test_08_rna_bridge_rejects_fake_score (test_v10_folding.V10ScientificTests.test_08_rna_bridge_rejects_fake_score) ... ok
+test_09_native_rna_real_causal_contacts (test_v10_folding.V10ScientificTests.test_09_native_rna_real_causal_contacts) ... ok
+test_10_native_rna_byte_replay (test_v10_folding.V10ScientificTests.test_10_native_rna_byte_replay) ... ok
+test_11_spatial_graph_real_mmff_conformer (test_v10_folding.V10ScientificTests.test_11_spatial_graph_real_mmff_conformer) ... ok
+test_12_native_wrong_sha_denied (test_v10_folding.V10ScientificTests.test_12_native_wrong_sha_denied) ... ok
+test_13_invalid_rna_sequence_refused (test_v10_folding.V10ScientificTests.test_13_invalid_rna_sequence_refused) ... ok
+test_14_empty_rna_refused (test_v10_folding.V10ScientificTests.test_14_empty_rna_refused) ... ok
+test_15_no_silent_overwrite_of_native_receipts (test_v10_folding.V10ScientificTests.test_15_no_silent_overwrite_of_native_receipts) ... ok
+test_16_v9_original_bridge_no_replacement (test_v10_folding.V10ScientificTests.test_16_v9_original_bridge_no_replacement) ... ok
+test_01_all_36_canonical_stacks_parameterized (test_v11_science.MolecularV11VerifiedScience.test_01_all_36_canonical_stacks_parameterized) ... ok
+test_02_hairpin_parameters_match_published_turner_2004 (test_v11_science.MolecularV11VerifiedScience.test_02_hairpin_parameters_match_published_turner_2004) ... ok
+test_03_nearest_neighbor_complement_reversal_invariant (test_v11_science.MolecularV11VerifiedScience.test_03_nearest_neighbor_complement_reversal_invariant) ... ok
+test_04_all_five_folded_sequences_are_structurally_well_formed (test_v11_science.MolecularV11VerifiedScience.test_04_all_five_folded_sequences_are_structurally_well_formed) ... ok
+test_05_rna_reference_names_and_content_preserved (test_v11_science.MolecularV11VerifiedScience.test_05_rna_reference_names_and_content_preserved) ... ok
+test_06_real_crossing_stem_test (test_v11_science.MolecularV11VerifiedScience.test_06_real_crossing_stem_test) ... ok
+test_07_invalid_rna_rejected (test_v11_science.MolecularV11VerifiedScience.test_07_invalid_rna_rejected) ... ok
+test_08_thermodynamic_source_tamper_rejected_before_native_graph (test_v11_science.MolecularV11VerifiedScience.test_08_thermodynamic_source_tamper_rejected_before_native_graph) ... ok
+test_09_crossing_native_graph_replay_sha_consistent (test_v11_science.MolecularV11VerifiedScience.test_09_crossing_native_graph_replay_sha_consistent) ... ok
+test_10_nested_native_graph_replay_sha_consistent (test_v11_science.MolecularV11VerifiedScience.test_10_nested_native_graph_replay_sha_consistent) ... ok
+test_11_refuse_existing_native_graph_output (test_v11_science.MolecularV11VerifiedScience.test_11_refuse_existing_native_graph_output) ... ok
+test_12_full_campaign_counts_native_not_surrogate (test_v11_science.MolecularV11VerifiedScience.test_12_full_campaign_counts_native_not_surrogate) ... ok
+test_13_recompute_all_native_spike_mask_disagreements (test_v11_science.MolecularV11VerifiedScience.test_13_recompute_all_native_spike_mask_disagreements) ... ok
+test_14_native_rna_fragment_has_independent_target_label (test_v11_science.MolecularV11VerifiedScience.test_14_native_rna_fragment_has_independent_target_label) ... ok
+test_15_native_graph_accepted_by_built_real_Cpp_executable (test_v11_science.MolecularV11VerifiedScience.test_15_native_graph_accepted_by_built_real_Cpp_executable) ... ok
+test_16_tamper_graph_certificate_rejected_by_native (test_v11_science.MolecularV11VerifiedScience.test_16_tamper_graph_certificate_rejected_by_native) ... ok
+test_17_13_true_cartesian_force_gradients_verified (test_v11_science.MolecularV11VerifiedScience.test_17_13_true_cartesian_force_gradients_verified) ... ok
+test_18_optimised_atomic_structures_are_real_molecules (test_v11_science.MolecularV11VerifiedScience.test_18_optimised_atomic_structures_are_real_molecules) ... ok
+test_19_post_force_mapping_reproduces_existing_contacts (test_v11_science.MolecularV11VerifiedScience.test_19_post_force_mapping_reproduces_existing_contacts) ... ok
+test_20_all_release_data_digests_match (test_v11_science.MolecularV11VerifiedScience.test_20_all_release_data_digests_match) ... ok
+test_21_all_v11_source_digests_match (test_v11_science.MolecularV11VerifiedScience.test_21_all_v11_source_digests_match) ... ok
+test_22_no_v8_v9_v10_release_data_erased (test_v11_science.MolecularV11VerifiedScience.test_22_no_v8_v9_v10_release_data_erased) ... ok
+
+----------------------------------------------------------------------
+Ran 81 tests in 11.867s
+
+OK
+ETKDG_MMFF_CONFORMERS 2 DISTANCE_CONTACTS 36
+RNA_CONTACT_GRAPH 1
+V11_NATIVE_RNA_GRAPH pseudoknot 5
+V11_NATIVE_RNA_GRAPH nested 5
+POST_MMFF_NATIVE_GRAPH 13 SPATIAL_CONTACTS 1909 RNA4 5

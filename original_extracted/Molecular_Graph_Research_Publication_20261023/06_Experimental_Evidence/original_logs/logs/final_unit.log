@@ -1,0 +1,36 @@
+test_01_core_manifest (test_pipeline.NativeScientificTests.test_01_core_manifest) ... ok
+test_02_rdkit_valid_caffeine (test_pipeline.NativeScientificTests.test_02_rdkit_valid_caffeine) ... ok
+test_03_invalid_smiles_refused (test_pipeline.NativeScientificTests.test_03_invalid_smiles_refused) ... ok
+test_04_invalid_valence_refused (test_pipeline.NativeScientificTests.test_04_invalid_valence_refused) ... ok
+test_05_disconnected_salt_refused (test_pipeline.NativeScientificTests.test_05_disconnected_salt_refused) ... ok
+test_06_bad_id_refused (test_pipeline.NativeScientificTests.test_06_bad_id_refused) ... ok
+test_07_smiles_canonical_equivalence (test_pipeline.NativeScientificTests.test_07_smiles_canonical_equivalence) ... ok
+test_08_connectivity_distinguishes_isomers (test_pipeline.NativeScientificTests.test_08_connectivity_distinguishes_isomers) ... ok
+test_09_isotope_distinction (test_pipeline.NativeScientificTests.test_09_isotope_distinction) ... ok
+test_10_stereochemistry_distinction (test_pipeline.NativeScientificTests.test_10_stereochemistry_distinction) ... ok
+test_11_native_receipt_sha_rejection (test_pipeline.NativeScientificTests.test_11_native_receipt_sha_rejection) ... ok
+test_12_native_duplicate_id_rejection (test_pipeline.NativeScientificTests.test_12_native_duplicate_id_rejection) ... ok
+test_13_native_integer_attack_refused (test_pipeline.NativeScientificTests.test_13_native_integer_attack_refused) ... ok
+test_14_native_run_is_bit_reproducible (test_pipeline.NativeScientificTests.test_14_native_run_is_bit_reproducible) ... ok
+test_15_preserved_scaffold (test_pipeline.NativeScientificTests.test_15_preserved_scaffold) ... ok
+test_16_factorial_interventions (test_pipeline.NativeScientificTests.test_16_factorial_interventions) ... ok
+test_17_stimulus_identity (test_pipeline.NativeScientificTests.test_17_stimulus_identity) ... ok
+test_18_frozen_weights (test_pipeline.NativeScientificTests.test_18_frozen_weights) ... ok
+test_19_bond_counterfactual (test_pipeline.NativeScientificTests.test_19_bond_counterfactual) ... ok
+test_20_input_overwrite_refusal (test_pipeline.NativeScientificTests.test_20_input_overwrite_refusal) ... ok
+test_21_preparation_batch_atomic_rejection (test_pipeline.NativeScientificTests.test_21_preparation_batch_atomic_rejection) ... ok
+test_22_coordinateless_audit_refused (test_pipeline.NativeScientificTests.test_22_coordinateless_audit_refused) ... ok
+test_23_corrupt_coordinates_refused (test_pipeline.NativeScientificTests.test_23_corrupt_coordinates_refused) ... ok
+test_24_analysis_denies_modified_receipts (test_pipeline.NativeScientificTests.test_24_analysis_denies_modified_receipts) ... ok
+test_25_source_hash (test_pipeline.NativeScientificTests.test_25_source_hash) ... ok
+test_26_canonical_atom_order_from_rdkit (test_pipeline.NativeScientificTests.test_26_canonical_atom_order_from_rdkit) ... ok
+test_27_causal_feedback_trace (test_pipeline.NativeScientificTests.test_27_causal_feedback_trace) ... ok
+test_28_wrong_feedback_refused (test_pipeline.NativeScientificTests.test_28_wrong_feedback_refused) ... ok
+test_29_corrupted_event_masks_refused (test_pipeline.NativeScientificTests.test_29_corrupted_event_masks_refused) ... ok
+test_30_full_64_seed_cross_build_equality (test_pipeline.NativeScientificTests.test_30_full_64_seed_cross_build_equality) ... ok
+test_31_information_theoretic_ranges (test_pipeline.NativeScientificTests.test_31_information_theoretic_ranges) ... ok
+
+----------------------------------------------------------------------
+Ran 31 tests in 3.624s
+
+OK

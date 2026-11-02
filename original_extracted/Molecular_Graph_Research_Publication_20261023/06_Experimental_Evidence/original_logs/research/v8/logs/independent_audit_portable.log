@@ -1,0 +1,44 @@
+{
+  "schema": "N_MOLECULAR_INDEPENDENT_V8",
+  "native_trial_count": 8192,
+  "comparison_pair_count": 4096,
+  "total_assertion_gates": 120580,
+  "actual_native_sha256": "0cf0c9bea50316f270072792fd6a6b83d1ba7f1ec330735ef18a1b75ddcb5bae",
+  "four_case_independent_decoding": [
+    {
+      "PDB": "1ZIF",
+      "correct": 115,
+      "out_of": 256,
+      "accuracy": 0.44921875,
+      "holm": 1.0
+    },
+    {
+      "PDB": "1ZIG",
+      "correct": 115,
+      "out_of": 256,
+      "accuracy": 0.44921875,
+      "holm": 1.0
+    },
+    {
+      "PDB": "2KOC",
+      "correct": 137,
+      "out_of": 256,
+      "accuracy": 0.53515625,
+      "holm": 0.5506468147424946
+    },
+    {
+      "PDB": "1EHZ",
+      "correct": 123,
+      "out_of": 256,
+      "accuracy": 0.48046875,
+      "holm": 1.0
+    }
+  ],
+  "modified_1EHZ_residue_count": 14,
+  "preserved_scaffold_neurons": 118,
+  "preserved_scaffold_edges": 324,
+  "max_total_nodes": 194,
+  "native_declared_max_nodes": 1024,
+  "native_declared_max_edges": 16384,
+  "interpretation": "Degree-controlled synthetic graph tests on native NeuroMantle; no coordinate-based molecular prediction or experimental replicates."
+}

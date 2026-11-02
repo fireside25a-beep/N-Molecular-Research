@@ -1,0 +1,7 @@
+argv: ['/opt/pyvenv/bin/python', '/mnt/data/N-Molecular-v11-RESEARCH-20261023/tools/rna_thermodynamics_v11.py', '/mnt/data/N-Molecular-v11-RESEARCH-20261023/data/rna_v10_cases.tsv', '/mnt/data/N-Molecular-v11-RESEARCH-20261023/v11/verified_run/rna_thermo.jsonl']
+status: 0
+seconds: 0.8392165700006444
+stdout:
+V11_RNA_THERMO 5 PK_SELECTED 1
+
+stderr:

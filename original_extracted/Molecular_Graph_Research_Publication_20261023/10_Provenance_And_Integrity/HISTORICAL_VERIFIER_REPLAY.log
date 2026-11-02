@@ -1,0 +1,11 @@
+PASS: 22 source-derived figure hashes, 13,312 paired rows, 208 conditions, 100 classifier rows
+FAIL verified 367 file SHA256/size values; 13 figure hashes; 13312 paired comparisons
+missing or size mismatch publication_methods/__pycache__/build_research_manuscript.cpython-313.pyc
+Traceback (most recent call last):
+  File "/mnt/data/_molecular_publication_legacy_reproduction_20261023/reproduce/VERIFY_PUBLICATION.py", line 12, in <module>
+    subprocess.run(['python3',str(R/name)],check=True,cwd=R)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['python3', '/mnt/data/_molecular_publication_legacy_reproduction_20261023/reproduce/VERIFY_PORTFOLIO.py']' returned non-zero exit status 1.

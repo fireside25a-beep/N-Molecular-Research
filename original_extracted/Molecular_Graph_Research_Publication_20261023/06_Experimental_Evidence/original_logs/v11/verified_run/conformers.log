@@ -1,0 +1,7 @@
+argv: ['/opt/pyvenv/bin/python', '/mnt/data/N-Molecular-v11-RESEARCH-20261023/tools/prepare_3d_v10.py', '/mnt/data/N-Molecular-v11-RESEARCH-20261023/data/validation_compounds.tsv', '/mnt/data/N-Molecular-v11-RESEARCH-20261023/v11/verified_run/ligand_3d.graph', '/mnt/data/N-Molecular-v11-RESEARCH-20261023/v11/verified_run/ligand_conformers.sdf', '/mnt/data/N-Molecular-v11-RESEARCH-20261023/v11/verified_run/ligand_conformers.json']
+status: 0
+seconds: 1.1486106160000418
+stdout:
+ETKDG_MMFF_CONFORMERS 8 DISTANCE_CONTACTS 109
+
+stderr:

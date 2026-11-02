@@ -1,0 +1,10 @@
+.................................................................................
+----------------------------------------------------------------------
+Ran 81 tests in 13.666s
+
+OK
+ETKDG_MMFF_CONFORMERS 2 DISTANCE_CONTACTS 36
+RNA_CONTACT_GRAPH 1
+V11_NATIVE_RNA_GRAPH pseudoknot 5
+V11_NATIVE_RNA_GRAPH nested 5
+POST_MMFF_NATIVE_GRAPH 13 SPATIAL_CONTACTS 1909 RNA4 5

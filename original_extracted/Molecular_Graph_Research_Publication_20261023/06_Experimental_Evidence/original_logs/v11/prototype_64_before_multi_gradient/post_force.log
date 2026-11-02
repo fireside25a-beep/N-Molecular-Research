@@ -1,0 +1,7 @@
+argv: ['/opt/pyvenv/bin/python', '/mnt/data/N-Molecular-v11-RESEARCH-20261023/tools/mmff_to_native_v11.py', '/mnt/data/N-Molecular-v11-RESEARCH-20261023/v11/verified_run/minimized_atomistic.sdf', '/mnt/data/N-Molecular-v11-RESEARCH-20261023/v11/verified_run/atomistic_forces.jsonl', '/mnt/data/N-Molecular-v11-RESEARCH-20261023/v11/verified_run/post_force.graph', '/mnt/data/N-Molecular-v11-RESEARCH-20261023/v11/verified_run/post_force_catalog.json']
+status: 0
+seconds: 0.9479347590004181
+stdout:
+POST_MMFF_NATIVE_GRAPH 13 SPATIAL_CONTACTS 1909 RNA4 5
+
+stderr:

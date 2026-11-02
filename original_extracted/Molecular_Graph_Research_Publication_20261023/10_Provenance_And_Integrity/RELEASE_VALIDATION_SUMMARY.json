@@ -1,0 +1,16 @@
+{
+  "title": "Structural Sensitivity in a Native Spiking Neural Network Under Molecular Graph Interventions",
+  "artifact_type": "organized computational research portfolio, not peer-reviewed publication",
+  "input_archive_sha256": "4a110f19aea00e76efae927e18dfa8c8a1b26df3b869772c72059855831122d4",
+  "archived_original_files_preserved_byte_for_byte": 376,
+  "paired_records_verified": 13312,
+  "condition_summaries_verified": 208,
+  "classifier_statistic_rows": 100,
+  "publication_figures_verified": 14,
+  "historical_named_test_cases_recorded_pass": 81,
+  "historical_manifest_issue": "The earlier 367-entry manifest references one absent generated Python .pyc file; current exact original file mapping passes.",
+  "biological_validation_claimed": false,
+  "submitted_to_journal": false,
+  "journal_accepted": false,
+  "doi_assigned": false
+}

@@ -1,0 +1,38 @@
+g++ -Iinclude -Isrc -Ivendor/neuroroute/include -Ivendor/surreal/include -std=c++23 -O2 -Wall -Wextra -Wpedantic -Werror tests/test_combined.cpp build/qmemory.o build/primitiveq.o build/hash.o build/neuro_mantle.o build/neuro_world.o build/qmemory_decode.o -lgfortran -o bin/test_combined
+make -C vendor/devcli devcli
+make[1]: Entering directory '/mnt/data/N-Molecular-v10-UPSTREAM-FRESH-RECHECK-20261023/vendor/devcli'
+make[1]: Nothing to be done for 'devcli'.
+make[1]: Leaving directory '/mnt/data/N-Molecular-v10-UPSTREAM-FRESH-RECHECK-20261023/vendor/devcli'
+g++ -Iinclude -Isrc -Ivendor/neuroroute/include -Ivendor/surreal/include -std=c++23 -O2 -Wall -Wextra -Wpedantic -Werror -c src/atlas.cpp -o build/atlas.o
+g++ -Iinclude -Isrc -Ivendor/neuroroute/include -Ivendor/surreal/include -std=c++23 -O2 -Wall -Wextra -Wpedantic -Werror -c src/state_tree.cpp -o build/state_tree.o
+g++ -Iinclude -Isrc -Ivendor/neuroroute/include -Ivendor/surreal/include -std=c++23 -O2 -Wall -Wextra -Wpedantic -Werror -c src/world.cpp -o build/world.o
+g++ -Iinclude -Isrc -Ivendor/neuroroute/include -Ivendor/surreal/include -std=c++23 -O2 -Wall -Wextra -Wpedantic -Werror -c vendor/surreal/src/exact.cpp -o build/exact.o
+g++ -Iinclude -Isrc -Ivendor/neuroroute/include -Ivendor/surreal/include -std=c++23 -O2 -Wall -Wextra -Wpedantic -Werror -c vendor/surreal/src/causal.cpp -o build/causal.o
+g++ -Iinclude -Isrc -Ivendor/neuroroute/include -Ivendor/surreal/include -std=c++23 -O2 -Wall -Wextra -Wpedantic -Werror -c vendor/surreal/src/entropy.cpp -o build/entropy.o
+cc -Iinclude -Isrc -Ivendor/neuroroute/include -Ivendor/surreal/include -std=c11 -O2 -Wall -Wextra -Wpedantic -Werror tests/test_core.c build/neuro_mantle.o -o bin/test_core
+cc -Iinclude -Isrc -Ivendor/neuroroute/include -Ivendor/surreal/include -std=c11 -O2 -Wall -Wextra -Wpedantic -Werror tests/test_ecc.c build/neuro_mantle_ecc.o -o bin/test_ecc
+cc -Iinclude -Isrc -Ivendor/neuroroute/include -Ivendor/surreal/include -std=c11 -O2 -Wall -Wextra -Wpedantic -Werror tests/test_bioclock.c build/neuro_bioclock.o -o bin/test_bioclock
+g++ -Iinclude -Isrc -Ivendor/neuroroute/include -Ivendor/surreal/include -std=c++23 -O2 -Wall -Wextra -Wpedantic -Werror tests/state_tree_test.cpp build/state_tree.o build/hash.o build/neuro_mantle.o build/routing.o build/spatial_pool.o -lgfortran -o bin/test_state_tree
+g++ -Iinclude -Isrc -Ivendor/neuroroute/include -Ivendor/surreal/include -std=c++23 -O2 -Wall -Wextra -Wpedantic -Werror tests/bigint_probe.cpp -o bin/bigint_probe
+cc -Iinclude -Isrc -Ivendor/neuroroute/include -Ivendor/surreal/include -std=c11 -O2 -Wall -Wextra -Wpedantic -Werror tests/state_probe.c build/neuro_mantle.o -o bin/state_probe
+cc -std=c11 -O2 -Wall -Wextra -Wpedantic -Werror tests/train_native.c training/optimizer.c -o bin/test_train_native
+cc -Iinclude -Isrc -Ivendor/neuroroute/include -Ivendor/surreal/include -std=c11 -O2 -Wall -Wextra -Wpedantic -Werror tests/test_primitiveq.c core/primitiveq.c -o bin/test_primitiveq
+cc -Iinclude -Isrc -Ivendor/neuroroute/include -Ivendor/surreal/include -std=c11 -O2 -Wall -Wextra -Wpedantic -Werror tests/five_circuit_probe.c core/primitiveq.c -o bin/five_circuit_probe
+g++ -Iinclude -Isrc -Ivendor/neuroroute/include -Ivendor/surreal/include -std=c++23 -O2 -Wall -Wextra -Wpedantic -Werror tests/test_qmemory.cpp build/qmemory.o build/primitiveq.o build/hash.o build/neuro_mantle.o build/neuro_world.o build/qmemory_decode.o -lgfortran -o bin/test_qmemory
+g++ -Iinclude -Isrc -Ivendor/neuroroute/include -Ivendor/surreal/include -std=c++23 -O2 -Wall -Wextra -Wpedantic -Werror tests/test_qmemory_readout.cpp build/qmemory_decode.o -lgfortran -o bin/test_qmemory_readout
+cc -Iinclude -Isrc -Ivendor/neuroroute/include -Ivendor/surreal/include -std=c11 -O2 -Wall -Wextra -Wpedantic -Werror tests/test_world.c core/neuro_world.c core/primitiveq.c core/neuro_mantle.c -o bin/test_world
+g++ -Iinclude -Isrc -Ivendor/neuroroute/include -Ivendor/surreal/include -std=c++23 -O2 -Wall -Wextra -Wpedantic -Werror tests/primitiveq_oracle.cpp build/primitiveq.o -o bin/primitiveq_oracle
+g++ -std=c++23 -O2 -Wall -Wextra -Wpedantic -Werror build/neuro_mantle.o build/neuro_mantle_ecc.o build/neuro_bioclock.o build/neuro_sandbox.o build/routing.o build/spatial_pool.o build/primitiveq.o build/neuro_world.o build/improve.o build/main.o build/qmemory.o build/ai.o build/atlas.o build/state_tree.o build/world.o build/hash.o build/exact.o build/causal.o build/entropy.o build/qmemory_decode.o -lgfortran -o bin/neuromantle
+chmod 755 bin/neuromantle
+./bin/test_combined
+combined transaction: 480 memory faults, next-tick feedback, STDP recapture, 12 readout flips and cross-layer rollback: PASS
+python3 tests/combined_integration.py
+Traceback (most recent call last):
+  File "/mnt/data/N-Molecular-v10-UPSTREAM-FRESH-RECHECK-20261023/tests/combined_integration.py", line 27, in <module>
+    value,receipt,graph=run(SOURCE)
+                        ~~~^^^^^^^^
+  File "/mnt/data/N-Molecular-v10-UPSTREAM-FRESH-RECHECK-20261023/tests/combined_integration.py", line 23, in run
+    assert result.returncode==(0 if admitted else 3),(result.stderr,result.stdout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('', 'NEUROMANTLE_COUPLED_REFUSAL_V1\nscenario=1627fb5a11f8aa5291c913463589971edb33496e51e50c4f638f7edb9b6b1969\nreason=five-qubit QECC certificate refused\nreceipt_root=9a7f79a347f5271fa4c28790ca010c545c7bba6fcb9a06c7e93b4c9918adff4e\n')
+make: *** [Makefile:128: test] Error 1

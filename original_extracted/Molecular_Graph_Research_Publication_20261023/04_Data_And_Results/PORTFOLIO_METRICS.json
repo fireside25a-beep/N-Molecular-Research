@@ -1,0 +1,17 @@
+{
+  "versions": "V3\u2013V11",
+  "paired_network_records": 13312,
+  "paired_by_version": {
+    "v9": 2048,
+    "v10": 3328,
+    "v11": 7936
+  },
+  "comparison_condition_rows": 208,
+  "graph_statistical_rows": 100,
+  "documented_test_cases_v11": 81,
+  "all_spike_mask_mismatch": 0,
+  "source_files_audited": 1267,
+  "confirmed_original_data_hash_matches": 13,
+  "figures": 13,
+  "v11_wall_seconds": 32.06708316699951
+}

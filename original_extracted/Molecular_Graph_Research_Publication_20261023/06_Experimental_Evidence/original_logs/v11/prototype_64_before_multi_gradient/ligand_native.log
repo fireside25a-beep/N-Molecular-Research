@@ -1,0 +1,7 @@
+argv: ['/mnt/data/N-Molecular-v11-RESEARCH-20261023/bin/fold_screen_native', '/mnt/data/N-Molecular-v11-RESEARCH-20261023/v11/verified_run/ligand_3d.graph', '/mnt/data/N-Molecular-v11-RESEARCH-20261023/v11/verified_run/ligand_3d_native.jsonl', '0', '64']
+status: 0
+seconds: 3.447622978000254
+stdout:
+
+stderr:
+NATIVE_FOLD_ROWS 2048 COMPOUNDS 8 SEEDS 64

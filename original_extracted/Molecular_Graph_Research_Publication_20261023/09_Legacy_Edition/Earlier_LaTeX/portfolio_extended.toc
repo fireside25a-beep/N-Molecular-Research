@@ -1,0 +1,32 @@
+\contentsline {section}{Abstract}{2}{section*.2}%
+\contentsline {section}{\numberline {1}Introduction}{2}{section.1}%
+\contentsline {section}{\numberline {2}Hypotheses and scope}{2}{section.2}%
+\contentsline {section}{\numberline {3}Materials and methods}{2}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Native network and experimental unit}{2}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Historical classification experiment}{3}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Constructed cycle controls}{3}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Paired spike-mask difference}{3}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}Chemical-bond and RNA-contact perturbations}{3}{subsection.3.5}%
+\contentsline {subsection}{\numberline {3.6}Atomistic force evaluation}{3}{subsection.3.6}%
+\contentsline {subsection}{\numberline {3.7}Data analysis and independent checks}{4}{subsection.3.7}%
+\contentsline {section}{\numberline {4}Results}{4}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Held-out discrimination and cycle controls}{4}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Four additional RNA-labelled contact graph cases}{4}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Chemical-bond graph ablations}{4}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}RNA structure calculations and contact ablations}{4}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}MMFF94 molecular mechanics and spatial contacts}{9}{subsection.4.5}%
+\contentsline {subsection}{\numberline {4.6}Recorded execution and regression}{9}{subsection.4.6}%
+\contentsline {section}{\numberline {5}Relationship to published computational research}{9}{section.5}%
+\contentsline {section}{\numberline {6}Discussion}{9}{section.6}%
+\contentsline {section}{\numberline {7}Limitations and independent validation}{12}{section.7}%
+\contentsline {section}{\numberline {8}Reproducibility and availability}{12}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Data availability}{12}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}Code availability}{12}{subsection.8.2}%
+\contentsline {subsection}{\numberline {8.3}Verification levels}{12}{subsection.8.3}%
+\contentsline {section}{\numberline {9}Conclusion}{12}{section.9}%
+\contentsline {section}{\numberline {10}Selected scientific references}{13}{section.10}%
+\contentsline {section}{\numberline {A}Supplementary experiment registry and provenance}{15}{appendix.A}%
+\contentsline {subsection}{\numberline {A.1}Dataset and outcome ledger}{15}{subsection.A.1}%
+\contentsline {subsection}{\numberline {A.2}Five RNA sequences}{15}{subsection.A.2}%
+\contentsline {subsection}{\numberline {A.3}Atomistic minimization ledger}{15}{subsection.A.3}%
+\contentsline {subsection}{\numberline {A.4}Independent audit contract}{15}{subsection.A.4}%

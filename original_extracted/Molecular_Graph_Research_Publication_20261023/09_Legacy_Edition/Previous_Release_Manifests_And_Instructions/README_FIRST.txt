@@ -1,0 +1,1 @@
+OPEN RESEARCH_MANUSCRIPT.pdf for the public-facing paper; INDEX.html for its figures. The research evidence workbook, provenance and historical logs are bundled. Internal release identifiers are maintained only in source metadata. The manuscript does not assert experimental molecular prediction accuracy.

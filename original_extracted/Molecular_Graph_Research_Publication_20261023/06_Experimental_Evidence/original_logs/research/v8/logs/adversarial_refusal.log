@@ -1,0 +1,10 @@
+REFUSAL_PASS sequence REFUSED: PDB parent sequence/fold mismatch
+REFUSAL_PASS experiment REFUSED: method mismatch
+REFUSAL_PASS resolution REFUSED: resolution mismatch
+REFUSAL_PASS doi REFUSED: primary paper DOI mismatch
+REFUSAL_PASS chain REFUSED: unexpected RNA chain count
+REFUSAL_PASS ensemble REFUSED: NMR ensemble size mismatch
+REFUSAL_PASS family REFUSED: PDB parent sequence/fold mismatch
+REFUSAL_PASS missing_case REFUSED: all four independently sourced cases required
+REFUSAL_PASS duplicate_case REFUSED: duplicate record
+NATIVE_NEGATIVE_ADMISSION_PASS 9
