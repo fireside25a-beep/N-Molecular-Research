@@ -1,7 +1,6 @@
 Structural Sensitivity in a Native Spiking Neural Network Under Molecular Graph Interventions
 N-Molecular Research · V3–V11
 Controlled graph perturbations, native neural spike dynamics, RNA pairing models, molecular mechanics, and independently auditable computational evidence
-- Research archive: 23 October 2026
 - Repository: fireside25a-beep/N-Molecular-Research
 - Status: Archived computational research, with source, experimental outputs, negative controls, audit tables, and historical releases. Not a validated biological structure-prediction system.
 Research question. Can a native spiking neural network (SNN) produce measurable, reproducible changes in its activity when the connectivity of a molecularly derived graph is altered under matched computational conditions?
